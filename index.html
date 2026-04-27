@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OzzYmed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold:#D3AF37;--gold-dim:#A88B2A;--gold-glow:rgba(211,175,55,.18);
+  --champagne:#F7E6CA;--red:#B03020;
+  --bg:#0B0A07;--surface:#131108;--surface-2:#1C1A10;
+  --border:#272416;--text-1:#F0DCBA;--text-2:#8C7C5A;--text-3:#4A4230;
+  --sidebar-w:224px;--top-h:50px;--td:260ms;
+}
+[data-theme="light"]{--bg:#F5EDDA;--surface:#EDE0C2;--surface-2:#E4D4A8;--border:#CFC09A;--text-1:#1A1508;--text-2:#5A4820;--text-3:#9A8B6C;}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Raleway',sans-serif;background:var(--bg);color:var(--text-1);display:flex;}
+::-webkit-scrollbar{width:3px;height:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);}
+::-webkit-scrollbar-thumb:hover{background:var(--gold-dim);}
+
+/* ── FOCUS MODE (#8) ── */
+body.focus-mode .sidebar,body.focus-mode .topbar{display:none;}
+body.focus-mode .main{margin-left:0;}
+body.focus-mode .content{padding:28px 52px;}
+.focus-exit{position:fixed;top:12px;right:14px;z-index:9999;background:var(--surface);border:1px solid var(--border);color:var(--text-3);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;padding:6px 12px;cursor:pointer;display:none;transition:all .18s;}
+body.focus-mode .focus-exit{display:block;}
+.focus-exit:hover{color:var(--gold);border-color:var(--gold);}
+.focus-btn{background:none;border:1px solid var(--border);color:var(--text-3);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;padding:5px 10px;cursor:pointer;transition:all .18s;}
+.focus-btn:hover{color:var(--gold);border-color:var(--gold);}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);height:100vh;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;left:0;top:0;z-index:100;}
+.logo{padding:28px 20px 22px;border-bottom:1px solid var(--border);text-align:center;}
+.logo-ozzy{font-family:'Cinzel',serif;font-weight:900;font-size:2.6rem;line-height:1;color:var(--gold);letter-spacing:.04em;text-shadow:3px 3px 0 var(--red),5px 5px 0 rgba(176,48,32,.35);-webkit-text-stroke:1px rgba(176,48,32,.3);}
+.logo-med{font-family:'Cinzel',serif;font-weight:600;font-size:.78rem;letter-spacing:.55em;padding-left:.55em;color:var(--champagne);margin-top:2px;text-transform:uppercase;}
+.logo-sub{font-size:.52rem;letter-spacing:.22em;color:var(--text-3);text-transform:uppercase;margin-top:8px;}
+.nav-wrap{padding:20px 12px;flex:1;overflow-y:auto;}
+.nav-group{margin-bottom:20px;}
+.nav-section-label{font-size:.5rem;letter-spacing:.28em;color:var(--text-3);text-transform:uppercase;padding:0 8px;margin-bottom:6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:2px;cursor:pointer;color:var(--text-2);font-size:.75rem;font-weight:500;letter-spacing:.04em;transition:all .18s;margin-bottom:2px;border:1px solid transparent;user-select:none;}
+.nav-item:hover{color:var(--champagne);background:var(--surface-2);}
+.nav-item.active{color:var(--gold);background:var(--surface-2);border-color:var(--border);}
+.nav-icon{width:18px;text-align:center;font-size:.85rem;opacity:.8;}
+.nav-badge{margin-left:auto;font-size:.58rem;color:var(--text-3);background:var(--border);padding:2px 7px;border-radius:10px;}
+.sidebar-footer{padding:14px 18px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.theme-toggle{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:.55rem;letter-spacing:.22em;color:var(--text-3);text-transform:uppercase;transition:color .2s;}
+.theme-toggle:hover{color:var(--gold);}
+.toggle-pip{width:7px;height:7px;border-radius:50%;background:var(--gold);}
+.footer-user{margin-left:auto;font-size:.58rem;color:var(--text-3);letter-spacing:.1em;}
+
+/* ── MAIN ── */
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+.topbar{height:var(--top-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 40px;flex-shrink:0;}
+.topbar-title{font-size:.6rem;letter-spacing:.3em;color:var(--text-3);text-transform:uppercase;}
+.topbar-right{margin-left:auto;}
+.content{flex:1;overflow-y:auto;padding:38px 40px;position:relative;}
+
+/* ── SECTION TRANSITIONS (#9) ── */
+.section{display:none;}
+.section.active{display:block;animation:secIn var(--td) ease both;}
+.section.leaving{position:absolute;top:38px;left:40px;right:0;pointer-events:none;animation:secOut var(--td) ease both;}
+@keyframes secIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
+@keyframes secOut{from{opacity:1;transform:translateX(0);}to{opacity:0;transform:translateX(-12px);}}
+
+/* ── STAT CARDS STAGGER (#10) ── */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:28px;}
+.stat-card{background:var(--surface);padding:22px 26px;}
+.stat-lbl{font-size:.52rem;letter-spacing:.24em;color:var(--text-3);text-transform:uppercase;margin-bottom:10px;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:600;color:var(--gold);line-height:1;}
+.stat-val .u{font-size:1.1rem;color:var(--text-2);}
+.stat-note{font-size:.68rem;color:var(--text-2);margin-top:5px;font-style:italic;}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── SHARED ── */
+.page-header{margin-bottom:32px;}
+.header-deco{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.h-line{height:1px;width:28px;background:var(--gold);}
+.h-diamond{color:var(--gold);font-size:.45rem;}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:2.3rem;font-weight:600;color:var(--text-1);letter-spacing:-.01em;}
+.page-sub{font-size:.7rem;color:var(--text-2);letter-spacing:.05em;margin-top:3px;font-style:italic;}
+.divider{display:flex;align-items:center;gap:14px;margin:28px 0;}
+.div-line{flex:1;height:1px;background:var(--border);}
+.div-label{font-size:.52rem;letter-spacing:.28em;color:var(--text-3);text-transform:uppercase;}
+.div-diamond{color:var(--gold);font-size:.42rem;}
+.btn{background:transparent;border:1px solid var(--border);color:var(--text-2);padding:9px 22px;font-family:'Raleway',sans-serif;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:all .18s;}
+.btn:hover{background:var(--surface-2);color:var(--text-1);}
+.btn-gold{border-color:var(--gold);color:var(--gold);}
+.btn-gold:hover{background:var(--gold);color:var(--bg);}
+.btn-full{width:100%;}
+.form-group{margin-bottom:18px;}
+.form-label{display:block;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-3);margin-bottom:7px;}
+.form-input,.form-select{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text-1);padding:9px 13px;font-family:'Raleway',sans-serif;font-size:.8rem;outline:none;transition:border-color .18s;-webkit-appearance:none;}
+.form-input:focus,.form-select:focus{border-color:var(--gold);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.result-card{margin-top:22px;padding:18px 22px;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--gold);display:none;}
+.result-card.show{display:block;animation:cardIn .3s ease both;}
+.result-label{font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;}
+.result-value{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--gold);}
+.result-unit{font-size:.95rem;color:var(--text-2);}
+.result-interp{margin-top:10px;font-size:.72rem;color:var(--text-2);font-style:italic;}
+
+/* ── EMPTY STATE (#11) ── */
+.empty-state{display:flex;flex-direction:column;align-items:center;padding:48px 20px;gap:14px;animation:cardIn .4s ease both;}
+.empty-state svg{opacity:.15;}
+.empty-state-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:var(--text-3);text-align:center;}
+.empty-state-hint{font-size:.58rem;letter-spacing:.2em;color:var(--text-3);text-transform:uppercase;text-align:center;}
+
+/* ── EVENTS ── */
+.events-hdr{display:flex;align-items:center;margin-bottom:14px;}
+.events-title{font-size:.56rem;letter-spacing:.24em;color:var(--text-3);text-transform:uppercase;}
+.events-count{margin-left:auto;font-size:.58rem;color:var(--text-3);letter-spacing:.1em;}
+.event-item{display:flex;align-items:center;padding:13px 0;border-bottom:1px solid var(--border);gap:12px;animation:cardIn .32s ease both;}
+.event-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.event-info{flex:1;}
+.event-name{font-family:'Cormorant Garamond',serif;font-size:.98rem;font-weight:600;color:var(--text-1);}
+.event-date{font-size:.57rem;letter-spacing:.13em;color:var(--text-3);text-transform:uppercase;margin-top:2px;}
+.event-tag{font-size:.52rem;letter-spacing:.13em;text-transform:uppercase;padding:3px 8px;border:1px solid;}
+
+/* ── CALCULADORAS ── */
+.calc-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:28px;overflow-x:auto;}
+.calc-tab{padding:9px 18px;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .18s;}
+.calc-tab:hover{color:var(--champagne);}
+.calc-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.calc-panel{display:none;}
+.calc-panel.active{display:block;animation:secIn .22s ease both;}
+.calc-form{max-width:480px;}
+.calc-hint{font-size:.72rem;color:var(--text-2);font-style:italic;margin-bottom:18px;}
+
+/* ── CALENDÁRIO ── */
+.cal-wrap{display:grid;grid-template-columns:1fr 300px;gap:36px;}
+.cal-nav{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+.cal-month-lbl{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--text-1);}
+.cal-btn{background:none;border:1px solid var(--border);color:var(--text-2);width:30px;height:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s;font-size:.85rem;}
+.cal-btn:hover{border-color:var(--gold);color:var(--gold);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+.cal-dow{background:var(--surface);padding:9px 0;text-align:center;font-size:.52rem;letter-spacing:.18em;color:var(--text-3);text-transform:uppercase;}
+.cal-day{background:var(--surface);min-height:68px;padding:7px;cursor:pointer;transition:background .13s;}
+.cal-day:hover{background:var(--surface-2);}
+.cal-day.other-month{opacity:.3;}
+.cal-day.today .day-n{background:var(--gold);color:var(--bg);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;}
+.day-n{font-size:.7rem;color:var(--text-2);width:20px;height:20px;display:flex;align-items:center;justify-content:center;margin-bottom:3px;}
+.day-dots{display:flex;flex-direction:column;gap:2px;}
+.day-dot{height:3px;border-radius:2px;}
+.cal-sidebar-title{font-size:.56rem;letter-spacing:.2em;color:var(--text-3);text-transform:uppercase;margin-bottom:14px;}
+.upcoming-item{display:flex;align-items:flex-start;gap:8px;padding:9px 0;border-bottom:1px solid var(--border);}
+.upcoming-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.upcoming-name{font-size:.78rem;color:var(--text-1);}
+.upcoming-meta{font-size:.58rem;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-top:2px;}
+.delete-ev-btn{margin-left:auto;background:none;border:none;color:var(--text-3);cursor:pointer;font-size:.7rem;transition:color .15s;flex-shrink:0;}
+.delete-ev-btn:hover{color:var(--red);}
+
+/* ── POMODORO ── */
+.pom-wrap{display:flex;gap:52px;align-items:flex-start;}
+.timer-col{display:flex;flex-direction:column;align-items:center;}
+.ring-wrap{position:relative;width:256px;height:256px;margin-bottom:28px;}
+.ring-svg{width:256px;height:256px;transform:rotate(-90deg);}
+.ring-bg{fill:none;stroke:var(--border);stroke-width:3;}
+.ring-prog{fill:none;stroke:var(--gold);stroke-width:3;stroke-linecap:square;transition:stroke-dashoffset .9s linear;}
+.ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.timer-time{font-family:'Cinzel',serif;font-size:2.8rem;font-weight:400;color:var(--text-1);letter-spacing:.06em;line-height:1;}
+.timer-phase{font-size:.52rem;letter-spacing:.24em;color:var(--text-3);text-transform:uppercase;margin-top:7px;}
+.timer-btns{display:flex;gap:10px;margin-bottom:22px;}
+.sess-area{text-align:center;}
+.sess-label{font-size:.58rem;letter-spacing:.18em;color:var(--text-3);text-transform:uppercase;}
+.sess-dots{display:flex;gap:6px;margin-top:7px;justify-content:center;}
+.sess-dot{width:8px;height:8px;border-radius:50%;border:1px solid var(--border);}
+.sess-dot.done{background:var(--gold);border-color:var(--gold);}
+.pom-settings{flex:1;max-width:300px;}
+.settings-group{margin-bottom:22px;}
+.settings-title{font-size:.56rem;letter-spacing:.2em;color:var(--text-3);text-transform:uppercase;margin-bottom:12px;}
+.mode-btns{display:flex;gap:8px;margin-top:6px;}
+.stats-rows{margin-top:8px;}
+.stats-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:.72rem;color:var(--text-2);}
+.stats-row span:last-child{color:var(--gold);}
+/* notification banner (#4) */
+.notif-banner{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--gold);padding:10px 14px;font-size:.68rem;color:var(--text-2);display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.notif-banner button{background:none;border:1px solid var(--gold);color:var(--gold);font-size:.58rem;letter-spacing:.12em;padding:4px 10px;cursor:pointer;transition:all .15s;text-transform:uppercase;}
+.notif-banner button:hover{background:var(--gold);color:var(--bg);}
+.notif-dismiss{border-color:var(--border) !important;color:var(--text-3) !important;}
+.notif-dismiss:hover{background:var(--surface-2) !important;color:var(--text-2) !important;}
+
+/* ── NOTAS ── */
+.notes-shell{display:grid;grid-template-columns:214px 1fr;height:calc(100vh - var(--top-h) - 140px);border:1px solid var(--border);min-height:400px;}
+.notes-list-col{border-right:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;overflow:hidden;}
+.notes-list-hdr{padding:13px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;flex-shrink:0;}
+.notes-list-lbl{font-size:.55rem;letter-spacing:.2em;color:var(--text-3);text-transform:uppercase;}
+.note-add-btn{margin-left:auto;background:none;border:1px solid var(--border);color:var(--text-3);width:22px;height:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s;font-size:1rem;line-height:1;flex-shrink:0;}
+.note-add-btn:hover{border-color:var(--gold);color:var(--gold);}
+/* search (#1) */
+.notes-search-wrap{padding:8px 10px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.notes-search{width:100%;background:var(--surface-2);border:1px solid var(--border);color:var(--text-1);padding:6px 10px;font-family:'Raleway',sans-serif;font-size:.72rem;outline:none;transition:border-color .18s;}
+.notes-search::placeholder{color:var(--text-3);}
+.notes-search:focus{border-color:var(--gold);}
+.notes-list-items{overflow-y:auto;flex:1;}
+.note-item{padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .13s;}
+.note-item:hover{background:var(--surface-2);}
+.note-item.active{background:var(--surface-2);border-left:2px solid var(--gold);}
+.note-item-title{font-family:'Cormorant Garamond',serif;font-size:.88rem;color:var(--text-1);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.note-item-preview{font-size:.62rem;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.notes-editor-col{display:flex;flex-direction:column;overflow:hidden;}
+.notes-toolbar{padding:8px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;background:var(--surface);flex-shrink:0;}
+.note-title-lbl{font-size:.6rem;letter-spacing:.14em;color:var(--text-2);text-transform:uppercase;font-style:italic;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+/* auto-save status (#3) */
+.save-status{font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border:1px solid transparent;transition:all .35s;white-space:nowrap;}
+.save-status.saving{color:var(--text-3);border-color:var(--border);}
+.save-status.saved{color:var(--gold-dim);border-color:transparent;}
+.save-status.unsaved{color:var(--champagne);border-color:var(--border);background:var(--surface-2);}
+.toolbar-right{display:flex;gap:2px;align-items:center;}
+.toolbar-btn{background:none;border:none;color:var(--text-3);font-size:.6rem;cursor:pointer;padding:4px 8px;letter-spacing:.1em;transition:color .14s;}
+.toolbar-btn:hover{color:var(--gold);}
+.toolbar-btn.active{color:var(--gold);}
+.notes-split-area{display:grid;grid-template-columns:1fr 1fr;flex:1;overflow:hidden;}
+.notes-split-area.editor-only .preview-pane{display:none;}
+.notes-split-area.editor-only .editor-pane{grid-column:1/-1;}
+.notes-split-area.preview-only .editor-pane{display:none;}
+.notes-split-area.preview-only .preview-pane{grid-column:1/-1;}
+.editor-pane{border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.note-textarea{flex:1;background:var(--bg);border:none;outline:none;color:var(--text-1);font-family:'Cormorant Garamond',serif;font-size:1rem;line-height:1.85;padding:22px;resize:none;}
+.preview-pane{overflow-y:auto;padding:22px;}
+.preview-pane h1{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:var(--text-1);margin-bottom:14px;font-weight:600;}
+.preview-pane h2{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--text-1);margin:18px 0 10px;font-weight:600;}
+.preview-pane h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:14px 0 7px;}
+.preview-pane p{color:var(--text-1);line-height:1.8;margin-bottom:10px;font-size:.88rem;}
+.preview-pane ul,.preview-pane ol{color:var(--text-1);line-height:1.8;margin-bottom:10px;padding-left:18px;font-size:.88rem;}
+.preview-pane code{background:var(--surface);padding:2px 5px;font-family:monospace;font-size:.8rem;color:var(--gold);}
+.preview-pane pre{background:var(--surface);padding:14px;margin-bottom:14px;border-left:3px solid var(--gold);overflow-x:auto;}
+.preview-pane pre code{background:none;padding:0;}
+.preview-pane blockquote{border-left:3px solid var(--gold);padding-left:14px;color:var(--text-2);font-style:italic;margin-bottom:10px;}
+.preview-pane strong{color:var(--gold);}
+.preview-pane em{color:var(--champagne);}
+.preview-pane hr{border:none;border-top:1px solid var(--border);margin:20px 0;}
+.preview-pane table{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:.82rem;}
+.preview-pane th{border:1px solid var(--border);padding:7px 10px;background:var(--surface);color:var(--gold);text-align:left;}
+.preview-pane td{border:1px solid var(--border);padding:7px 10px;color:var(--text-1);}
+
+/* ── PRONTUÁRIO ── */
+.pront-view{display:none;}
+.pront-view.active{display:block;animation:secIn var(--td) ease both;}
+
+/* Selection screen */
+.pront-question{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.55rem;font-weight:400;
+  color:var(--text-1);letter-spacing:.01em;
+  margin-bottom:48px;text-align:center;
+}
+.pront-question em{color:var(--gold);font-style:normal;}
+.care-cards{display:flex;gap:28px;justify-content:center;max-width:680px;margin:0 auto;}
+.care-card{
+  flex:1;max-width:300px;background:var(--surface);
+  border:1px solid var(--border);padding:36px 24px 28px;
+  cursor:pointer;transition:all .22s;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;gap:20px;
+}
+.care-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--border);transition:background .22s;
+}
+.care-card:hover{background:var(--surface-2);border-color:var(--gold-dim);}
+.care-card:hover::before{background:var(--gold);}
+.care-card.disabled{cursor:default;opacity:.45;pointer-events:none;}
+.care-card.disabled:hover{background:var(--surface);border-color:var(--border);}
+.care-card.disabled:hover::before{background:var(--border);}
+.care-icon{width:90px;height:110px;}
+.care-label{
+  font-family:'Cinzel',serif;font-weight:600;font-size:.9rem;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--text-1);
+}
+.care-sub{font-size:.62rem;letter-spacing:.12em;color:var(--text-3);text-transform:uppercase;}
+.soon-badge{
+  position:absolute;top:12px;right:12px;
+  background:var(--surface-2);border:1px solid var(--border);
+  font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--text-3);padding:3px 8px;
+}
+
+/* Anamnese screen */
+.pront-back{
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+  font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:28px;width:fit-content;
+  transition:color .16s;
+}
+.pront-back:hover{color:var(--gold);}
+.pront-back svg{transition:transform .16s;}
+.pront-back:hover svg{transform:translateX(-3px);}
+.pront-type-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);border:1px solid var(--gold-dim);
+  padding:4px 12px;margin-bottom:24px;
+}
+.anamnese-grid{display:flex;flex-direction:column;gap:22px;}
+.anam-block{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--border);transition:border-left-color .2s;}
+.anam-block:focus-within{border-left-color:var(--gold);}
+.anam-block-hdr{padding:12px 18px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.anam-block-num{font-family:'Cinzel',serif;font-size:.65rem;color:var(--gold-dim);letter-spacing:.1em;}
+.anam-block-title{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-2);}
+.anam-block-hint{margin-left:auto;font-size:.55rem;color:var(--text-3);font-style:italic;letter-spacing:.05em;}
+.anam-textarea{
+  width:100%;background:transparent;border:none;outline:none;
+  color:var(--text-1);font-family:'Cormorant Garamond',serif;
+  font-size:.97rem;line-height:1.9;padding:16px 18px;
+  resize:none;min-height:120px;
+}
+.anam-textarea::placeholder{color:var(--text-3);font-style:italic;}
+
+/* ── Structured fixed rows (interrogatório + exame físico) ── */
+.sys-rows{padding:12px 18px 6px;display:flex;flex-direction:column;}
+.sys-row{display:flex;align-items:flex-start;border-bottom:1px solid var(--border);min-height:40px;}
+.sys-row:last-child{border-bottom:none;}
+.sys-lbl{
+  font-family:'Cormorant Garamond',serif;font-size:.97rem;
+  color:var(--text-2);white-space:nowrap;padding:10px 4px 10px 0;
+  user-select:none;cursor:default;flex-shrink:0;min-width:220px;
+}
+.sys-inp{
+  flex:1;background:transparent;border:none;outline:none;
+  color:var(--text-1);font-family:'Cormorant Garamond',serif;
+  font-size:.97rem;line-height:1.7;padding:10px 6px;
+  resize:none;min-height:40px;overflow:hidden;
+}
+/* Exame Físico rows */
+.ef-rows{padding:12px 18px 6px;display:flex;flex-direction:column;gap:0;}
+.ef-section-title{
+  font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--text-3);padding:14px 0 6px;border-bottom:1px solid var(--border);
+  margin-bottom:2px;
+}
+.ef-row{display:flex;align-items:baseline;border-bottom:1px solid var(--border);min-height:40px;}
+.ef-row:last-child{border-bottom:none;}
+.ef-lbl{
+  font-family:'Cormorant Garamond',serif;font-size:.97rem;
+  color:var(--text-2);white-space:nowrap;padding:10px 8px 10px 0;
+  user-select:none;cursor:default;flex-shrink:0;min-width:200px;
+}
+.ef-inp{
+  flex:1;background:transparent;border:none;outline:none;
+  -webkit-appearance:none;appearance:none;
+  color:var(--text-1);font-family:'Cormorant Garamond',serif;
+  font-size:.97rem;padding:10px 6px;
+  text-decoration:none;
+  /* Kill browser autofill yellow + any UA styling */
+  box-shadow:none;
+}
+.ef-inp::placeholder{color:var(--text-3);font-style:italic;}
+/* Kill browser-inserted underline on text inputs */
+.ef-inp:-webkit-autofill{-webkit-box-shadow:0 0 0 100px var(--surface) inset;}
+
+/* ── TYPE COLORS ── */
+.c-prova{color:#C0392B;border-color:#C0392B;}
+.c-liga{color:#27AE60;border-color:#27AE60;}
+.c-pesquisa{color:var(--gold);border-color:var(--gold);}
+.c-internato{color:#2980B9;border-color:#2980B9;}
+.c-outro{color:#8B6C9A;border-color:#8B6C9A;}
+
+[data-theme="light"] .logo-med{color:var(--gold);}
+
+/* ── ANKI CONNECT ── */
+.anki-status{display:flex;align-items:center;gap:10px;margin-bottom:28px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);}
+.anki-pip{width:8px;height:8px;border-radius:50%;background:var(--text-3);flex-shrink:0;transition:background .3s;}
+.anki-pip.connected{background:#27AE60;}
+.anki-pip.error{background:#C0392B;}
+.anki-status-text{font-size:.65rem;letter-spacing:.12em;color:var(--text-2);text-transform:uppercase;}
+
+/* Breadcrumb nav */
+.anki-breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:22px;min-height:28px;}
+.anki-breadcrumb-btn{background:none;border:none;padding:0;cursor:pointer;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);transition:color .16s;}
+.anki-breadcrumb-btn:hover{color:var(--gold);}
+.anki-breadcrumb-btn.root{color:var(--text-2);}
+.anki-breadcrumb-sep{font-size:.5rem;color:var(--text-3);opacity:.5;}
+.anki-breadcrumb-cur{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+.anki-back-btn{display:flex;align-items:center;gap:6px;background:none;border:1px solid var(--border);padding:5px 12px;cursor:pointer;font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);transition:all .16s;margin-right:4px;}
+.anki-back-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* Deck grid — clean, spacious */
+.anki-deck-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:32px;}
+.anki-deck-card{
+  background:var(--surface);border:1px solid var(--border);
+  padding:0;cursor:pointer;transition:all .22s;
+  position:relative;overflow:hidden;display:flex;flex-direction:column;
+  animation:cardIn .28s ease both;
+}
+.anki-deck-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--border);transition:background .22s;
+}
+.anki-deck-card:hover{border-color:var(--gold-dim);background:var(--surface-2);}
+.anki-deck-card:hover::before{background:var(--gold);}
+.anki-deck-card.has-children::after{
+  content:'›';position:absolute;top:12px;right:14px;
+  font-size:.9rem;color:var(--text-3);transition:color .22s;
+}
+.anki-deck-card.has-children:hover::after{color:var(--gold);}
+.anki-deck-card.no-cards{opacity:.6;}
+
+/* Card name area */
+.anki-card-name-area{
+  padding:26px 20px 20px;
+  display:flex;align-items:flex-end;flex:1;min-height:100px;
+}
+.anki-card-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.15rem;font-weight:600;
+  color:var(--text-1);line-height:1.3;
+  word-break:break-word;hyphens:auto;
+}
+
+/* Stats row at bottom */
+.anki-card-stats{
+  display:flex;border-top:1px solid var(--border);
+}
+.anki-card-stat{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  padding:10px 6px 12px;position:relative;
+}
+.anki-card-stat+.anki-card-stat{border-left:1px solid var(--border);}
+.anki-card-stat-n{
+  font-family:'Cinzel',serif;font-size:1.2rem;font-weight:600;
+  line-height:1;margin-bottom:3px;
+}
+.anki-card-stat-l{font-size:.44rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);}
+.s-new{color:#2980B9;}
+.s-learn{color:#E67E22;}
+.s-due{color:#27AE60;}
+
+/* Add card form */
+.anki-add-wrap{background:var(--surface);border:1px solid var(--border);padding:22px;}
+.anki-add-title{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-3);margin-bottom:16px;}
+.anki-add-row{display:flex;gap:12px;margin-bottom:12px;align-items:flex-end;}
+.anki-add-row .form-group{flex:1;margin-bottom:0;}
+.anki-sync-row{display:flex;align-items:center;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
+.anki-sync-note{font-size:.62rem;color:var(--text-3);font-style:italic;}
+.anki-error-note{font-size:.68rem;color:var(--text-2);font-style:italic;padding:18px 0;}
+.deco-bg{position:fixed;bottom:0;right:0;width:280px;height:280px;opacity:.025;pointer-events:none;z-index:0;}
+</style>
+</head>
+<body>
+
+<button class="focus-exit" onclick="toggleFocus()">✕ Sair do Foco</button>
+
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-ozzy">OzzY</div>
+    <div class="logo-med">med</div>
+    <div class="logo-sub">Medicina · 6.º Semestre</div>
+  </div>
+  <div class="nav-wrap">
+    <div class="nav-group">
+      <div class="nav-section-label">Principal</div>
+      <div class="nav-item active" onclick="nav('painel')"><span class="nav-icon">⊞</span>Painel</div>
+      <div class="nav-item" onclick="nav('prontuario')"><span class="nav-icon">✦</span>Prontuário</div>
+      <div class="nav-item" onclick="nav('calculadoras')"><span class="nav-icon">⌬</span>Calculadoras<span class="nav-badge">10</span></div>
+      <div class="nav-item" onclick="nav('calendario')"><span class="nav-icon">◫</span>Calendário<span class="nav-badge" id="badge-events">0</span></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-section-label">Estudo</div>
+      <div class="nav-item" onclick="nav('notas')"><span class="nav-icon">≡</span>Notas</div>
+      <div class="nav-item" onclick="nav('pomodoro')"><span class="nav-icon">◎</span>Pomodoro</div>
+      <div class="nav-item" onclick="nav('anki')"><span class="nav-icon">⟳</span>Anki<span class="nav-badge" id="badge-anki" style="color:var(--text-3)">—</span></div>
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <div class="theme-toggle" onclick="toggleTheme()"><div class="toggle-pip"></div><span id="theme-lbl">DARK</span></div>
+    <div class="footer-user">Rabelo · 2026</div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <span class="topbar-title" id="topbar-title">Painel de Estudos</span>
+    <div class="topbar-right">
+      <button class="focus-btn" onclick="toggleFocus()">⊙ Foco</button>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- PAINEL -->
+    <div class="section active" id="sec-painel">
+      <div class="page-header">
+        <div class="header-deco"><div class="h-line"></div><div class="h-diamond">◆</div><div class="h-line"></div></div>
+        <h1 class="page-title">Resumo Semanal</h1>
+        <p class="page-sub" id="week-subtitle">Semana — 2026</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card" id="sc0"><div class="stat-lbl">Horas de Estudo</div><div class="stat-val" id="d-hours">0<span class="u">h</span></div><div class="stat-note">Acumulado Pomodoro</div></div>
+        <div class="stat-card" id="sc1"><div class="stat-lbl">Próxima Prova</div><div class="stat-val" id="d-days">—</div><div class="stat-note" id="d-exam">Nenhum evento</div></div>
+        <div class="stat-card" id="sc2"><div class="stat-lbl">Sessões Pomodoro</div><div class="stat-val" id="d-sessions">0</div><div class="stat-note">Total acumulado</div></div>
+      </div>
+      <div class="divider"><div class="div-line"></div><div class="div-diamond">◆</div><div class="div-label">Agenda da Semana</div><div class="div-diamond">◆</div><div class="div-line"></div></div>
+      <div class="events-hdr"><div class="events-title">Próximos Eventos</div><div class="events-count" id="d-ev-count">0 eventos</div></div>
+      <div id="d-events-list"></div>
+    </div>
+
+    <!-- PRONTUÁRIO -->
+    <div class="section" id="sec-prontuario">
+      <div class="page-header">
+        <div class="header-deco"><div class="h-line"></div><div class="h-diamond">◆</div><div class="h-line"></div></div>
+        <h1 class="page-title">Prontuário</h1>
+        <p class="page-sub">Registro clínico estruturado do atendimento</p>
+      </div>
+
+      <!-- VIEW 1 — Seleção -->
+      <div class="pront-view active" id="pv-select">
+        <div class="pront-question">Qual tipo de atendimento<br>você irá <em>conduzir</em>?</div>
+        <div class="care-cards">
+
+          <!-- Adulto -->
+          <div class="care-card" onclick="selectCareType('adulto')">
+            <svg class="care-icon" viewBox="0 0 80 108" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Head — small relative to body = adult proportion -->
+              <circle cx="40" cy="11" r="10" stroke="#D3AF37" stroke-width="1.8"/>
+              <!-- Neck -->
+              <line x1="40" y1="21" x2="40" y2="27" stroke="#D3AF37" stroke-width="1.8"/>
+              <!-- Shoulders — subtle, close to neck -->
+              <line x1="30" y1="27" x2="50" y2="27" stroke="#D3AF37" stroke-width="1.8" stroke-linecap="round"/>
+              <!-- Torso -->
+              <rect x="28" y="27" width="24" height="36" rx="2" stroke="#D3AF37" stroke-width="1.8"/>
+              <!-- Arms — natural hang, close to body -->
+              <line x1="28" y1="32" x2="20" y2="58" stroke="#D3AF37" stroke-width="1.8" stroke-linecap="round"/>
+              <line x1="52" y1="32" x2="60" y2="58" stroke="#D3AF37" stroke-width="1.8" stroke-linecap="round"/>
+              <!-- Legs — long -->
+              <line x1="34" y1="63" x2="31" y2="96" stroke="#D3AF37" stroke-width="1.8" stroke-linecap="round"/>
+              <line x1="46" y1="63" x2="49" y2="96" stroke="#D3AF37" stroke-width="1.8" stroke-linecap="round"/>
+              <!-- Feet -->
+              <line x1="26" y1="96" x2="36" y2="96" stroke="#D3AF37" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="44" y1="96" x2="54" y2="96" stroke="#D3AF37" stroke-width="2.2" stroke-linecap="round"/>
+              <!-- Déco base -->
+              <line x1="12" y1="102" x2="68" y2="102" stroke="#A88B2A" stroke-width="1.2"/>
+              <polygon points="40,107 35,102 45,102" fill="#A88B2A"/>
+            </svg>
+            <div class="care-label">Adulto</div>
+            <div class="care-sub">18 anos ou mais</div>
+          </div>
+
+          <!-- Pediátrico -->
+          <div class="care-card" onclick="selectCareType('pediatrico')">
+            <svg class="care-icon" viewBox="0 0 80 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Head — bigger relative to body (child proportion) -->
+              <circle cx="40" cy="18" r="15" stroke="#D3AF37" stroke-width="1.8"/>
+              <!-- Eyes -->
+              <circle cx="34" cy="16" r="2" fill="#D3AF37"/>
+              <circle cx="46" cy="16" r="2" fill="#D3AF37"/>
+              <!-- Smile -->
+              <path d="M34 24 Q40 30 46 24" stroke="#D3AF37" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+              <!-- Neck -->
+              <line x1="40" y1="33" x2="40" y2="40" stroke="#D3AF37" stroke-width="1.8"/>
+              <!-- Torso — short and square -->
+              <rect x="27" y="40" width="26" height="20" rx="3" stroke="#D3AF37" stroke-width="1.8"/>
+              <!-- Arms -->
+              <line x1="27" y1="44" x2="13" y2="58" stroke="#D3AF37" stroke-width="1.8" stroke-linecap="round"/>
+              <line x1="53" y1="44" x2="67" y2="58" stroke="#D3AF37" stroke-width="1.8" stroke-linecap="round"/>
+              <!-- Legs — short -->
+              <line x1="33" y1="60" x2="30" y2="82" stroke="#D3AF37" stroke-width="1.8" stroke-linecap="round"/>
+              <line x1="47" y1="60" x2="50" y2="82" stroke="#D3AF37" stroke-width="1.8" stroke-linecap="round"/>
+              <!-- Feet -->
+              <line x1="26" y1="82" x2="34" y2="82" stroke="#D3AF37" stroke-width="2.4" stroke-linecap="round"/>
+              <line x1="46" y1="82" x2="54" y2="82" stroke="#D3AF37" stroke-width="2.4" stroke-linecap="round"/>
+              <!-- Déco base -->
+              <line x1="14" y1="90" x2="66" y2="90" stroke="#A88B2A" stroke-width="1.2"/>
+              <polygon points="40,95 35,90 45,90" fill="#A88B2A"/>
+            </svg>
+            <div class="care-label">Pediátrico</div>
+            <div class="care-sub">Abaixo de 18 anos</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- VIEW 2 — Anamnese Adulto -->
+      <div class="pront-view" id="pv-adulto">
+        <div class="pront-back" onclick="backToSelect()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Voltar
+        </div>
+        <div class="pront-type-badge"><span>◆</span> Atendimento — Adulto</div>
+        <div class="anamnese-grid">
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">01</span><span class="anam-block-title">Queixa Principal</span><span class="anam-block-hint">Em palavras do paciente</span></div>
+            <textarea class="anam-textarea" id="an-qp" placeholder="Descreva a queixa principal conforme relatada pelo paciente..." rows="3"></textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">02</span><span class="anam-block-title">História da Moléstia Atual</span><span class="anam-block-hint">Início, evolução, fatores associados</span></div>
+            <textarea class="anam-textarea" id="an-hma" placeholder="Início, duração, localização, caráter, irradiação, intensidade, fatores de melhora/piora, sintomas associados..." rows="6"></textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">03</span><span class="anam-block-title">Interrogatório Sistemático</span><span class="anam-block-hint">Revisão por sistemas</span></div>
+            <div class="sys-rows">
+              <div class="sys-row"><span class="sys-lbl">Geral:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="febre, calafrios, astenia, perda de peso..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Cardiovascular:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="palpitações, dispneia, dor precordial, edema..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Respiratório:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="tosse, expectoração, dispneia, hemoptise..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Digestivo:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="náuseas, vômitos, dor abdominal, hábito intestinal..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Geniturinário:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="disúria, polaciúria, hematúria, alterações menstruais..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Musculoesquelético:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="artralgia, mialgia, rigidez, limitação funcional..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Neurológico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="cefaleia, síncope, convulsões, déficits focais..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Endócrino:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="poliúria, polidipsia, intolerância ao calor/frio..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Hematológico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="sangramentos, equimoses, adenomegalias..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Pele e fanêros:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="lesões cutâneas, prurido, alterações ungueais..."></textarea></div>
+              <div class="sys-row" style="border-bottom:none;"><span class="sys-lbl">Psiquiátrico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="humor, ansiedade, insônia, ideação..."></textarea></div>
+            </div>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">04</span><span class="anam-block-title">Antecedentes Pessoais</span><span class="anam-block-hint">Doenças, cirurgias, internações, alergias</span></div>
+            <textarea class="anam-textarea" id="an-ap" placeholder="Doenças prévias, cirurgias realizadas, internações anteriores, alergias medicamentosas ou alimentares, uso de medicamentos contínuos, vacinação..." rows="6"></textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">05</span><span class="anam-block-title">Antecedentes Familiares</span><span class="anam-block-hint">Doenças hereditárias e de impacto genético</span></div>
+            <textarea class="anam-textarea" id="an-af" placeholder="Hipertensão arterial, diabetes mellitus, cardiopatias, neoplasias, doenças autoimunes, doenças psiquiátricas, morte precoce de familiares..." rows="5"></textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">06</span><span class="anam-block-title">Hábitos de Vida</span><span class="anam-block-hint">Estilo de vida e exposições</span></div>
+            <textarea class="anam-textarea" id="an-hv" placeholder="Tabagismo (maços/ano), etilismo (dose/frequência), uso de drogas ilícitas, atividade física, alimentação, padrão de sono, ocupação profissional, exposições ambientais..." rows="5"></textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">07</span><span class="anam-block-title">História Psicossocial</span><span class="anam-block-hint">Contexto social e suporte</span></div>
+            <textarea class="anam-textarea" id="an-ps" placeholder="Estado civil, moradia, escolaridade, ocupação, rede de suporte social, estressores psicossociais, saúde mental, vida sexual e reprodutiva..." rows="5"></textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">08</span><span class="anam-block-title">Exame Físico</span><span class="anam-block-hint">Achados objetivos do exame</span></div>
+            <div class="ef-rows">
+              <div class="ef-row"><span class="ef-lbl">Estado geral:</span><input type="text" class="ef-inp" placeholder="BEG / REG / MEG..."></div>
+
+              <div class="ef-section-title">Sinais Vitais</div>
+              <div class="ef-row"><span class="ef-lbl">PA:</span><input type="text" class="ef-inp" placeholder="___/___ mmHg"></div>
+              <div class="ef-row"><span class="ef-lbl">FC:</span><input type="text" class="ef-inp" placeholder="___ bpm"></div>
+              <div class="ef-row"><span class="ef-lbl">FR:</span><input type="text" class="ef-inp" placeholder="___ irpm"></div>
+              <div class="ef-row"><span class="ef-lbl">Tax:</span><input type="text" class="ef-inp" placeholder="___ °C"></div>
+              <div class="ef-row"><span class="ef-lbl">SpO₂:</span><input type="text" class="ef-inp" placeholder="___ %"></div>
+
+              <div class="ef-section-title">Antropometria</div>
+              <div class="ef-row"><span class="ef-lbl">Peso:</span><input type="text" class="ef-inp" placeholder="___ kg"></div>
+              <div class="ef-row"><span class="ef-lbl">Altura:</span><input type="text" class="ef-inp" placeholder="___ cm"></div>
+              <div class="ef-row"><span class="ef-lbl">IMC:</span><input type="text" class="ef-inp" placeholder="___ kg/m²"></div>
+
+              <div class="ef-section-title">Exame Segmentar</div>
+              <div class="ef-row"><span class="ef-lbl">Pele e mucosas:</span><input type="text" class="ef-inp" placeholder="coradas, hidratadas, anictéricas, acianóticas..."></div>
+              <div class="ef-row"><span class="ef-lbl">Cabeça e pescoço:</span><input type="text" class="ef-inp" placeholder="normocefálico, sem linfadenopatias..."></div>
+              <div class="ef-row"><span class="ef-lbl">Tórax / Cardiopulmonar:</span><input type="text" class="ef-inp" placeholder="expansibilidade, MV, bulhas, sopros..."></div>
+              <div class="ef-row"><span class="ef-lbl">Abdome:</span><input type="text" class="ef-inp" placeholder="plano, RHA+, sem dor à palpação..."></div>
+              <div class="ef-row"><span class="ef-lbl">Membros:</span><input type="text" class="ef-inp" placeholder="sem edema, pulsos presentes e simétricos..."></div>
+              <div class="ef-row" style="border-bottom:none;"><span class="ef-lbl">Neurológico sumário:</span><input type="text" class="ef-inp" placeholder="consciente, orientado, sem déficits focais..."></div>
+            </div>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">09</span><span class="anam-block-title">Lista de Problemas</span><span class="anam-block-hint">Hipóteses diagnósticas e condutas</span></div>
+            <textarea class="anam-textarea" id="an-lp" placeholder="1. 
+2. 
+3. " rows="6"></textarea>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- VIEW 3 — Anamnese Pediátrica -->
+      <div class="pront-view" id="pv-pediatrico">
+        <div class="pront-back" onclick="backToSelect()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Voltar
+        </div>
+        <div class="pront-type-badge" style="border-color:var(--gold);"><span>◆</span> Atendimento — Pediátrico</div>
+        <div class="anamnese-grid">
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">01</span><span class="anam-block-title">Queixa Principal</span><span class="anam-block-hint">Informante e motivo da consulta</span></div>
+            <textarea class="anam-textarea" id="pd-qp" placeholder="Queixa principal conforme relatada pelo responsável ou pela criança. Identificar o informante (mãe, pai, avós, a própria criança)..." rows="3"></textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">02</span><span class="anam-block-title">História da Moléstia Atual</span><span class="anam-block-hint">Início, evolução e sintomas associados</span></div>
+            <textarea class="anam-textarea" id="pd-hma" placeholder="Início, duração, caracterização do sintoma, fatores de melhora e piora, sintomas associados, tratamentos realizados e resposta..." rows="6"></textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">03</span><span class="anam-block-title">Antecedentes Gestacionais / Pré-natais</span><span class="anam-block-hint">Histórico da gestação</span></div>
+            <textarea class="anam-textarea" id="pd-gest" rows="7">Nº de consultas pré-natal: 
+Intercorrências na gestação: 
+Infecções (TORCH, ITU, outras): 
+Uso de medicamentos na gestação: 
+Uso de álcool/tabaco/drogas: 
+Exposição a agentes teratogênicos: 
+Sorologias do pré-natal: </textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">04</span><span class="anam-block-title">Antecedentes Perinatais / do Parto</span><span class="anam-block-hint">Nascimento e período neonatal</span></div>
+            <textarea class="anam-textarea" id="pd-parto" rows="8">Tipo de parto: 
+Idade gestacional ao nascer: ___semanas
+Peso ao nascer: ___g · Comprimento: ___cm · PC: ___cm
+Apgar: 1º min ___ · 5º min ___
+Necessidade de reanimação: 
+Internação em UTI neonatal: 
+Intercorrências neonatais (icterícia, infecções, malformações): </textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">05</span><span class="anam-block-title">Desenvolvimento Neuropsicomotor (DNPM)</span><span class="anam-block-hint">Marcos do desenvolvimento</span></div>
+            <textarea class="anam-textarea" id="pd-dnpm" rows="10">Sorriso social: 
+Sustentação cefálica: 
+Sentar sem apoio: 
+Engatinhar: 
+Andar: 
+Primeiras palavras: 
+Primeiras frases: 
+Controle esfincteriano: 
+Escolaridade (ano/série): 
+Dificuldades de aprendizagem: </textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">06</span><span class="anam-block-title">História Alimentar</span><span class="anam-block-hint">Aleitamento e dieta atual</span></div>
+            <textarea class="anam-textarea" id="pd-alim" rows="6">Aleitamento materno exclusivo até: ___meses
+Introdução alimentar: ___meses
+Dificuldades alimentares: 
+Dieta atual: 
+Suplementações (vitamina D, ferro, outros): 
+Alergias alimentares: </textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">07</span><span class="anam-block-title">Vacinação</span><span class="anam-block-hint">Estado vacinal da criança</span></div>
+            <textarea class="anam-textarea" id="pd-vac" placeholder="Cartão de vacinação em dia? Vacinas em atraso? Reações adversas a vacinas anteriores? Seguiu calendário SBP ou SBIm?" rows="4"></textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">08</span><span class="anam-block-title">Interrogatório Sistemático</span><span class="anam-block-hint">Revisão por sistemas</span></div>
+            <div class="sys-rows">
+              <div class="sys-row"><span class="sys-lbl">Geral:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="febre, perda de peso, irritabilidade, astenia..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Cardiovascular:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="cianose, sopros conhecidos, palpitações..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Respiratório:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="tosse, sibilância, dispneia, infecções frequentes..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Digestivo:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="vômitos, diarreia, constipação, dor abdominal..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Geniturinário:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="ITU de repetição, hematúria, alterações miccionais..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Musculoesquelético:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="artralgia, edema articular, limitação de movimento..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Neurológico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="convulsões, cefaleia, regressão do DNPM..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Pele:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="rashes, eczema, petéquias, icterícia..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">ORL:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="otites, rinites, amigdalites de repetição..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Oftalmológico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="estrabismo, baixa acuidade, coriza ocular..."></textarea></div>
+              <div class="sys-row" style="border-bottom:none;"><span class="sys-lbl">Endócrino:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="poliúria, polidipsia, alteração do crescimento..."></textarea></div>
+            </div>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">09</span><span class="anam-block-title">Antecedentes Pessoais</span><span class="anam-block-hint">Doenças, internações, alergias</span></div>
+            <textarea class="anam-textarea" id="pd-ap" placeholder="Doenças anteriores (sarampo, varicela, pneumonias, etc.), cirurgias e internações, alergias medicamentosas ou alimentares, medicamentos em uso contínuo..." rows="5"></textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">10</span><span class="anam-block-title">Antecedentes Familiares</span><span class="anam-block-hint">Doenças na família e hereditariedade</span></div>
+            <textarea class="anam-textarea" id="pd-af" placeholder="Doenças dos pais e irmãos, doenças hereditárias, consanguinidade, mortes precoces na família, doenças infecciosas no domicílio..." rows="5"></textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">11</span><span class="anam-block-title">Condições Socioeconômicas e Psicossociais</span><span class="anam-block-hint">Contexto de vida da criança</span></div>
+            <textarea class="anam-textarea" id="pd-ps" placeholder="Moradia (nº de cômodos, saneamento básico, água tratada), renda familiar, escolaridade dos pais, dinâmica familiar, suporte social, situações de violência ou negligência..." rows="5"></textarea>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">12</span><span class="anam-block-title">Exame Físico</span><span class="anam-block-hint">Achados objetivos — incluir curvas de crescimento</span></div>
+            <div class="ef-rows">
+              <div class="ef-row"><span class="ef-lbl">Estado geral:</span><input type="text" class="ef-inp" placeholder="BEG / REG / MEG, ativo, reativo..."></div>
+
+              <div class="ef-section-title">Sinais Vitais</div>
+              <div class="ef-row"><span class="ef-lbl">FC:</span><input type="text" class="ef-inp" placeholder="___ bpm"></div>
+              <div class="ef-row"><span class="ef-lbl">FR:</span><input type="text" class="ef-inp" placeholder="___ irpm"></div>
+              <div class="ef-row"><span class="ef-lbl">Tax:</span><input type="text" class="ef-inp" placeholder="___ °C"></div>
+              <div class="ef-row"><span class="ef-lbl">SpO₂:</span><input type="text" class="ef-inp" placeholder="___ %"></div>
+              <div class="ef-row"><span class="ef-lbl">PA:</span><input type="text" class="ef-inp" placeholder="___/___ mmHg (se aplicável)"></div>
+
+              <div class="ef-section-title">Antropometria e Percentis</div>
+              <div class="ef-row"><span class="ef-lbl">Peso:</span><input type="text" class="ef-inp" placeholder="___ kg — Percentil: ___"></div>
+              <div class="ef-row"><span class="ef-lbl">Estatura:</span><input type="text" class="ef-inp" placeholder="___ cm — Percentil: ___"></div>
+              <div class="ef-row"><span class="ef-lbl">PC:</span><input type="text" class="ef-inp" placeholder="___ cm — Percentil: ___"></div>
+              <div class="ef-row"><span class="ef-lbl">P/I:</span><input type="text" class="ef-inp" placeholder="Peso para a Idade"></div>
+              <div class="ef-row"><span class="ef-lbl">E/I:</span><input type="text" class="ef-inp" placeholder="Estatura para a Idade"></div>
+              <div class="ef-row"><span class="ef-lbl">IMC/I:</span><input type="text" class="ef-inp" placeholder="IMC para a Idade — Percentil: ___"></div>
+
+              <div class="ef-section-title">Exame Segmentar</div>
+              <div class="ef-row"><span class="ef-lbl">Pele e mucosas:</span><input type="text" class="ef-inp" placeholder="coradas, hidratadas, sem lesões..."></div>
+              <div class="ef-row"><span class="ef-lbl">Cabeça (fontanelas, suturas):</span><input type="text" class="ef-inp" placeholder="normocefálica, FA fechada/aberta/abaulada..."></div>
+              <div class="ef-row"><span class="ef-lbl">Olhos / ORL:</span><input type="text" class="ef-inp" placeholder="conjuntivas, otoscopia, orofaringe..."></div>
+              <div class="ef-row"><span class="ef-lbl">Pescoço e linfonodos:</span><input type="text" class="ef-inp" placeholder="sem linfadenopatias palpáveis..."></div>
+              <div class="ef-row"><span class="ef-lbl">Tórax / Cardiopulmonar:</span><input type="text" class="ef-inp" placeholder="MV+, sem ruídos adventícios, B1B2 rítmicas..."></div>
+              <div class="ef-row"><span class="ef-lbl">Abdome:</span><input type="text" class="ef-inp" placeholder="plano, RHA+, sem visceromegalias..."></div>
+              <div class="ef-row"><span class="ef-lbl">Genitália:</span><input type="text" class="ef-inp" placeholder="aspecto, Tanner, desenvolvimento..."></div>
+              <div class="ef-row"><span class="ef-lbl">Membros e articulações:</span><input type="text" class="ef-inp" placeholder="sem edema, pulsos, perfusão..."></div>
+              <div class="ef-row" style="border-bottom:none;"><span class="ef-lbl">Neurológico:</span><input type="text" class="ef-inp" placeholder="tônus, reflexos, comportamento, marcha..."></div>
+            </div>
+          </div>
+
+          <div class="anam-block">
+            <div class="anam-block-hdr"><span class="anam-block-num">13</span><span class="anam-block-title">Lista de Problemas</span><span class="anam-block-hint">Hipóteses diagnósticas e condutas</span></div>
+            <textarea class="anam-textarea" id="pd-lp" placeholder="1. 
+2. 
+3. " rows="6"></textarea>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- CALCULADORAS -->
+    <div class="section" id="sec-calculadoras">
+      <div class="page-header">
+        <div class="header-deco"><div class="h-line"></div><div class="h-diamond">◆</div><div class="h-line"></div></div>
+        <h1 class="page-title">Calculadoras</h1>
+        <p class="page-sub">Ferramentas clínicas de uso rápido</p>
+      </div>
+      <div class="calc-tabs">
+        <div class="calc-tab active" data-calc="crcl">Clearance Creatinina</div>
+        <div class="calc-tab" data-calc="imc">IMC &amp; Sup. Corporal</div>
+        <div class="calc-tab" data-calc="glasgow">Glasgow</div>
+        <div class="calc-tab" data-calc="wells">Wells TVP</div>
+        <div class="calc-tab" data-calc="nihss">NIHSS</div>
+        <div class="calc-tab" data-calc="heart">HEART Score</div>
+        <div class="calc-tab" data-calc="sofa">SOFA</div>
+        <div class="calc-tab" data-calc="qsofa">qSOFA</div>
+        <div class="calc-tab" data-calc="fram">Framingham</div>
+        <div class="calc-tab" data-calc="psi">PSI / PORT</div>
+      </div>
+      <div class="calc-panel active" id="calc-crcl"><div class="calc-form"><p class="calc-hint">Fórmula de Cockcroft-Gault — estima o clearance de creatinina. Use peso ideal se obeso.</p><div class="form-row"><div class="form-group"><label class="form-label">Idade (anos)</label><input type="number" class="form-input" id="cg-age" placeholder="65"></div><div class="form-group"><label class="form-label">Peso (kg)</label><input type="number" step="0.1" class="form-input" id="cg-wt" placeholder="70"></div></div><div class="form-row"><div class="form-group"><label class="form-label">Creatinina sérica (mg/dL)</label><input type="number" step="0.01" class="form-input" id="cg-cr" placeholder="1.2"></div><div class="form-group"><label class="form-label">Sexo</label><select class="form-select" id="cg-sex"><option value="M">Masculino</option><option value="F">Feminino</option></select></div></div><button class="btn btn-gold" onclick="calcCrCl()">Calcular</button><div class="result-card" id="r-crcl"><div class="result-label">Clearance de Creatinina (CrCl)</div><div class="result-value" id="rv-crcl">—<span class="result-unit"> mL/min</span></div><div class="result-interp" id="ri-crcl"></div></div></div></div>
+      <div class="calc-panel" id="calc-imc"><div class="calc-form"><p class="calc-hint">IMC de Quetelet e Superfície Corporal pela fórmula de DuBois &amp; DuBois (1916)</p><div class="form-row"><div class="form-group"><label class="form-label">Peso (kg)</label><input type="number" step="0.1" class="form-input" id="imc-wt" placeholder="70"></div><div class="form-group"><label class="form-label">Altura (cm)</label><input type="number" class="form-input" id="imc-ht" placeholder="170"></div></div><button class="btn btn-gold" onclick="calcIMC()">Calcular</button><div class="result-card" id="r-imc"><div class="result-label">Índice de Massa Corporal</div><div class="result-value" id="rv-imc">—<span class="result-unit"> kg/m²</span></div><div class="result-interp" id="ri-imc"></div><div style="margin-top:14px;"><div class="result-label">Superfície Corporal (DuBois)</div><div class="result-value" id="rv-sc">—<span class="result-unit"> m²</span></div></div></div></div></div>
+      <div class="calc-panel" id="calc-glasgow"><div class="calc-form"><p class="calc-hint">Escala de Coma de Glasgow (ECG) — total de 3 a 15 pontos</p><div class="form-group"><label class="form-label">Abertura Ocular (O)</label><select class="form-select" id="gcs-e"><option value="4">4 — Espontânea</option><option value="3">3 — À voz</option><option value="2">2 — À dor</option><option value="1">1 — Ausente</option></select></div><div class="form-group"><label class="form-label">Resposta Verbal (V)</label><select class="form-select" id="gcs-v"><option value="5">5 — Orientado</option><option value="4">4 — Confuso</option><option value="3">3 — Palavras inapropriadas</option><option value="2">2 — Sons incompreensíveis</option><option value="1">1 — Ausente</option></select></div><div class="form-group"><label class="form-label">Resposta Motora (M)</label><select class="form-select" id="gcs-m"><option value="6">6 — Obedece comandos</option><option value="5">5 — Localiza a dor</option><option value="4">4 — Retirada inespecífica</option><option value="3">3 — Flexão anormal (decorticação)</option><option value="2">2 — Extensão anormal (descerebração)</option><option value="1">1 — Ausente</option></select></div><button class="btn btn-gold" onclick="calcGCS()">Calcular</button><div class="result-card" id="r-gcs"><div class="result-label">Escore de Glasgow</div><div class="result-value" id="rv-gcs">—<span class="result-unit">/15</span></div><div class="result-interp" id="ri-gcs"></div></div></div></div>
+      <div class="calc-panel" id="calc-wells"><div class="calc-form"><p class="calc-hint">Escore de Wells para Trombose Venosa Profunda (TVP)</p><div id="wells-items"></div><button class="btn btn-gold" onclick="calcWells()" style="margin-top:14px;">Calcular</button><div class="result-card" id="r-wells"><div class="result-label">Escore de Wells — TVP</div><div class="result-value" id="rv-wells">—<span class="result-unit"> pts</span></div><div class="result-interp" id="ri-wells"></div></div></div></div>
+      <div class="calc-panel" id="calc-nihss"><div class="calc-form"><p class="calc-hint">NIHSS simplificado — avaliação neurológica no AVC</p><div id="nihss-items"></div><button class="btn btn-gold" onclick="calcNIHSS()" style="margin-top:14px;">Calcular</button><div class="result-card" id="r-nihss"><div class="result-label">Escore NIHSS</div><div class="result-value" id="rv-nihss">—<span class="result-unit"> pts</span></div><div class="result-interp" id="ri-nihss"></div></div></div></div>
+
+      <!-- HEART Score -->
+      <div class="calc-panel" id="calc-heart"><div class="calc-form">
+        <p class="calc-hint">HEART Score — estratificação de risco em dor torácica na emergência (máx. 10 pts)</p>
+        <div class="form-group"><label class="form-label">H — História</label><select class="form-select" id="ht-h"><option value="0">0 — Levemente suspeita</option><option value="1">1 — Moderadamente suspeita</option><option value="2">2 — Altamente suspeita</option></select></div>
+        <div class="form-group"><label class="form-label">E — ECG</label><select class="form-select" id="ht-e"><option value="0">0 — Normal</option><option value="1">1 — Alteração inespecífica (BRE, HVE, repolarização precoce)</option><option value="2">2 — Desvio significativo de ST</option></select></div>
+        <div class="form-group"><label class="form-label">A — Idade</label><select class="form-select" id="ht-a"><option value="0">0 — Menos de 45 anos</option><option value="1">1 — 45 a 64 anos</option><option value="2">2 — 65 anos ou mais</option></select></div>
+        <div class="form-group"><label class="form-label">R — Fatores de Risco</label><select class="form-select" id="ht-r"><option value="0">0 — Nenhum fator de risco conhecido</option><option value="1">1 — 1 a 2 fatores de risco (HAS, DM, dislipidemia, tabagismo, obesidade, HF)</option><option value="2">2 — ≥3 fatores ou doença aterosclerótica conhecida</option></select></div>
+        <div class="form-group"><label class="form-label">T — Troponina</label><select class="form-select" id="ht-t"><option value="0">0 — ≤ limite superior normal</option><option value="1">1 — 1 a 3× o limite superior normal</option><option value="2">2 — &gt;3× o limite superior normal</option></select></div>
+        <button class="btn btn-gold" onclick="calcHEART()">Calcular</button>
+        <div class="result-card" id="r-heart"><div class="result-label">HEART Score</div><div class="result-value" id="rv-heart">—<span class="result-unit">/10</span></div><div class="result-interp" id="ri-heart"></div></div>
+      </div></div>
+
+      <!-- SOFA -->
+      <div class="calc-panel" id="calc-sofa"><div class="calc-form">
+        <p class="calc-hint">Sequential Organ Failure Assessment — avalia disfunção orgânica em pacientes críticos (máx. 24 pts)</p>
+        <div class="form-group"><label class="form-label">Respiração — PaO₂/FiO₂ (mmHg)</label><select class="form-select" id="sf-resp"><option value="0">≥ 400</option><option value="1">300 – 399</option><option value="2">200 – 299</option><option value="3">100 – 199 (com suporte ventilatório)</option><option value="4">&lt; 100 (com suporte ventilatório)</option></select></div>
+        <div class="form-group"><label class="form-label">Coagulação — Plaquetas (×10³/µL)</label><select class="form-select" id="sf-plaq"><option value="0">≥ 150</option><option value="1">100 – 149</option><option value="2">50 – 99</option><option value="3">20 – 49</option><option value="4">&lt; 20</option></select></div>
+        <div class="form-group"><label class="form-label">Fígado — Bilirrubina (mg/dL)</label><select class="form-select" id="sf-bili"><option value="0">&lt; 1,2</option><option value="1">1,2 – 1,9</option><option value="2">2,0 – 5,9</option><option value="3">6,0 – 11,9</option><option value="4">≥ 12,0</option></select></div>
+        <div class="form-group"><label class="form-label">Cardiovascular</label><select class="form-select" id="sf-cv"><option value="0">Sem hipotensão</option><option value="1">PAM &lt; 70 mmHg</option><option value="2">Dopamina ≤5 ou Dobutamina (qualquer dose)</option><option value="3">Dopamina 5,1–15 ou Epinefrina/Norepinefrina ≤0,1 µg/kg/min</option><option value="4">Dopamina &gt;15 ou Epi/Norepi &gt;0,1 µg/kg/min</option></select></div>
+        <div class="form-group"><label class="form-label">SNC — Glasgow</label><select class="form-select" id="sf-gcs"><option value="0">15</option><option value="1">13 – 14</option><option value="2">10 – 12</option><option value="3">6 – 9</option><option value="4">&lt; 6</option></select></div>
+        <div class="form-group"><label class="form-label">Renal — Creatinina (mg/dL) ou débito urinário</label><select class="form-select" id="sf-ren"><option value="0">&lt; 1,2</option><option value="1">1,2 – 1,9</option><option value="2">2,0 – 3,4</option><option value="3">3,5 – 4,9 ou DU &lt; 500 mL/dia</option><option value="4">≥ 5,0 ou DU &lt; 200 mL/dia</option></select></div>
+        <button class="btn btn-gold" onclick="calcSOFA()">Calcular</button>
+        <div class="result-card" id="r-sofa"><div class="result-label">Escore SOFA</div><div class="result-value" id="rv-sofa">—<span class="result-unit">/24</span></div><div class="result-interp" id="ri-sofa"></div></div>
+      </div></div>
+
+      <!-- qSOFA -->
+      <div class="calc-panel" id="calc-qsofa"><div class="calc-form">
+        <p class="calc-hint">quick SOFA — triagem rápida de sepse à beira do leito. Pontuação ≥ 2 sugere risco elevado de disfunção orgânica.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+          <label style="display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--text-1);cursor:pointer;"><input type="checkbox" id="qs-ar" style="accent-color:var(--gold);width:15px;height:15px;"> FR ≥ 22/min <span style="font-size:.65rem;color:var(--text-3);margin-left:6px;">(+1)</span></label>
+          <label style="display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--text-1);cursor:pointer;"><input type="checkbox" id="qs-ms" style="accent-color:var(--gold);width:15px;height:15px;"> Alteração do nível de consciência — Glasgow &lt; 15 <span style="font-size:.65rem;color:var(--text-3);margin-left:6px;">(+1)</span></label>
+          <label style="display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--text-1);cursor:pointer;"><input type="checkbox" id="qs-sbp" style="accent-color:var(--gold);width:15px;height:15px;"> PAS ≤ 100 mmHg <span style="font-size:.65rem;color:var(--text-3);margin-left:6px;">(+1)</span></label>
+        </div>
+        <button class="btn btn-gold" onclick="calcQSOFA()">Calcular</button>
+        <div class="result-card" id="r-qsofa"><div class="result-label">qSOFA</div><div class="result-value" id="rv-qsofa">—<span class="result-unit">/3</span></div><div class="result-interp" id="ri-qsofa"></div></div>
+      </div></div>
+
+      <!-- Framingham -->
+      <div class="calc-panel" id="calc-fram"><div class="calc-form">
+        <p class="calc-hint">Escore de Framingham (NCEP ATP III) — risco de doença arterial coronariana em 10 anos. Utilize para pacientes de 20–79 anos sem DCC estabelecida.</p>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Sexo</label><select class="form-select" id="fr-sex"><option value="M">Masculino</option><option value="F">Feminino</option></select></div>
+          <div class="form-group"><label class="form-label">Idade (anos)</label><input type="number" class="form-input" id="fr-age" placeholder="50" min="20" max="79"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Colesterol Total (mg/dL)</label><input type="number" class="form-input" id="fr-tchol" placeholder="200"></div>
+          <div class="form-group"><label class="form-label">HDL-colesterol (mg/dL)</label><input type="number" class="form-input" id="fr-hdl" placeholder="50"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">PAS (mmHg)</label><input type="number" class="form-input" id="fr-sbp" placeholder="130"></div>
+          <div class="form-group"><label class="form-label">Anti-hipertensivos?</label><select class="form-select" id="fr-treated"><option value="0">Não</option><option value="1">Sim</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Tabagismo atual</label><select class="form-select" id="fr-smoker"><option value="0">Não</option><option value="1">Sim</option></select></div>
+          <div class="form-group"><label class="form-label">Diabetes mellitus</label><select class="form-select" id="fr-dm"><option value="0">Não</option><option value="1">Sim</option></select></div>
+        </div>
+        <button class="btn btn-gold" onclick="calcFramingham()">Calcular</button>
+        <div class="result-card" id="r-fram"><div class="result-label">Risco de DAC em 10 anos</div><div class="result-value" id="rv-fram">—<span class="result-unit"> %</span></div><div class="result-interp" id="ri-fram"></div></div>
+      </div></div>
+
+      <!-- PSI / PORT -->
+      <div class="calc-panel" id="calc-psi"><div class="calc-form">
+        <p class="calc-hint">Pneumonia Severity Index (PSI/PORT) — guia local de tratamento de PAC. Classe I–II: ambulatorial · III: observação · IV–V: internação ± UTI.</p>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Sexo</label><select class="form-select" id="ps-sex"><option value="M">Masculino</option><option value="F">Feminino</option></select></div>
+          <div class="form-group"><label class="form-label">Idade (anos)</label><input type="number" class="form-input" id="ps-age" placeholder="65"></div>
+        </div>
+        <div class="form-label" style="margin-bottom:10px;margin-top:4px;">Comorbidades</div>
+        <div id="psi-comorbid"></div>
+        <div class="form-label" style="margin-bottom:10px;margin-top:16px;">Exame Físico</div>
+        <div id="psi-exam"></div>
+        <div class="form-label" style="margin-bottom:10px;margin-top:16px;">Exames Laboratoriais / Imagem</div>
+        <div id="psi-lab"></div>
+        <button class="btn btn-gold" onclick="calcPSI()" style="margin-top:14px;">Calcular</button>
+        <div class="result-card" id="r-psi"><div class="result-label">Escore PSI / PORT</div><div class="result-value" id="rv-psi">—<span class="result-unit"> pts</span></div><div class="result-interp" id="ri-psi"></div></div>
+      </div></div>
+    </div>
+
+    <!-- CALENDÁRIO -->
+    <div class="section" id="sec-calendario">
+      <div class="page-header">
+        <div class="header-deco"><div class="h-line"></div><div class="h-diamond">◆</div><div class="h-line"></div></div>
+        <h1 class="page-title">Calendário</h1>
+        <p class="page-sub">Organize provas, ligas e compromissos</p>
+      </div>
+      <div class="cal-wrap">
+        <div>
+          <div class="cal-nav"><button class="cal-btn" onclick="chMonth(-1)">‹</button><div class="cal-month-lbl" id="cal-title">Abril 2026</div><button class="cal-btn" onclick="chMonth(1)">›</button></div>
+          <div class="cal-grid" id="cal-grid"></div>
+        </div>
+        <div>
+          <div class="cal-sidebar-title">Adicionar Evento</div>
+          <div class="form-group"><label class="form-label">Título</label><input type="text" class="form-input" id="ev-title" placeholder="Prova de Semiologia"></div>
+          <div class="form-group"><label class="form-label">Data</label><input type="date" class="form-input" id="ev-date"></div>
+          <div class="form-group"><label class="form-label">Horário</label><input type="time" class="form-input" id="ev-time"></div>
+          <div class="form-group"><label class="form-label">Tipo</label><select class="form-select" id="ev-type"><option value="prova">Prova</option><option value="liga">Liga</option><option value="pesquisa">Pesquisa</option><option value="estagio">Estágio</option><option value="outro">Outro</option></select></div>
+          <button class="btn btn-gold btn-full" onclick="addEvent()">+ Adicionar</button>
+          <div style="margin-top:24px;"><div class="cal-sidebar-title">Próximos Eventos</div><div id="cal-upcoming"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POMODORO -->
+    <div class="section" id="sec-pomodoro">
+      <div class="page-header">
+        <div class="header-deco"><div class="h-line"></div><div class="h-diamond">◆</div><div class="h-line"></div></div>
+        <h1 class="page-title">Timer de Estudos</h1>
+        <p class="page-sub">Pomodoro e modo livre</p>
+      </div>
+      <div class="notif-banner" id="notif-banner" style="display:none;">
+        <span>Ative notificações para ser avisado quando o timer terminar — mesmo em outra aba.</span>
+        <button onclick="requestNotifPerm()">Ativar</button>
+        <button class="notif-dismiss" onclick="document.getElementById('notif-banner').style.display='none'">Agora não</button>
+      </div>
+      <div class="pom-wrap">
+        <div class="timer-col">
+          <div class="ring-wrap">
+            <svg class="ring-svg" viewBox="0 0 256 256"><circle class="ring-bg" cx="128" cy="128" r="116"/><circle class="ring-prog" id="ring" cx="128" cy="128" r="116"/></svg>
+            <div class="ring-center"><div class="timer-time" id="t-display">25:00</div><div class="timer-phase" id="t-phase">Foco</div></div>
+          </div>
+          <div class="timer-btns">
+            <button class="btn" onclick="resetTimer()">Reiniciar</button>
+            <button class="btn btn-gold" id="t-btn" onclick="toggleTimer()">Iniciar</button>
+            <button class="btn" onclick="skipPhase()">Pular ›</button>
+          </div>
+          <div class="sess-area"><div class="sess-label">Sessões: <span id="t-sess-n">0</span></div><div class="sess-dots" id="t-sess-dots"></div></div>
+        </div>
+        <div class="pom-settings">
+          <div class="settings-group">
+            <div class="settings-title">Configurações</div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Foco (min)</label><input type="number" class="form-input" id="s-focus" value="25" min="1" max="120"></div><div class="form-group"><label class="form-label">Pausa Curta</label><input type="number" class="form-input" id="s-short" value="5" min="1" max="30"></div></div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Pausa Longa</label><input type="number" class="form-input" id="s-long" value="15" min="5" max="60"></div><div class="form-group"><label class="form-label">Sessões/ciclo</label><input type="number" class="form-input" id="s-cycle" value="4" min="2" max="8"></div></div>
+            <button class="btn btn-gold" onclick="applyPomSettings()">Aplicar</button>
+          </div>
+          <div class="settings-group"><div class="settings-title">Modo</div><div class="mode-btns"><button class="btn btn-gold" id="m-pom" onclick="setPomMode('pomodoro')">Pomodoro</button><button class="btn" id="m-free" onclick="setPomMode('free')">Livre</button></div></div>
+          <div class="settings-group"><div class="settings-title">Estatísticas de Hoje</div><div class="stats-rows"><div class="stats-row"><span>Sessões completas</span><span id="p-sess">0</span></div><div class="stats-row"><span>Tempo de foco</span><span id="p-time">0 min</span></div><div class="stats-row"><span>Total histórico</span><span id="p-total">0 sessões</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTAS -->
+    <div class="section" id="sec-notas">
+      <div class="page-header" style="margin-bottom:20px;">
+        <div class="header-deco"><div class="h-line"></div><div class="h-diamond">◆</div><div class="h-line"></div></div>
+        <h1 class="page-title">Notas</h1>
+        <p class="page-sub">Editor Markdown com preview em tempo real</p>
+      </div>
+      <div class="notes-shell">
+        <div class="notes-list-col">
+          <div class="notes-list-hdr"><span class="notes-list-lbl">Notas</span><button class="note-add-btn" onclick="newNote()" title="Nova nota">+</button></div>
+          <div class="notes-search-wrap"><input class="notes-search" id="notes-search" type="text" placeholder="Buscar notas..." oninput="filterNotes()"></div>
+          <div class="notes-list-items" id="notes-list"></div>
+        </div>
+        <div class="notes-editor-col">
+          <div class="notes-toolbar">
+            <span class="note-title-lbl" id="note-cur-title">— selecione uma nota —</span>
+            <span class="save-status" id="save-status"></span>
+            <div class="toolbar-right">
+              <button class="toolbar-btn active" id="vb-split" onclick="setView('split')">Split</button>
+              <button class="toolbar-btn" id="vb-editor" onclick="setView('editor')">Editor</button>
+              <button class="toolbar-btn" id="vb-preview" onclick="setView('preview')">Preview</button>
+              <button class="toolbar-btn" onclick="exportNote()" title="Exportar como .md">↓ .md</button>
+              <button class="toolbar-btn" onclick="deleteNote()" title="Excluir nota">✕</button>
+            </div>
+          </div>
+          <div class="notes-split-area" id="notes-split">
+            <div class="editor-pane"><textarea class="note-textarea" id="note-ta" placeholder="# Título&#10;&#10;Escreva em Markdown..." oninput="noteInput()"></textarea></div>
+            <div class="preview-pane" id="note-pv"><div style="color:var(--text-3);font-style:italic;font-size:.75rem;">Preview aparece aqui...</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANKI -->
+    <div class="section" id="sec-anki">
+      <div class="page-header">
+        <div class="header-deco"><div class="h-line"></div><div class="h-diamond">◆</div><div class="h-line"></div></div>
+        <h1 class="page-title">Anki Connect</h1>
+        <p class="page-sub">Integração com o Anki via AnkiConnect — porta 8765</p>
+      </div>
+      <div class="anki-status">
+        <div class="anki-pip" id="anki-pip"></div>
+        <span class="anki-status-text" id="anki-status-text">Verificando conexão...</span>
+        <button class="btn" style="margin-left:auto;padding:5px 14px;font-size:.55rem;" onclick="ankiConnect()">Reconectar</button>
+      </div>
+      <div id="anki-body">
+        <div style="text-align:center;padding:28px 0;">
+          <div class="anki-error-note">Abra o Anki no seu Mac com o add-on AnkiConnect instalado (código 2055492823), então clique em Reconectar.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<svg class="deco-bg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="140,14 266,77 266,203 140,266 14,203 14,77" fill="none" stroke="#D3AF37" stroke-width="1"/>
+  <polygon points="140,40 240,95 240,185 140,240 40,185 40,95" fill="none" stroke="#D3AF37" stroke-width="1"/>
+  <polygon points="140,66 214,107 214,173 140,214 66,173 66,107" fill="none" stroke="#D3AF37" stroke-width="0.5"/>
+  <line x1="140" y1="14" x2="140" y2="266" stroke="#D3AF37" stroke-width="0.5"/>
+  <line x1="14" y1="77" x2="266" y2="203" stroke="#D3AF37" stroke-width="0.5"/>
+  <line x1="266" y1="77" x2="14" y2="203" stroke="#D3AF37" stroke-width="0.5"/>
+  <circle cx="140" cy="140" r="12" fill="none" stroke="#D3AF37" stroke-width="1"/>
+  <circle cx="140" cy="140" r="4" fill="#D3AF37"/>
+</svg>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+/* ── NAV (#9 transitions) ── */
+const TITLES={painel:'Painel de Estudos',calculadoras:'Calculadoras',calendario:'Calendário',notas:'Notas',pomodoro:'Timer de Estudos',prontuario:'Prontuário',anki:'Anki Connect'};
+let cur='painel';
+function nav(id){
+  if(id===cur)return;
+  const old=document.getElementById('sec-'+cur);
+  old.classList.add('leaving');old.classList.remove('active');
+  setTimeout(()=>old.classList.remove('leaving'),280);
+  document.getElementById('sec-'+id).classList.add('active');
+  cur=id;
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.getAttribute('onclick')===`nav('${id}')`));
+  document.getElementById('topbar-title').textContent=TITLES[id]||id;
+  if(id==='painel')refreshDashboard();
+  if(id==='calendario')renderCal();
+  if(id==='pomodoro')checkNotifBanner();
+}
+
+/* ── THEME ── */
+function toggleTheme(){
+  const d=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',d?'light':'dark');
+  document.getElementById('theme-lbl').textContent=d?'LIGHT':'DARK';
+  localStorage.setItem('ozzy-theme',d?'light':'dark');
+}
+
+/* ── FOCUS MODE (#8) ── */
+function toggleFocus(){document.body.classList.toggle('focus-mode');}
+
+/* ── EMPTY STATE (#11) ── */
+function emptyState(text,hint){
+  return`<div class="empty-state">
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="32,3 61,18 61,46 32,61 3,46 3,18" fill="none" stroke="#D3AF37" stroke-width="1.2"/>
+      <polygon points="32,13 51,24 51,40 32,51 13,40 13,24" fill="none" stroke="#D3AF37" stroke-width="0.8"/>
+      <line x1="32" y1="3" x2="32" y2="61" stroke="#D3AF37" stroke-width="0.6"/>
+      <line x1="3" y1="18" x2="61" y2="46" stroke="#D3AF37" stroke-width="0.6"/>
+      <line x1="61" y1="18" x2="3" y2="46" stroke="#D3AF37" stroke-width="0.6"/>
+      <circle cx="32" cy="32" r="5" fill="none" stroke="#D3AF37" stroke-width="1"/>
+      <circle cx="32" cy="32" r="2" fill="#D3AF37"/>
+    </svg>
+    <div class="empty-state-text">${text}</div>
+    <div class="empty-state-hint">${hint}</div>
+  </div>`;
+}
+
+/* ── PRONTUÁRIO ── */
+function autoGrow(el){el.style.height='auto';el.style.height=(el.scrollHeight)+'px';}
+function selectCareType(type){
+  document.querySelectorAll('.pront-view').forEach(v=>v.classList.remove('active'));
+  const target=document.getElementById('pv-'+type);
+  if(target){target.classList.add('active');}
+}
+function backToSelect(){
+  document.querySelectorAll('.pront-view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('pv-select').classList.add('active');
+}
+
+/* ── CALCULADORAS ── */
+document.querySelectorAll('.calc-tab').forEach(t=>t.addEventListener('click',function(){
+  document.querySelectorAll('.calc-tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.calc-panel').forEach(x=>x.classList.remove('active'));
+  this.classList.add('active');
+  document.getElementById('calc-'+this.dataset.calc).classList.add('active');
+}));
+function showResult(id,val,unit,interp){
+  const r=document.getElementById('r-'+id);
+  document.getElementById('rv-'+id).innerHTML=val+`<span class="result-unit"> ${unit}</span>`;
+  if(interp!==undefined)document.getElementById('ri-'+id).textContent=interp;
+  r.classList.add('show');
+}
+function calcCrCl(){
+  const age=+document.getElementById('cg-age').value,wt=+document.getElementById('cg-wt').value,cr=+document.getElementById('cg-cr').value,sex=document.getElementById('cg-sex').value;
+  if(!age||!wt||!cr)return;
+  let v=((140-age)*wt)/(72*cr);if(sex==='F')v*=0.85;
+  const s=[[90,'TFG normal (≥ 90 mL/min)'],[60,'Redução leve — DRC G2'],[30,'Redução moderada — DRC G3'],[15,'Redução grave — DRC G4'],[0,'Falência renal — DRC G5']];
+  showResult('crcl',v.toFixed(1),'mL/min',s.find(([l])=>v>=l)?.[1]??'Falência renal');
+}
+function calcIMC(){
+  const wt=+document.getElementById('imc-wt').value,ht=+document.getElementById('imc-ht').value;if(!wt||!ht)return;
+  const h=ht/100,imc=wt/(h*h),sc=0.007184*Math.pow(ht,0.725)*Math.pow(wt,0.425);
+  const cats=[[18.5,'Abaixo do peso'],[25,'Eutrófico'],[30,'Sobrepeso'],[35,'Obesidade grau I'],[40,'Obesidade grau II'],[Infinity,'Obesidade grau III']];
+  document.getElementById('rv-imc').innerHTML=imc.toFixed(1)+'<span class="result-unit"> kg/m²</span>';
+  document.getElementById('ri-imc').textContent=cats.find(([l])=>imc<l)?.[1];
+  document.getElementById('rv-sc').innerHTML=sc.toFixed(2)+'<span class="result-unit"> m²</span>';
+  document.getElementById('r-imc').classList.add('show');
+}
+function calcGCS(){
+  const e=+document.getElementById('gcs-e').value,v=+document.getElementById('gcs-v').value,m=+document.getElementById('gcs-m').value,t=e+v+m;
+  showResult('gcs',t,'/15',t>=13?`TCE leve · O${e}V${v}M${m}`:t>=9?`TCE moderado · O${e}V${v}M${m}`:`TCE grave — intubação · O${e}V${v}M${m}`);
+}
+const WELLS=[['Câncer ativo (tratamento, últimos 6 meses ou paliativo)',1],['Paralisia, paresia ou imobilização recente de MMII',1],['Acamado > 3 dias ou cirurgia nas últimas 12 semanas',1],['Dor/sensibilidade ao longo do sistema venoso profundo',1],['Edema em toda a perna',1],['Edema da panturrilha > 3 cm vs. lado assintomático',1],['Edema com cacifo restrito à perna sintomática',1],['Veias superficiais colaterais (não varicosas)',1],['TVP prévia documentada',1],['Diagnóstico alternativo ao menos tão provável quanto TVP',-2]];
+function buildWells(){document.getElementById('wells-items').innerHTML=WELLS.map((w,i)=>`<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><input type="checkbox" id="w${i}" style="margin-top:3px;accent-color:var(--gold);cursor:pointer;"><label for="w${i}" style="font-size:.74rem;color:var(--text-2);cursor:pointer;flex:1;">${w[0]}</label><span style="font-size:.68rem;color:var(--text-3);white-space:nowrap;">${w[1]>0?'+':''}${w[1]}</span></div>`).join('');}
+function calcWells(){const s=WELLS.reduce((a,_,i)=>a+(document.getElementById('w'+i).checked?WELLS[i][1]:0),0);showResult('wells',s,'pts',s<=0?'Baixa probabilidade — considerar D-dímero':s<=2?'Probabilidade moderada — D-dímero ou eco-Doppler':'Alta probabilidade — eco-Doppler indicado');}
+const NIHSS=[['Nível de consciência',[['0 — Alerta',0],['1 — Sonolento',1],['2 — Estuporoso',2],['3 — Coma',3]]],['Olhar conjugado',[['0 — Normal',0],['1 — Paralisia parcial',1],['2 — Desvio forçado',2]]],['Campos visuais',[['0 — Normal',0],['1 — Hemianopsia parcial',1],['2 — Hemianopsia completa',2],['3 — Cegueira bilateral',3]]],['Paresia facial',[['0 — Normal',0],['1 — Leve',1],['2 — Parcial',2],['3 — Completa',3]]],['Motor membro superior',[['0 — Sem queda',0],['1 — Queda <10s',1],['2 — Cai <10s',2],['3 — Sem esforço',3],['4 — Sem movimento',4]]],['Motor membro inferior',[['0 — Sem queda',0],['1 — Queda <5s',1],['2 — Cai <5s',2],['3 — Sem esforço',3],['4 — Sem movimento',4]]],['Linguagem',[['0 — Normal',0],['1 — Afasia leve',1],['2 — Afasia grave',2],['3 — Mudo/global',3]]],['Disartria',[['0 — Normal',0],['1 — Leve a moderada',1],['2 — Ininteligível',2]]]];
+function buildNIHSS(){document.getElementById('nihss-items').innerHTML=NIHSS.map((n,i)=>`<div class="form-group"><label class="form-label">${n[0]}</label><select class="form-select" id="nh${i}">${n[1].map(o=>`<option value="${o[1]}">${o[0]}</option>`).join('')}</select></div>`).join('');}
+function calcNIHSS(){const s=NIHSS.reduce((a,_,i)=>a+(+document.getElementById('nh'+i).value),0);showResult('nihss',s,'pts',s===0?'Normal':s<=4?'AVC menor':s<=15?'AVC moderado':s<=24?'AVC moderado a grave':'AVC grave');}
+
+/* ── CALENDAR ── */
+let calYear=new Date().getFullYear(),calMonth=new Date().getMonth();
+let events=JSON.parse(localStorage.getItem('ozzy-events')||'[]');
+const MONTHS=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DAYS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+function tc(t){return{prova:'#C0392B',liga:'#27AE60',pesquisa:'#D3AF37',estagio:'#2980B9',outro:'#8B6C9A'}[t]||'#D3AF37';}
+function chMonth(d){calMonth+=d;if(calMonth>11){calMonth=0;calYear++;}if(calMonth<0){calMonth=11;calYear--;}renderCal();}
+function renderCal(){
+  document.getElementById('cal-title').textContent=MONTHS[calMonth]+' '+calYear;
+  const g=document.getElementById('cal-grid');g.innerHTML='';
+  DAYS.forEach(d=>{const el=document.createElement('div');el.className='cal-dow';el.textContent=d;g.appendChild(el);});
+  const first=new Date(calYear,calMonth,1).getDay(),dim=new Date(calYear,calMonth+1,0).getDate(),pDim=new Date(calYear,calMonth,0).getDate(),td=new Date();
+  for(let i=first-1;i>=0;i--)mkDay(g,pDim-i,true,null);
+  for(let d=1;d<=dim;d++){const ds=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;mkDay(g,d,false,ds,d===td.getDate()&&calMonth===td.getMonth()&&calYear===td.getFullYear(),events.filter(e=>e.date===ds));}
+  const tot=Math.ceil((first+dim)/7)*7;for(let d=1;d<=tot-first-dim;d++)mkDay(g,d,true,null);
+  renderUpcoming();updateBadge();
+}
+function mkDay(g,num,other,ds,isToday,evs=[]){
+  const el=document.createElement('div');
+  el.className='cal-day'+(other?' other-month':'')+(isToday?' today':'');
+  el.innerHTML=`<div class="day-n">${num}</div><div class="day-dots">${evs.map(e=>`<div class="day-dot" style="background:${tc(e.type)};" title="${e.title}"></div>`).join('')}</div>`;
+  if(ds)el.onclick=()=>{document.getElementById('ev-date').value=ds;};
+  g.appendChild(el);
+}
+function addEvent(){
+  const t=document.getElementById('ev-title').value.trim(),d=document.getElementById('ev-date').value,ti=document.getElementById('ev-time').value,ty=document.getElementById('ev-type').value;
+  if(!t||!d)return;
+  events.push({id:Date.now(),title:t,date:d,time:ti,type:ty});
+  events.sort((a,b)=>a.date.localeCompare(b.date));
+  localStorage.setItem('ozzy-events',JSON.stringify(events));
+  document.getElementById('ev-title').value='';
+  renderCal();refreshDashboard();
+}
+function deleteEvent(id){events=events.filter(e=>e.id!==id);localStorage.setItem('ozzy-events',JSON.stringify(events));renderCal();refreshDashboard();}
+function fmtDate(ds){const[y,m,d]=ds.split('-');return`${d} ${MONTHS[+m-1].slice(0,3)} ${y}`;}
+function renderUpcoming(){
+  const tod=new Date().toISOString().split('T')[0],up=events.filter(e=>e.date>=tod).slice(0,6);
+  document.getElementById('cal-upcoming').innerHTML=up.length?up.map(e=>`<div class="upcoming-item"><div class="upcoming-dot" style="background:${tc(e.type)};"></div><div><div class="upcoming-name">${e.title}</div><div class="upcoming-meta">${fmtDate(e.date)}${e.time?' · '+e.time:''}</div></div><button class="delete-ev-btn" onclick="deleteEvent(${e.id})">✕</button></div>`).join(''):emptyState('Nenhum evento próximo','Adicione um evento acima');
+}
+function updateBadge(){const tod=new Date().toISOString().split('T')[0];document.getElementById('badge-events').textContent=events.filter(e=>e.date>=tod).length;}
+
+/* ── DASHBOARD (#10 stagger + #11 empty) ── */
+function refreshDashboard(){
+  const now=new Date(),wk=Math.ceil(((now-new Date(now.getFullYear(),0,1))/864e5+new Date(now.getFullYear(),0,1).getDay()+1)/7);
+  document.getElementById('week-subtitle').textContent=`Semana ${wk} — ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+  const tod=now.toISOString().split('T')[0],up=events.filter(e=>e.date>=tod);
+  document.getElementById('d-ev-count').textContent=up.length+' evento'+(up.length!==1?'s':'');
+  updateBadge();
+  const nx=up.find(e=>e.type==='prova');
+  if(nx){const df=Math.max(0,Math.ceil((new Date(nx.date)-now)/864e5));document.getElementById('d-days').innerHTML=df+'<span class="u">d</span>';document.getElementById('d-exam').textContent=nx.title+' — '+fmtDate(nx.date);}
+  else{document.getElementById('d-days').textContent='—';document.getElementById('d-exam').textContent='Nenhuma prova agendada';}
+  const st=+localStorage.getItem('ozzy-sess-total')||0,fm=+localStorage.getItem('ozzy-focus-min')||0;
+  document.getElementById('d-sessions').textContent=st;
+  document.getElementById('d-hours').innerHTML=Math.floor(fm/60)+'<span class="u">h</span>'+(fm%60?`<span class="u"> ${fm%60}m</span>`:'');
+  // stagger (#10)
+  [0,1,2].forEach(i=>{const c=document.getElementById('sc'+i);c.style.animation='none';c.offsetHeight;c.style.animation=`cardIn .38s ease ${.06+i*.08}s both`;});
+  const list=document.getElementById('d-events-list');
+  const TYPE_LABEL={prova:'PROVA',liga:'LIGA',pesquisa:'PESQUISA',estagio:'ESTÁGIO',outro:'OUTRO'};
+  list.innerHTML=up.length?up.slice(0,8).map((e,i)=>`<div class="event-item" style="animation-delay:${i*.04}s"><div class="event-dot" style="background:${tc(e.type)};"></div><div class="event-info"><div class="event-name">${e.title}</div><div class="event-date">${fmtDate(e.date)}${e.time?' · '+e.time:''}</div></div><div class="event-tag c-${e.type}">${TYPE_LABEL[e.type]||e.type.toUpperCase()}</div></div>`).join(''):emptyState('Agenda vazia','Acesse o Calendário para adicionar eventos');
+}
+
+/* ── POMODORO + NOTIF (#4) ── */
+let pomCfg={focus:25,short:5,long:15,cycle:4},pomState={running:false,phase:'focus',secsLeft:1500,secsTotal:1500,sessInCycle:0,sessTotal:0,focMin:0},pomInterval=null;
+const CIRC=2*Math.PI*116;
+function checkNotifBanner(){if(Notification.permission==='default')document.getElementById('notif-banner').style.display='flex';}
+function requestNotifPerm(){Notification.requestPermission().then(()=>document.getElementById('notif-banner').style.display='none');}
+function sendNotif(title,body){if(Notification.permission==='granted')new Notification(title,{body});}
+function initRing(){const r=document.getElementById('ring');r.style.strokeDasharray=CIRC;r.style.strokeDashoffset=0;buildSessDots();loadPomStats();refreshPomDisplay();}
+function buildSessDots(){document.getElementById('t-sess-dots').innerHTML=Array(pomCfg.cycle).fill('<div class="sess-dot"></div>').join('');}
+function loadPomStats(){pomState.sessTotal=+localStorage.getItem('ozzy-sess-total')||0;pomState.focMin=+localStorage.getItem('ozzy-focus-min')||0;document.getElementById('p-total').textContent=pomState.sessTotal+' sessões';}
+function toggleTimer(){if(pomState.running){clearInterval(pomInterval);pomState.running=false;document.getElementById('t-btn').textContent='Retomar';}else{pomInterval=setInterval(pomTick,1000);pomState.running=true;document.getElementById('t-btn').textContent='Pausar';}}
+function pomTick(){pomState.secsLeft--;if(pomState.secsLeft<=0){clearInterval(pomInterval);pomState.running=false;phaseEnd();return;}refreshPomDisplay();}
+function phaseEnd(){
+  playBeep();
+  if(pomState.phase==='focus'){
+    pomState.sessInCycle++;pomState.sessTotal++;pomState.focMin+=pomCfg.focus;
+    localStorage.setItem('ozzy-sess-total',pomState.sessTotal);localStorage.setItem('ozzy-focus-min',pomState.focMin);
+    document.getElementById('p-sess').textContent=pomState.sessInCycle;
+    document.getElementById('p-time').textContent=pomState.sessInCycle*pomCfg.focus+' min';
+    document.getElementById('p-total').textContent=pomState.sessTotal+' sessões';
+    updateSessDots();
+    const isLong=pomState.sessInCycle%pomCfg.cycle===0;
+    sendNotif('OzzYmed — Sessão completa!',isLong?'Pausa longa merecida. Descanse bem.':'Pausa curta. Você está indo bem!');
+    setPhase(isLong?'long':'short');
+  }else{sendNotif('OzzYmed — Pausa encerrada','Hora de focar novamente.');setPhase('focus');}
+  document.getElementById('t-btn').textContent='Iniciar';
+}
+function setPhase(ph){pomState.phase=ph;const d={focus:pomCfg.focus,short:pomCfg.short,long:pomCfg.long}[ph]*60;pomState.secsTotal=d;pomState.secsLeft=d;document.getElementById('t-phase').textContent={focus:'Foco',short:'Pausa Curta',long:'Pausa Longa'}[ph];refreshPomDisplay();}
+function resetTimer(){clearInterval(pomInterval);pomState.running=false;setPhase(pomState.phase);document.getElementById('t-btn').textContent='Iniciar';}
+function skipPhase(){clearInterval(pomInterval);pomState.running=false;phaseEnd();}
+function refreshPomDisplay(){const m=Math.floor(pomState.secsLeft/60),s=pomState.secsLeft%60;document.getElementById('t-display').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;document.getElementById('t-sess-n').textContent=pomState.sessInCycle%pomCfg.cycle;document.getElementById('ring').style.strokeDashoffset=CIRC*(1-pomState.secsLeft/pomState.secsTotal);}
+function updateSessDots(){document.getElementById('t-sess-dots').querySelectorAll('.sess-dot').forEach((d,i)=>d.classList.toggle('done',i<pomState.sessInCycle%pomCfg.cycle));}
+function applyPomSettings(){pomCfg.focus=+document.getElementById('s-focus').value||25;pomCfg.short=+document.getElementById('s-short').value||5;pomCfg.long=+document.getElementById('s-long').value||15;pomCfg.cycle=+document.getElementById('s-cycle').value||4;buildSessDots();resetTimer();}
+function setPomMode(m){document.getElementById('m-pom').className='btn'+(m==='pomodoro'?' btn-gold':'');document.getElementById('m-free').className='btn'+(m==='free'?' btn-gold':'');}
+function playBeep(){try{const ctx=new(window.AudioContext||window.webkitAudioContext)();[880,1100,880].forEach((f,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=f;g.gain.setValueAtTime(.25,ctx.currentTime+i*.25);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+i*.25+.22);o.start(ctx.currentTime+i*.25);o.stop(ctx.currentTime+i*.25+.22);});}catch(e){}}
+
+/* ── NOTES (#1 search, #3 save, #7 export) ── */
+let notes=JSON.parse(localStorage.getItem('ozzy-notes')||'[]'),activeNoteId=null,saveTimeout=null,noteQuery='';
+function setSaveStatus(st){const el=document.getElementById('save-status');el.className='save-status '+st;el.textContent={saving:'● Salvando...',saved:'✓ Salvo',unsaved:'● Não salvo','':''}[st]||'';}
+function filterNotes(){noteQuery=document.getElementById('notes-search').value.toLowerCase();renderNotesList();}
+function renderNotesList(){
+  const c=document.getElementById('notes-list');
+  const f=noteQuery?notes.filter(n=>(n.title||'').toLowerCase().includes(noteQuery)||(n.content||'').toLowerCase().includes(noteQuery)):notes;
+  c.innerHTML=f.length?f.map(n=>`<div class="note-item ${n.id===activeNoteId?'active':''}" onclick="openNote(${n.id})"><div class="note-item-title">${n.title||'Sem título'}</div><div class="note-item-preview">${(n.content||'').replace(/#+\s/g,'').substring(0,55)}</div></div>`).join(''):emptyState(noteQuery?'Nenhuma nota encontrada':'Nenhuma nota ainda',noteQuery?'Tente outro termo':'Clique em + para criar');
+}
+function newNote(){const n={id:Date.now(),title:'Nova Nota',content:'# Nova Nota\n\n'};notes.unshift(n);saveNotes();openNote(n.id);}
+function openNote(id){activeNoteId=id;const n=notes.find(x=>x.id===id);if(!n)return;document.getElementById('note-ta').value=n.content||'';document.getElementById('note-cur-title').textContent=n.title||'Sem título';setSaveStatus('saved');renderNotesList();renderPreview();}
+function noteInput(){
+  if(!activeNoteId)return;const idx=notes.findIndex(n=>n.id===activeNoteId);if(idx<0)return;
+  setSaveStatus('unsaved');clearTimeout(saveTimeout);
+  const txt=document.getElementById('note-ta').value;notes[idx].content=txt;
+  const m=txt.match(/^#+\s+(.+)/m);notes[idx].title=m?m[1]:'Sem título';
+  document.getElementById('note-cur-title').textContent=notes[idx].title;
+  renderPreview();renderNotesList();
+  saveTimeout=setTimeout(()=>{setSaveStatus('saving');saveNotes();setTimeout(()=>setSaveStatus('saved'),420);},800);
+}
+function deleteNote(){if(!activeNoteId)return;notes=notes.filter(n=>n.id!==activeNoteId);activeNoteId=null;document.getElementById('note-ta').value='';document.getElementById('note-pv').innerHTML='<div style="color:var(--text-3);font-style:italic;font-size:.75rem;">Preview aparece aqui...</div>';document.getElementById('note-cur-title').textContent='— selecione uma nota —';setSaveStatus('');saveNotes();renderNotesList();}
+function saveNotes(){localStorage.setItem('ozzy-notes',JSON.stringify(notes));}
+function renderPreview(){const md=document.getElementById('note-ta').value;try{document.getElementById('note-pv').innerHTML=marked.parse(md);}catch(e){document.getElementById('note-pv').textContent=md;}}
+function exportNote(){if(!activeNoteId)return;const n=notes.find(x=>x.id===activeNoteId);if(!n)return;const b=new Blob([n.content||''],{type:'text/markdown'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(n.title||'nota').replace(/[^a-zA-Z0-9À-ÿ _-]/g,'')+'.md';a.click();URL.revokeObjectURL(a.href);}
+function setView(v){document.getElementById('notes-split').className='notes-split-area'+(v!=='split'?' '+v+'-only':'');['split','editor','preview'].forEach(x=>document.getElementById('vb-'+x).classList.toggle('active',x===v));}
+
+/* ── HEART SCORE ── */
+function calcHEART(){
+  const h=+document.getElementById('ht-h').value,e=+document.getElementById('ht-e').value,
+        a=+document.getElementById('ht-a').value,r=+document.getElementById('ht-r').value,
+        t=+document.getElementById('ht-t').value,s=h+e+a+r+t;
+  const interp=s<=3?`Baixo risco (≤3) — MACE ~1,7% · Alta com seguimento ambulatorial`:
+               s<=6?`Risco moderado (4–6) — MACE ~12% · Observação + troponina seriada`:
+                    `Alto risco (≥7) — MACE ~65% · Estratégia invasiva precoce`;
+  showResult('heart',s,'/10',interp);
+}
+
+/* ── SOFA ── */
+function calcSOFA(){
+  const s=['resp','plaq','bili','cv','gcs','ren'].reduce((a,k)=>a+(+document.getElementById('sf-'+k).value),0);
+  const interp=s<=6?`Baixo risco (<10% mortalidade estimada)`:
+               s<=9?`Risco moderado (~15–20% mortalidade)`:
+               s<=12?`Risco alto (~40–50% mortalidade)`:
+                     `Risco muito alto (>50% mortalidade)`;
+  showResult('sofa',s,'/24',interp);
+}
+
+/* ── qSOFA ── */
+function calcQSOFA(){
+  const s=(document.getElementById('qs-ar').checked?1:0)+(document.getElementById('qs-ms').checked?1:0)+(document.getElementById('qs-sbp').checked?1:0);
+  showResult('qsofa',s,'/3',s>=2?'Risco elevado de sepse — aplicar escore SOFA completo e iniciar protocolo':'Baixa probabilidade de disfunção orgânica por sepse');
+}
+
+/* ── FRAMINGHAM ATP III (NCEP 2001) ── */
+function calcFramingham(){
+  const sex=document.getElementById('fr-sex').value,age=+document.getElementById('fr-age').value,
+        tc=+document.getElementById('fr-tchol').value,hdl=+document.getElementById('fr-hdl').value,
+        sbp=+document.getElementById('fr-sbp').value,treated=document.getElementById('fr-treated').value==='1',
+        smoker=document.getElementById('fr-smoker').value==='1',dm=document.getElementById('fr-dm').value==='1';
+  if(!age||!tc||!hdl||!sbp)return;
+  // Age points
+  const AGE_M=[[20,34,-9],[35,39,-4],[40,44,0],[45,49,3],[50,54,6],[55,59,8],[60,64,10],[65,69,11],[70,74,12],[75,99,13]];
+  const AGE_F=[[20,34,-7],[35,39,-3],[40,44,0],[45,49,3],[50,54,6],[55,59,8],[60,64,10],[65,69,12],[70,74,14],[75,99,16]];
+  const agePts=(sex==='M'?AGE_M:AGE_F).find(([lo,hi])=>age>=lo&&age<=hi)?.[2]??0;
+  // Age group index 0=20-39,1=40-49,2=50-59,3=60-69,4=70+
+  const ag=age<40?0:age<50?1:age<60?2:age<70?3:4;
+  // Total cholesterol points
+  const CHOL_M=[[0,4,7,9,11],[0,3,5,6,8],[0,2,3,4,5],[0,1,1,2,3],[0,0,0,1,1]];
+  const CHOL_F=[[0,4,8,11,13],[0,3,6,8,10],[0,2,4,5,7],[0,1,2,3,4],[0,1,1,2,2]];
+  const ci=tc<160?0:tc<200?1:tc<240?2:tc<280?3:4;
+  const cholPts=(sex==='M'?CHOL_M:CHOL_F)[ag][ci];
+  // Smoking points
+  const SMOKE_M=[8,5,3,1,1],SMOKE_F=[9,7,4,2,1];
+  const smokePts=smoker?(sex==='M'?SMOKE_M:SMOKE_F)[ag]:0;
+  // HDL points
+  const hdlPts=hdl>=60?-1:hdl>=50?0:hdl>=40?1:2;
+  // SBP points [untreated,treated]
+  const SBP_M=[[0,0],[0,1],[1,2],[1,2],[2,3]];
+  const SBP_F=[[0,0],[1,3],[2,4],[3,5],[4,6]];
+  const si=sbp<120?0:sbp<130?1:sbp<140?2:sbp<160?3:4;
+  const sbpPts=(sex==='M'?SBP_M:SBP_F)[si][treated?1:0];
+  const total=agePts+cholPts+smokePts+hdlPts+sbpPts;
+  // Risk lookup
+  const RISK_M={0:1,1:1,2:1,3:1,4:1,5:2,6:2,7:3,8:4,9:5,10:6,11:8,12:10,13:12,14:16,15:20,16:25};
+  const RISK_F={9:1,10:1,11:1,12:1,13:2,14:2,15:3,16:4,17:5,18:6,19:8,20:11,21:14,22:17,23:22,24:27};
+  let risk;
+  if(sex==='M'){risk=total<=0?'<1':total>=17?'≥30':RISK_M[total]??'<1';}
+  else{risk=total<=8?'<1':total>=25?'≥30':RISK_F[total]??'<1';}
+  const riskN=typeof risk==='number'?risk:0;
+  const category=riskN>=20||risk==='≥30'?'Risco alto (≥20%) — equivale a DAC estabelecida':riskN>=10?'Risco intermediário (10–19%)':'Risco baixo (<10%)';
+  const dmNote=dm?' · DM2 = equivalente de risco → tratar como alto risco':'';
+  showResult('fram',risk,'%',`${category} · Pontos: ${total}${dmNote}`);
+}
+
+/* ── PSI / PORT ── */
+const PSI_COMORBID=[['Neoplasia maligna ativa',30],['Doença hepática',20],['Insuficiência cardíaca',10],['Doença cerebrovascular',10],['Doença renal',10],['Residente em instituição de longa permanência',10]];
+const PSI_EXAM=[['Alteração do sensório',20],['FR ≥ 30/min',20],['PAS < 90 mmHg',20],['Temperatura < 35°C ou ≥ 40°C',15],['FC ≥ 125/min',10]];
+const PSI_LAB=[['pH arterial < 7,35',30],['Ureia ≥ 65 mg/dL (BUN ≥ 30 mg/dL)',20],['Sódio < 130 mEq/L',20],['Glicose ≥ 250 mg/dL',10],['Hematócrito < 30%',10],['PaO₂ < 60 mmHg ou SpO₂ < 90%',10],['Derrame pleural ao RX',10]];
+function buildPSI(){
+  const mk=(arr,id)=>arr.map((w,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);"><input type="checkbox" id="${id}${i}" style="accent-color:var(--gold);cursor:pointer;"><label for="${id}${i}" style="font-size:.74rem;color:var(--text-2);flex:1;cursor:pointer;">${w[0]}</label><span style="font-size:.65rem;color:var(--text-3);white-space:nowrap;">+${w[1]}</span></div>`).join('');
+  document.getElementById('psi-comorbid').innerHTML=mk(PSI_COMORBID,'pc');
+  document.getElementById('psi-exam').innerHTML=mk(PSI_EXAM,'pe');
+  document.getElementById('psi-lab').innerHTML=mk(PSI_LAB,'pl');
+}
+function calcPSI(){
+  const sex=document.getElementById('ps-sex').value,age=+document.getElementById('ps-age').value;
+  if(!age)return;
+  let pts=sex==='M'?age:age-10;
+  PSI_COMORBID.forEach((_,i)=>{if(document.getElementById('pc'+i).checked)pts+=PSI_COMORBID[i][1];});
+  PSI_EXAM.forEach((_,i)=>{if(document.getElementById('pe'+i).checked)pts+=PSI_EXAM[i][1];});
+  PSI_LAB.forEach((_,i)=>{if(document.getElementById('pl'+i).checked)pts+=PSI_LAB[i][1];});
+  const cls=pts<=70?'II':pts<=90?'III':pts<=130?'IV':'V';
+  const mort=pts<=70?'0,6%':pts<=90?'0,9–2,8%':pts<=130?'8,2–9,3%':'27–31%';
+  const cond=pts<=70?'Ambulatorial (baixo risco)':pts<=90?'Internação breve / observação':pts<=130?'Internação hospitalar':' Internação — considerar UTI';
+  showResult('psi',pts,'pts',`Classe ${cls} · Mortalidade estimada: ${mort} · ${cond}`);
+}
+
+/* ── ANKI CONNECT ── */
+async function ankiRequest(action,params={}){
+  const r=await fetch('http://localhost:8765',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,version:6,params})});
+  const d=await r.json();
+  if(d.error)throw new Error(d.error);
+  return d.result;
+}
+
+// Nav state: path = array of deck name segments, e.g. ['Bahiana','3º Semestre']
+let ankiState={path:[],tree:{},allDecks:[]};
+
+function buildDeckTree(decks){
+  /* decks: array of AnkiConnect deck stat objects (have .name, .new_count, etc.) */
+  const tree={};
+  decks.forEach(d=>{
+    const parts=d.name.split('::');
+    let node=tree;
+    parts.forEach((part,i)=>{
+      if(!node[part])node[part]={_data:null,_children:{}};
+      if(i===parts.length-1)node[part]._data=d;
+      node=node[part]._children;
+    });
+  });
+  return tree;
+}
+
+function getNodeAtPath(tree,path){
+  let node=tree;
+  for(const seg of path){
+    if(!node[seg])return {};
+    node=node[seg]._children;
+  }
+  return node;
+}
+
+function getShortName(fullName,path){
+  /* Strip the parent prefix from the deck name */
+  const prefix=path.length?path.join('::')+':':'';
+  return fullName.startsWith(prefix)?fullName.slice(prefix.length):fullName;
+}
+
+function renderAnkiLevel(){
+  const body=document.getElementById('anki-body');
+  const path=ankiState.path;
+  const node=getNodeAtPath(ankiState.tree,path);
+  const entries=Object.entries(node); // [[shortName, {_data, _children}], ...]
+
+  /* Breadcrumb */
+  let crumbHtml='';
+  if(path.length>0){
+    crumbHtml+=`<button class="anki-back-btn" onclick="ankiNavBack()">‹ Voltar</button>`;
+    crumbHtml+=`<button class="anki-breadcrumb-btn root" onclick="ankiNavRoot()">Todos</button>`;
+    path.forEach((seg,i)=>{
+      crumbHtml+=`<span class="anki-breadcrumb-sep">›</span>`;
+      if(i<path.length-1){
+        crumbHtml+=`<button class="anki-breadcrumb-btn" onclick="ankiNavTo(${i+1})">${seg}</button>`;
+      }else{
+        crumbHtml+=`<span class="anki-breadcrumb-cur">${seg}</span>`;
+      }
+    });
+  }else{
+    crumbHtml=`<span class="anki-breadcrumb-cur" style="color:var(--text-3)">Todos os Baralhos</span>`;
+  }
+
+  /* Deck cards */
+  const cardsHtml=entries.map(([shortName,nodeObj])=>{
+    const d=nodeObj._data;
+    const hasChildren=Object.keys(nodeObj._children).length>0;
+    const newC=d?d.new_count:0,learnC=d?d.learn_count:0,dueC=d?d.due_count:0;
+    const isEmpty=!d&&!hasChildren;
+    return`<div class="anki-deck-card${hasChildren?' has-children':''}${isEmpty?' no-cards':''}"
+        onclick="ankiDeckClick('${shortName.replace(/'/g,"\\'")}',${hasChildren})">
+      <div class="anki-card-name-area">
+        <div class="anki-card-name">${shortName}</div>
+      </div>
+      <div class="anki-card-stats">
+        <div class="anki-card-stat"><span class="anki-card-stat-n s-new">${newC}</span><span class="anki-card-stat-l">Novas</span></div>
+        <div class="anki-card-stat"><span class="anki-card-stat-n s-learn">${learnC}</span><span class="anki-card-stat-l">Aprendendo</span></div>
+        <div class="anki-card-stat"><span class="anki-card-stat-n s-due">${dueC}</span><span class="anki-card-stat-l">A Revisar</span></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  /* Add card form — deck selector with full names */
+  const allDecks=ankiState.allDecks;
+  body.innerHTML=`
+    <div class="anki-breadcrumb">${crumbHtml}</div>
+    <div class="anki-deck-grid">${cardsHtml||'<div style="color:var(--text-3);font-size:.75rem;font-style:italic;grid-column:1/-1;padding:12px 0;">Nenhum baralho neste nível.</div>'}</div>
+    <div class="anki-add-wrap">
+      <div class="anki-add-title">Adicionar Card Rápido</div>
+      <div class="form-group"><label class="form-label">Baralho</label>
+        <select class="form-select" id="anki-deck-sel">${allDecks.map(d=>`<option value="${d.name}">${d.name}</option>`).join('')}</select>
+      </div>
+      <div class="form-group"><label class="form-label">Frente</label>
+        <textarea class="form-input" id="anki-front" rows="2" style="resize:vertical;font-family:'Raleway',sans-serif;font-size:.8rem;" placeholder="Pergunta / conceito..."></textarea>
+      </div>
+      <div class="form-group"><label class="form-label">Verso</label>
+        <textarea class="form-input" id="anki-back" rows="3" style="resize:vertical;font-family:'Raleway',sans-serif;font-size:.8rem;" placeholder="Resposta / explicação..."></textarea>
+      </div>
+      <div class="anki-sync-row">
+        <button class="btn btn-gold" onclick="ankiAddCard()">+ Adicionar Card</button>
+        <button class="btn" onclick="ankiSync()">⟳ Sincronizar</button>
+        <span class="anki-sync-note" id="anki-add-msg"></span>
+      </div>
+    </div>`;
+}
+
+function ankiDeckClick(shortName,hasChildren){
+  if(hasChildren){
+    ankiState.path.push(shortName);
+    renderAnkiLevel();
+  }
+  // leaf click: could open Anki directly — for now just visual feedback
+}
+function ankiNavBack(){if(ankiState.path.length>0){ankiState.path.pop();renderAnkiLevel();}}
+function ankiNavRoot(){ankiState.path=[];renderAnkiLevel();}
+function ankiNavTo(depth){ankiState.path=ankiState.path.slice(0,depth);renderAnkiLevel();}
+
+async function ankiConnect(){
+  const pip=document.getElementById('anki-pip'),txt=document.getElementById('anki-status-text'),body=document.getElementById('anki-body');
+  pip.className='anki-pip';txt.textContent='Conectando...';
+  try{
+    await ankiRequest('version');
+    pip.className='anki-pip connected';txt.textContent='Conectado ao Anki';
+    const stats=await ankiRequest('getDeckStats',{decks:await ankiRequest('deckNames')});
+    const decks=Object.values(stats);
+    const due=decks.reduce((a,d)=>a+d.due_count,0);
+    document.getElementById('badge-anki').textContent=due||'✓';
+    ankiState={path:[],tree:buildDeckTree(decks),allDecks:decks};
+    renderAnkiLevel();
+  }catch(e){
+    pip.className='anki-pip error';txt.textContent='Anki não encontrado';
+    document.getElementById('badge-anki').textContent='—';
+    body.innerHTML=`<div style="text-align:center;padding:28px 0;"><div class="anki-error-note">Não foi possível conectar ao AnkiConnect.<br><br>Verifique se: (1) o Anki está aberto, (2) o add-on AnkiConnect está instalado (código <strong>2055492823</strong>), (3) você está rodando o OzzYmed via <code>python3 -m http.server 8080</code> — não diretamente pelo arquivo.</div></div>`;
+  }
+}
+async function ankiAddCard(){
+  const deck=document.getElementById('anki-deck-sel').value,
+        front=document.getElementById('anki-front').value.trim(),
+        back=document.getElementById('anki-back').value.trim(),
+        msg=document.getElementById('anki-add-msg');
+  if(!front||!back){msg.textContent='Preencha frente e verso.';return;}
+  try{
+    await ankiRequest('addNote',{note:{deckName:deck,modelName:'Basic',fields:{Front:front,Back:back},options:{allowDuplicate:false}}});
+    document.getElementById('anki-front').value='';document.getElementById('anki-back').value='';
+    msg.style.color='var(--gold)';msg.textContent='Card adicionado!';
+    setTimeout(()=>msg.textContent='',3000);
+  }catch(e){msg.style.color='#C0392B';msg.textContent='Erro: '+e.message;}
+}
+async function ankiSync(){
+  try{await ankiRequest('sync');document.getElementById('anki-add-msg').textContent='Sincronizado!';}
+  catch(e){document.getElementById('anki-add-msg').textContent='Erro ao sincronizar.';}
+}
+
+/* ── INIT ── */
+function init(){
+  const th=localStorage.getItem('ozzy-theme')||'light';
+  document.documentElement.setAttribute('data-theme',th);
+  document.getElementById('theme-lbl').textContent=th.toUpperCase();
+  buildWells();buildNIHSS();
+  document.getElementById('ev-date').value=new Date().toISOString().split('T')[0];
+  renderCal();initRing();renderNotesList();refreshDashboard();
+}
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
