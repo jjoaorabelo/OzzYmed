@@ -687,48 +687,56 @@ body.focus-mode .focus-exit{display:block;}
 
           <div class="anam-block">
             <div class="anam-block-hdr"><span class="anam-block-num">03</span><span class="anam-block-title">Antecedentes Gestacionais / Pré-natais</span><span class="anam-block-hint">Histórico da gestação</span></div>
-            <textarea class="anam-textarea" id="pd-gest" rows="7">Nº de consultas pré-natal: 
-Intercorrências na gestação: 
-Infecções (TORCH, ITU, outras): 
-Uso de medicamentos na gestação: 
-Uso de álcool/tabaco/drogas: 
-Exposição a agentes teratogênicos: 
-Sorologias do pré-natal: </textarea>
+            <div class="sys-rows">
+              <div class="sys-row"><span class="sys-lbl">Nº de consultas pré-natal:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Intercorrências na gestação:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Infecções (TORCH, ITU, outras):</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Uso de medicamentos na gestação:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Uso de álcool/tabaco/drogas:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Exposição a agentes teratogênicos:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row" style="border-bottom:none;"><span class="sys-lbl">Sorologias do pré-natal:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+            </div>
           </div>
 
           <div class="anam-block">
             <div class="anam-block-hdr"><span class="anam-block-num">04</span><span class="anam-block-title">Antecedentes Perinatais / do Parto</span><span class="anam-block-hint">Nascimento e período neonatal</span></div>
-            <textarea class="anam-textarea" id="pd-parto" rows="8">Tipo de parto: 
-Idade gestacional ao nascer: ___semanas
-Peso ao nascer: ___g · Comprimento: ___cm · PC: ___cm
-Apgar: 1º min ___ · 5º min ___
-Necessidade de reanimação: 
-Internação em UTI neonatal: 
-Intercorrências neonatais (icterícia, infecções, malformações): </textarea>
+            <div class="sys-rows">
+              <div class="sys-row"><span class="sys-lbl">Tipo de parto:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Idade gestacional ao nascer:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="___ semanas"></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Peso ao nascer:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="___g · Comprimento: ___cm · PC: ___cm"></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Apgar:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="1º min ___ · 5º min ___"></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Necessidade de reanimação:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Internação em UTI neonatal:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row" style="border-bottom:none;"><span class="sys-lbl">Intercorrências neonatais:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="icterícia, infecções, malformações..."></textarea></div>
+            </div>
           </div>
 
           <div class="anam-block">
             <div class="anam-block-hdr"><span class="anam-block-num">05</span><span class="anam-block-title">Desenvolvimento Neuropsicomotor (DNPM)</span><span class="anam-block-hint">Marcos do desenvolvimento</span></div>
-            <textarea class="anam-textarea" id="pd-dnpm" rows="10">Sorriso social: 
-Sustentação cefálica: 
-Sentar sem apoio: 
-Engatinhar: 
-Andar: 
-Primeiras palavras: 
-Primeiras frases: 
-Controle esfincteriano: 
-Escolaridade (ano/série): 
-Dificuldades de aprendizagem: </textarea>
+            <div class="sys-rows">
+              <div class="sys-row"><span class="sys-lbl">Sorriso social:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Sustentação cefálica:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Sentar sem apoio:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Engatinhar:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Andar:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Primeiras palavras:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Primeiras frases:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Controle esfincteriano:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Escolaridade (ano/série):</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row" style="border-bottom:none;"><span class="sys-lbl">Dificuldades de aprendizagem:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+            </div>
           </div>
 
           <div class="anam-block">
             <div class="anam-block-hdr"><span class="anam-block-num">06</span><span class="anam-block-title">História Alimentar</span><span class="anam-block-hint">Aleitamento e dieta atual</span></div>
-            <textarea class="anam-textarea" id="pd-alim" rows="6">Aleitamento materno exclusivo até: ___meses
-Introdução alimentar: ___meses
-Dificuldades alimentares: 
-Dieta atual: 
-Suplementações (vitamina D, ferro, outros): 
-Alergias alimentares: </textarea>
+            <div class="sys-rows">
+              <div class="sys-row"><span class="sys-lbl">Aleitamento materno exclusivo até:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="___ meses"></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Introdução alimentar:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="___ meses"></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Dificuldades alimentares:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Dieta atual:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Suplementações:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="vitamina D, ferro, outros..."></textarea></div>
+              <div class="sys-row" style="border-bottom:none;"><span class="sys-lbl">Alergias alimentares:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
+            </div>
           </div>
 
           <div class="anam-block">
