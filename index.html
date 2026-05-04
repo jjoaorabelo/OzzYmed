@@ -362,82 +362,32 @@ body.focus-mode .focus-exit{display:block;}
 
 [data-theme="light"] .logo-med{color:var(--gold);}
 
-/* ── ANKI CONNECT ── */
-.anki-status{display:flex;align-items:center;gap:10px;margin-bottom:28px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);}
-.anki-pip{width:8px;height:8px;border-radius:50%;background:var(--text-3);flex-shrink:0;transition:background .3s;}
-.anki-pip.connected{background:#27AE60;}
-.anki-pip.error{background:#C0392B;}
-.anki-status-text{font-size:.65rem;letter-spacing:.12em;color:var(--text-2);text-transform:uppercase;}
-
-/* Breadcrumb nav */
-.anki-breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:22px;min-height:28px;}
-.anki-breadcrumb-btn{background:none;border:none;padding:0;cursor:pointer;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);transition:color .16s;}
-.anki-breadcrumb-btn:hover{color:var(--gold);}
-.anki-breadcrumb-btn.root{color:var(--text-2);}
-.anki-breadcrumb-sep{font-size:.5rem;color:var(--text-3);opacity:.5;}
-.anki-breadcrumb-cur{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
-.anki-back-btn{display:flex;align-items:center;gap:6px;background:none;border:1px solid var(--border);padding:5px 12px;cursor:pointer;font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);transition:all .16s;margin-right:4px;}
-.anki-back-btn:hover{border-color:var(--gold);color:var(--gold);}
-
-/* Deck grid — clean, spacious */
-.anki-deck-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:32px;}
-.anki-deck-card{
-  background:var(--surface);border:1px solid var(--border);
-  padding:0;cursor:pointer;transition:all .22s;
-  position:relative;overflow:hidden;display:flex;flex-direction:column;
-  animation:cardIn .28s ease both;
+/* ── MEU ANKI ── */
+.anki-download-layout{display:grid;grid-template-columns:minmax(280px,420px) minmax(280px,1fr);gap:34px;align-items:start;max-width:930px;}
+.anki-download-card{position:relative;background:var(--surface);border:1px solid var(--border);padding:48px 32px 34px;min-height:640px;overflow:hidden;animation:cardIn .32s ease both;}
+.anki-download-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);}
+.anki-card-spark{color:var(--gold);font-size:.75rem;margin-bottom:28px;}
+.anki-deck-title{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:600;line-height:1.05;color:var(--text-1);max-width:220px;margin-bottom:28px;}
+.anki-deck-kicker{font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:var(--text-3);line-height:1.35;margin-bottom:26px;}
+.anki-deck-copy{border-left:2px solid var(--border);padding-left:20px;font-family:'Cormorant Garamond',serif;font-size:1.14rem;line-height:1.55;color:var(--text-2);margin-bottom:34px;}
+.anki-download-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:268px;min-height:64px;text-decoration:none;text-align:center;}
+.anki-download-btn span{line-height:1.25;}
+.anki-import-note{margin-top:22px;font-size:.7rem;color:var(--text-3);font-style:italic;max-width:260px;}
+.anki-steps{padding-top:2px;}
+.anki-steps-title{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--text-3);padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:8px;}
+.anki-step{display:grid;grid-template-columns:36px 1fr;gap:18px;padding:22px 0;border-bottom:1px solid var(--border);}
+.anki-step-num{font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold);}
+.anki-step-text{font-family:'Cormorant Garamond',serif;font-size:1.25rem;line-height:1.42;color:var(--text-2);}
+.anki-step-text strong{color:var(--text-1);font-weight:600;}
+.anki-step-text a{color:var(--gold);text-decoration:none;}
+.anki-step-text a:hover{text-decoration:underline;}
+.anki-watermark{margin-top:46px;opacity:.06;max-width:420px;}
+.anki-watermark svg{width:100%;height:auto;display:block;}
+@media (max-width:900px){
+  .anki-download-layout{grid-template-columns:1fr;max-width:none;}
+  .anki-download-card{min-height:auto;}
+  .anki-deck-title{max-width:none;}
 }
-.anki-deck-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:var(--border);transition:background .22s;
-}
-.anki-deck-card:hover{border-color:var(--gold-dim);background:var(--surface-2);}
-.anki-deck-card:hover::before{background:var(--gold);}
-.anki-deck-card.has-children::after{
-  content:'›';position:absolute;top:12px;right:14px;
-  font-size:.9rem;color:var(--text-3);transition:color .22s;
-}
-.anki-deck-card.has-children:hover::after{color:var(--gold);}
-.anki-deck-card.no-cards{opacity:.6;}
-
-/* Card name area */
-.anki-card-name-area{
-  padding:26px 20px 20px;
-  display:flex;align-items:flex-end;flex:1;min-height:100px;
-}
-.anki-card-name{
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.15rem;font-weight:600;
-  color:var(--text-1);line-height:1.3;
-  word-break:break-word;hyphens:auto;
-}
-
-/* Stats row at bottom */
-.anki-card-stats{
-  display:flex;border-top:1px solid var(--border);
-}
-.anki-card-stat{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  padding:10px 6px 12px;position:relative;
-}
-.anki-card-stat+.anki-card-stat{border-left:1px solid var(--border);}
-.anki-card-stat-n{
-  font-family:'Cinzel',serif;font-size:1.2rem;font-weight:600;
-  line-height:1;margin-bottom:3px;
-}
-.anki-card-stat-l{font-size:.44rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);}
-.s-new{color:#2980B9;}
-.s-learn{color:#E67E22;}
-.s-due{color:#27AE60;}
-
-/* Add card form */
-.anki-add-wrap{background:var(--surface);border:1px solid var(--border);padding:22px;}
-.anki-add-title{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-3);margin-bottom:16px;}
-.anki-add-row{display:flex;gap:12px;margin-bottom:12px;align-items:flex-end;}
-.anki-add-row .form-group{flex:1;margin-bottom:0;}
-.anki-sync-row{display:flex;align-items:center;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
-.anki-sync-note{font-size:.62rem;color:var(--text-3);font-style:italic;}
-.anki-error-note{font-size:.68rem;color:var(--text-2);font-style:italic;padding:18px 0;}
 .deco-bg{position:fixed;bottom:0;right:0;width:280px;height:280px;opacity:.025;pointer-events:none;z-index:0;}
 </style>
 </head>
@@ -463,7 +413,7 @@ body.focus-mode .focus-exit{display:block;}
       <div class="nav-section-label">Estudo</div>
       <div class="nav-item" onclick="nav('notas')"><span class="nav-icon">≡</span>Notas</div>
       <div class="nav-item" onclick="nav('pomodoro')"><span class="nav-icon">◎</span>Pomodoro</div>
-      <div class="nav-item" onclick="nav('anki')"><span class="nav-icon">⟳</span>Anki<span class="nav-badge" id="badge-anki" style="color:var(--text-3)">—</span></div>
+      <div class="nav-item" onclick="nav('anki')"><span class="nav-icon">↓</span>Meu Anki</div>
     </div>
   </div>
   <div class="sidebar-footer">
@@ -1018,21 +968,50 @@ body.focus-mode .focus-exit{display:block;}
       </div>
     </div>
 
-    <!-- ANKI -->
+    <!-- MEU ANKI -->
     <div class="section" id="sec-anki">
       <div class="page-header">
         <div class="header-deco"><div class="h-line"></div><div class="h-diamond">◆</div><div class="h-line"></div></div>
-        <h1 class="page-title">Anki Connect</h1>
-        <p class="page-sub">Integração com o Anki via AnkiConnect — porta 8765</p>
+        <h1 class="page-title">Meu Anki</h1>
+        <p class="page-sub">Baixe o baralho pessoal de Rabelo — pronto para importar</p>
       </div>
-      <div class="anki-status">
-        <div class="anki-pip" id="anki-pip"></div>
-        <span class="anki-status-text" id="anki-status-text">Verificando conexão...</span>
-        <button class="btn" style="margin-left:auto;padding:5px 14px;font-size:.55rem;" onclick="ankiConnect()">Reconectar</button>
-      </div>
-      <div id="anki-body">
-        <div style="text-align:center;padding:28px 0;">
-          <div class="anki-error-note">Abra o Anki no seu Mac com o add-on AnkiConnect instalado (código 2055492823), então clique em Reconectar.</div>
+      <div class="anki-download-layout">
+        <article class="anki-download-card">
+          <div class="anki-card-spark">◆</div>
+          <h2 class="anki-deck-title">Rabelo bom &amp; novo</h2>
+          <div class="anki-deck-kicker">Baralho pessoal · Medicina 6.º semestre · Bahiana</div>
+          <p class="anki-deck-copy">Coleção curada ao longo do curso — inclui Ortopedia, Cardiologia, Farmacologia, Anatomia, Fisiologia e demais matérias do internato. Organizado com sub-baralhos hierárquicos e notas revisadas.</p>
+          <a class="btn btn-gold anki-download-btn" href="rabelo-bom-e-novo.apkg" download="Rabelo Bom & Novo.apkg">
+            <span>↓ Baixar baralho (.apkg)</span>
+          </a>
+          <p class="anki-import-note">Abra o Anki → Arquivo → Importar → selecione o arquivo .apkg</p>
+        </article>
+        <aside class="anki-steps">
+          <div class="anki-steps-title">Como importar</div>
+          <div class="anki-step">
+            <div class="anki-step-num">01</div>
+            <div class="anki-step-text"><strong>Baixe o arquivo</strong> clicando no botão ao lado. O download é direto — sem cadastro.</div>
+          </div>
+          <div class="anki-step">
+            <div class="anki-step-num">02</div>
+            <div class="anki-step-text"><strong>Abra o Anki</strong> no computador. Se não tiver instalado, baixe em <a href="https://apps.ankiweb.net/" target="_blank" rel="noopener">apps.ankiweb.net</a>.</div>
+          </div>
+          <div class="anki-step">
+            <div class="anki-step-num">03</div>
+            <div class="anki-step-text"><strong>Importe o baralho:</strong> Arquivo → Importar → selecione o .apkg baixado.</div>
+          </div>
+          <div class="anki-step">
+            <div class="anki-step-num">04</div>
+            <div class="anki-step-text"><strong>Sincronize</strong> com sua conta AnkiWeb para ter acesso em todos os dispositivos.</div>
+          </div>
+          <div class="anki-watermark" aria-hidden="true">
+            <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="140,10 260,70 260,130 140,170 20,130 20,70" fill="none" stroke="#D3AF37" stroke-width="1"/>
+              <path d="M20 70l120 58 120-58M20 130l120-58 120 58" fill="none" stroke="#D3AF37" stroke-width="0.7"/>
+              <circle cx="140" cy="90" r="12" fill="none" stroke="#D3AF37" stroke-width="1"/>
+            </svg>
+          </div>
+        </aside>
         </div>
       </div>
     </div>
@@ -1054,7 +1033,7 @@ body.focus-mode .focus-exit{display:block;}
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
 /* ── NAV (#9 transitions) ── */
-const TITLES={painel:'Painel de Estudos',calculadoras:'Calculadoras',calendario:'Calendário',notas:'Notas',pomodoro:'Timer de Estudos',prontuario:'Prontuário',anki:'Anki Connect'};
+const TITLES={painel:'Painel de Estudos',calculadoras:'Calculadoras',calendario:'Calendário',notas:'Notas',pomodoro:'Timer de Estudos',prontuario:'Prontuário',anki:'Meu Anki'};
 let cur='painel';
 function nav(id){
   if(id===cur)return;
@@ -1361,160 +1340,6 @@ function calcPSI(){
   const mort=pts<=70?'0,6%':pts<=90?'0,9–2,8%':pts<=130?'8,2–9,3%':'27–31%';
   const cond=pts<=70?'Ambulatorial (baixo risco)':pts<=90?'Internação breve / observação':pts<=130?'Internação hospitalar':' Internação — considerar UTI';
   showResult('psi',pts,'pts',`Classe ${cls} · Mortalidade estimada: ${mort} · ${cond}`);
-}
-
-/* ── ANKI CONNECT ── */
-async function ankiRequest(action,params={}){
-  const r=await fetch('http://localhost:8765',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,version:6,params})});
-  const d=await r.json();
-  if(d.error)throw new Error(d.error);
-  return d.result;
-}
-
-// Nav state: path = array of deck name segments, e.g. ['Bahiana','3º Semestre']
-let ankiState={path:[],tree:{},allDecks:[]};
-
-function buildDeckTree(decks){
-  /* decks: array of AnkiConnect deck stat objects (have .name, .new_count, etc.) */
-  const tree={};
-  decks.forEach(d=>{
-    const parts=d.name.split('::');
-    let node=tree;
-    parts.forEach((part,i)=>{
-      if(!node[part])node[part]={_data:null,_children:{}};
-      if(i===parts.length-1)node[part]._data=d;
-      node=node[part]._children;
-    });
-  });
-  return tree;
-}
-
-function getNodeAtPath(tree,path){
-  let node=tree;
-  for(const seg of path){
-    if(!node[seg])return {};
-    node=node[seg]._children;
-  }
-  return node;
-}
-
-function getShortName(fullName,path){
-  /* Strip the parent prefix from the deck name */
-  const prefix=path.length?path.join('::')+':':'';
-  return fullName.startsWith(prefix)?fullName.slice(prefix.length):fullName;
-}
-
-function renderAnkiLevel(){
-  const body=document.getElementById('anki-body');
-  const path=ankiState.path;
-  const node=getNodeAtPath(ankiState.tree,path);
-  const entries=Object.entries(node); // [[shortName, {_data, _children}], ...]
-
-  /* Breadcrumb */
-  let crumbHtml='';
-  if(path.length>0){
-    crumbHtml+=`<button class="anki-back-btn" onclick="ankiNavBack()">‹ Voltar</button>`;
-    crumbHtml+=`<button class="anki-breadcrumb-btn root" onclick="ankiNavRoot()">Todos</button>`;
-    path.forEach((seg,i)=>{
-      crumbHtml+=`<span class="anki-breadcrumb-sep">›</span>`;
-      if(i<path.length-1){
-        crumbHtml+=`<button class="anki-breadcrumb-btn" onclick="ankiNavTo(${i+1})">${seg}</button>`;
-      }else{
-        crumbHtml+=`<span class="anki-breadcrumb-cur">${seg}</span>`;
-      }
-    });
-  }else{
-    crumbHtml=`<span class="anki-breadcrumb-cur" style="color:var(--text-3)">Todos os Baralhos</span>`;
-  }
-
-  /* Deck cards */
-  const cardsHtml=entries.map(([shortName,nodeObj])=>{
-    const d=nodeObj._data;
-    const hasChildren=Object.keys(nodeObj._children).length>0;
-    const newC=d?d.new_count:0,learnC=d?d.learn_count:0,dueC=d?d.due_count:0;
-    const isEmpty=!d&&!hasChildren;
-    return`<div class="anki-deck-card${hasChildren?' has-children':''}${isEmpty?' no-cards':''}"
-        onclick="ankiDeckClick('${shortName.replace(/'/g,"\\'")}',${hasChildren})">
-      <div class="anki-card-name-area">
-        <div class="anki-card-name">${shortName}</div>
-      </div>
-      <div class="anki-card-stats">
-        <div class="anki-card-stat"><span class="anki-card-stat-n s-new">${newC}</span><span class="anki-card-stat-l">Novas</span></div>
-        <div class="anki-card-stat"><span class="anki-card-stat-n s-learn">${learnC}</span><span class="anki-card-stat-l">Aprendendo</span></div>
-        <div class="anki-card-stat"><span class="anki-card-stat-n s-due">${dueC}</span><span class="anki-card-stat-l">A Revisar</span></div>
-      </div>
-    </div>`;
-  }).join('');
-
-  /* Add card form — deck selector with full names */
-  const allDecks=ankiState.allDecks;
-  body.innerHTML=`
-    <div class="anki-breadcrumb">${crumbHtml}</div>
-    <div class="anki-deck-grid">${cardsHtml||'<div style="color:var(--text-3);font-size:.75rem;font-style:italic;grid-column:1/-1;padding:12px 0;">Nenhum baralho neste nível.</div>'}</div>
-    <div class="anki-add-wrap">
-      <div class="anki-add-title">Adicionar Card Rápido</div>
-      <div class="form-group"><label class="form-label">Baralho</label>
-        <select class="form-select" id="anki-deck-sel">${allDecks.map(d=>`<option value="${d.name}">${d.name}</option>`).join('')}</select>
-      </div>
-      <div class="form-group"><label class="form-label">Frente</label>
-        <textarea class="form-input" id="anki-front" rows="2" style="resize:vertical;font-family:'Raleway',sans-serif;font-size:.8rem;" placeholder="Pergunta / conceito..."></textarea>
-      </div>
-      <div class="form-group"><label class="form-label">Verso</label>
-        <textarea class="form-input" id="anki-back" rows="3" style="resize:vertical;font-family:'Raleway',sans-serif;font-size:.8rem;" placeholder="Resposta / explicação..."></textarea>
-      </div>
-      <div class="anki-sync-row">
-        <button class="btn btn-gold" onclick="ankiAddCard()">+ Adicionar Card</button>
-        <button class="btn" onclick="ankiSync()">⟳ Sincronizar</button>
-        <span class="anki-sync-note" id="anki-add-msg"></span>
-      </div>
-    </div>`;
-}
-
-function ankiDeckClick(shortName,hasChildren){
-  if(hasChildren){
-    ankiState.path.push(shortName);
-    renderAnkiLevel();
-  }
-  // leaf click: could open Anki directly — for now just visual feedback
-}
-function ankiNavBack(){if(ankiState.path.length>0){ankiState.path.pop();renderAnkiLevel();}}
-function ankiNavRoot(){ankiState.path=[];renderAnkiLevel();}
-function ankiNavTo(depth){ankiState.path=ankiState.path.slice(0,depth);renderAnkiLevel();}
-
-async function ankiConnect(){
-  const pip=document.getElementById('anki-pip'),txt=document.getElementById('anki-status-text'),body=document.getElementById('anki-body');
-  pip.className='anki-pip';txt.textContent='Conectando...';
-  try{
-    await ankiRequest('version');
-    pip.className='anki-pip connected';txt.textContent='Conectado ao Anki';
-    const stats=await ankiRequest('getDeckStats',{decks:await ankiRequest('deckNames')});
-    const decks=Object.values(stats);
-    const due=decks.reduce((a,d)=>a+d.due_count,0);
-    document.getElementById('badge-anki').textContent=due||'✓';
-    ankiState={path:[],tree:buildDeckTree(decks),allDecks:decks};
-    renderAnkiLevel();
-  }catch(e){
-    pip.className='anki-pip error';txt.textContent='Anki não encontrado';
-    document.getElementById('badge-anki').textContent='—';
-    body.innerHTML=`<div style="text-align:center;padding:28px 0;"><div class="anki-error-note">Não foi possível conectar ao AnkiConnect.<br><br>Verifique se: (1) o Anki está aberto, (2) o add-on AnkiConnect está instalado (código <strong>2055492823</strong>), (3) você está rodando o OzzYmed via <code>python3 -m http.server 8080</code> — não diretamente pelo arquivo.</div></div>`;
-  }
-}
-async function ankiAddCard(){
-  const deck=document.getElementById('anki-deck-sel').value,
-        front=document.getElementById('anki-front').value.trim(),
-        back=document.getElementById('anki-back').value.trim(),
-        msg=document.getElementById('anki-add-msg');
-  if(!front||!back){msg.textContent='Preencha frente e verso.';return;}
-  try{
-    await ankiRequest('addNote',{note:{deckName:deck,modelName:'Basic',fields:{Front:front,Back:back},options:{allowDuplicate:false}}});
-    document.getElementById('anki-front').value='';document.getElementById('anki-back').value='';
-    msg.style.color='var(--gold)';msg.textContent='Card adicionado!';
-    setTimeout(()=>msg.textContent='',3000);
-  }catch(e){msg.style.color='#C0392B';msg.textContent='Erro: '+e.message;}
-}
-async function ankiSync(){
-  try{await ankiRequest('sync');document.getElementById('anki-add-msg').textContent='Sincronizado!';}
-  catch(e){document.getElementById('anki-add-msg').textContent='Erro ao sincronizar.';}
 }
 
 /* ── INIT ── */
