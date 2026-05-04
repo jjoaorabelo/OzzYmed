@@ -303,6 +303,14 @@ body.focus-mode .focus-exit{display:block;}
 .anam-block-num{font-family:'Cinzel',serif;font-size:.65rem;color:var(--gold-dim);letter-spacing:.1em;}
 .anam-block-title{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-2);}
 .anam-block-hint{margin-left:auto;font-size:.55rem;color:var(--text-3);font-style:italic;letter-spacing:.05em;}
+.anam-quick-btn{
+  margin-left:auto;background:transparent;border:1px solid var(--gold-dim);
+  color:var(--gold);font-family:'Raleway',sans-serif;font-size:.52rem;
+  letter-spacing:.16em;text-transform:uppercase;padding:5px 10px;
+  cursor:pointer;white-space:nowrap;transition:all .18s;
+}
+.anam-quick-btn:hover{border-color:var(--gold);background:var(--gold-glow);color:var(--text-1);}
+.anam-quick-btn + .anam-block-hint{margin-left:0;}
 .anam-textarea{
   width:100%;background:transparent;border:none;outline:none;
   color:var(--text-1);font-family:'Cormorant Garamond',serif;
@@ -326,6 +334,13 @@ body.focus-mode .focus-exit{display:block;}
   font-size:.97rem;line-height:1.7;padding:10px 6px;
   resize:none;min-height:40px;overflow:hidden;
 }
+.sys-neg-btn{
+  align-self:center;background:transparent;border:1px solid var(--gold-dim);
+  color:var(--gold);font-family:'Raleway',sans-serif;font-size:.52rem;
+  letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;margin:6px 0 6px 12px;
+  cursor:pointer;white-space:nowrap;transition:all .18s;
+}
+.sys-neg-btn:hover{border-color:var(--gold);background:var(--gold-glow);color:var(--text-1);}
 /* Exame Físico rows */
 .ef-rows{padding:12px 18px 6px;display:flex;flex-direction:column;gap:0;}
 .ef-section-title{
@@ -697,17 +712,17 @@ body.focus-mode .focus-exit{display:block;}
           <div class="anam-block">
             <div class="anam-block-hdr"><span class="anam-block-num">03</span><span class="anam-block-title">Interrogatório Sistemático</span><span class="anam-block-hint">Revisão por sistemas</span></div>
             <div class="sys-rows">
-              <div class="sys-row"><span class="sys-lbl">Geral:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="febre, calafrios, astenia, perda de peso..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Cardiovascular:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="palpitações, dispneia, dor precordial, edema..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Respiratório:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="tosse, expectoração, dispneia, hemoptise..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Digestivo:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="náuseas, vômitos, dor abdominal, hábito intestinal..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Geniturinário:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="disúria, polaciúria, hematúria, alterações menstruais..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Musculoesquelético:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="artralgia, mialgia, rigidez, limitação funcional..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Neurológico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="cefaleia, síncope, convulsões, déficits focais..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Endócrino:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="poliúria, polidipsia, intolerância ao calor/frio..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Hematológico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="sangramentos, equimoses, adenomegalias..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Pele e fanêros:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="lesões cutâneas, prurido, alterações ungueais..."></textarea></div>
-              <div class="sys-row" style="border-bottom:none;"><span class="sys-lbl">Psiquiátrico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="humor, ansiedade, insônia, ideação..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Geral:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="febre, calafrios, astenia, perda de peso..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega febre, calafrios, astenia, perda de peso" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Cardiovascular:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="palpitações, dispneia, dor precordial, edema..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega palpitações, dispneia, dor precordial, edema" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Respiratório:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="tosse, expectoração, dispneia, hemoptise..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega tosse, expectoração, dispneia, hemoptise" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Digestivo:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="náuseas, vômitos, dor abdominal, hábito intestinal..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega náuseas, vômitos, dor abdominal, alterações do hábito intestinal" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Geniturinário:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="disúria, polaciúria, hematúria, alterações menstruais..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega disúria, polaciúria, hematúria, alterações menstruais" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Musculoesquelético:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="artralgia, mialgia, rigidez, limitação funcional..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega artralgia, mialgia, rigidez, limitação funcional" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Neurológico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="cefaleia, síncope, convulsões, déficits focais..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega cefaleia, síncope, convulsões, déficits focais" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Endócrino:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="poliúria, polidipsia, intolerância ao calor/frio..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega poliúria, polidipsia, intolerância ao calor/frio" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Hematológico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="sangramentos, equimoses, adenomegalias..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega sangramentos, equimoses, adenomegalias" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Pele e fanêros:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="lesões cutâneas, prurido, alterações ungueais..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega lesões cutâneas, prurido, alterações ungueais" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row" style="border-bottom:none;"><span class="sys-lbl">Psiquiátrico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="humor, ansiedade, insônia, ideação..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega alterações do humor, ansiedade, insônia, ideação" onclick="denySysChange(this)">Nega alterações</button></div>
             </div>
           </div>
 
@@ -778,7 +793,7 @@ body.focus-mode .focus-exit{display:block;}
         <div class="anamnese-grid">
 
           <div class="anam-block">
-            <div class="anam-block-hdr"><span class="anam-block-num">01</span><span class="anam-block-title">Queixa Principal</span><span class="anam-block-hint">Informante e motivo da consulta</span></div>
+            <div class="anam-block-hdr"><span class="anam-block-num">01</span><span class="anam-block-title">Queixa Principal</span><button type="button" class="anam-quick-btn" onclick="fillPediatricNoComplaint()">Paciente sem queixas</button><span class="anam-block-hint">Informante e motivo da consulta</span></div>
             <textarea class="anam-textarea" id="pd-qp" placeholder="Queixa principal conforme relatada pelo responsável ou pela criança. Identificar o informante (mãe, pai, avós, a própria criança)..." rows="3"></textarea>
           </div>
 
@@ -849,17 +864,17 @@ body.focus-mode .focus-exit{display:block;}
           <div class="anam-block">
             <div class="anam-block-hdr"><span class="anam-block-num">08</span><span class="anam-block-title">Interrogatório Sistemático</span><span class="anam-block-hint">Revisão por sistemas</span></div>
             <div class="sys-rows">
-              <div class="sys-row"><span class="sys-lbl">Geral:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="febre, perda de peso, irritabilidade, astenia..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Cardiovascular:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="cianose, sopros conhecidos, palpitações..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Respiratório:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="tosse, sibilância, dispneia, infecções frequentes..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Digestivo:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="vômitos, diarreia, constipação, dor abdominal..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Geniturinário:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="ITU de repetição, hematúria, alterações miccionais..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Musculoesquelético:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="artralgia, edema articular, limitação de movimento..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Neurológico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="convulsões, cefaleia, regressão do DNPM..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Pele:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="rashes, eczema, petéquias, icterícia..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">ORL:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="otites, rinites, amigdalites de repetição..."></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Oftalmológico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="estrabismo, baixa acuidade, coriza ocular..."></textarea></div>
-              <div class="sys-row" style="border-bottom:none;"><span class="sys-lbl">Endócrino:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="poliúria, polidipsia, alteração do crescimento..."></textarea></div>
+              <div class="sys-row"><span class="sys-lbl">Geral:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="febre, perda de peso, irritabilidade, astenia..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega febre, perda de peso, irritabilidade, astenia" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Cardiovascular:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="cianose, sopros conhecidos, palpitações..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega cianose, sopros conhecidos, palpitações" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Respiratório:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="tosse, sibilância, dispneia, infecções frequentes..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega tosse, sibilância, dispneia, infecções respiratórias frequentes" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Digestivo:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="vômitos, diarreia, constipação, dor abdominal..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega vômitos, diarreia, constipação, dor abdominal" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Geniturinário:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="ITU de repetição, hematúria, alterações miccionais..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega ITU de repetição, hematúria, alterações miccionais" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Musculoesquelético:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="artralgia, edema articular, limitação de movimento..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega artralgia, edema articular, limitação de movimento" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Neurológico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="convulsões, cefaleia, regressão do DNPM..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega convulsões, cefaleia, regressão do DNPM" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Pele:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="rashes, eczema, petéquias, icterícia..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega rashes, eczema, petéquias, icterícia" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">ORL:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="otites, rinites, amigdalites de repetição..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega otites, rinites, amigdalites de repetição" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row"><span class="sys-lbl">Oftalmológico:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="estrabismo, baixa acuidade, coriza ocular..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega estrabismo, baixa acuidade, coriza ocular" onclick="denySysChange(this)">Nega alterações</button></div>
+              <div class="sys-row" style="border-bottom:none;"><span class="sys-lbl">Endócrino:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="poliúria, polidipsia, alteração do crescimento..."></textarea><button type="button" class="sys-neg-btn" data-deny="Nega poliúria, polidipsia, alteração do crescimento" onclick="denySysChange(this)">Nega alterações</button></div>
             </div>
           </div>
 
@@ -1333,6 +1348,15 @@ function emptyState(text,hint){
 
 /* ── PRONTUÁRIO ── */
 function autoGrow(el){el.style.height='auto';el.style.height=(el.scrollHeight)+'px';}
+function setTextareaText(el,text){if(!el)return;el.value=text;autoGrow(el);}
+function denySysChange(btn){
+  const row=btn.closest('.sys-row');
+  const target=row?row.querySelector('textarea'):null;
+  setTextareaText(target,btn.dataset.deny||'Nega alterações');
+}
+function fillPediatricNoComplaint(){
+  setTextareaText(document.getElementById('pd-qp'),'Paciente comparece sem queixas no momento, acompanhado de [Preencher]. Nega febre, tosse, vômitos, diarreia, dor ou outras intercorrências recentes. Mantém aceitação alimentar (Boa/Normal/Ruim), diurese (preservada/reduzida) e comportamento (ativo/irritado/prostrado). Frequenta (creche/escola), em período [Preencher], com frequência (regular/irregular), sem relatos de intercorrências no ambiente escolar.');
+}
 function selectCareType(type){
   document.querySelectorAll('.pront-view').forEach(v=>v.classList.remove('active'));
   const target=document.getElementById('pv-'+type);
