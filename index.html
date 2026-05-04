@@ -296,7 +296,7 @@ body.focus-mode .focus-exit{display:block;}
   color:var(--gold);border:1px solid var(--gold-dim);
   padding:4px 12px;margin-bottom:24px;
 }
-.anamnese-grid{display:flex;flex-direction:column;gap:22px;}
+.anamnese-grid{display:flex;flex-direction:column;gap:22px;max-width:calc(100% - 64px);}
 .anam-block{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--border);transition:border-left-color .2s;}
 .anam-block:focus-within{border-left-color:var(--gold);}
 .anam-block-hdr{padding:12px 18px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
@@ -341,6 +341,37 @@ body.focus-mode .focus-exit{display:block;}
   cursor:pointer;white-space:nowrap;transition:all .18s;
 }
 .sys-neg-btn:hover{border-color:var(--gold);background:var(--gold-glow);color:var(--text-1);}
+.pront-copy-btn{
+  width:30px;height:42px;display:inline-flex;align-items:center;justify-content:center;
+  position:relative;background:linear-gradient(180deg,color-mix(in srgb,var(--surface) 72%,var(--champagne)),var(--surface));
+  border:1px solid var(--gold-dim);border-radius:18px 18px 3px 3px;color:var(--gold);
+  box-shadow:inset 0 0 0 1px rgba(211,175,55,.10),0 1px 0 rgba(211,175,55,.10);
+  cursor:pointer;transition:background .18s,border-color .18s,color .18s,transform .18s,box-shadow .18s;flex-shrink:0;
+}
+.pront-copy-btn::before{
+  content:'';position:absolute;left:5px;right:5px;top:5px;height:18px;
+  border:1px solid rgba(211,175,55,.32);border-bottom:none;border-radius:14px 14px 0 0;pointer-events:none;
+  transition:border-color .18s,transform .18s;
+}
+.pront-copy-btn::after{
+  content:'';position:absolute;left:7px;right:7px;bottom:5px;height:1px;background:rgba(211,175,55,.36);pointer-events:none;
+}
+.pront-copy-btn svg{width:15px;height:15px;display:block;stroke:currentColor;stroke-width:2.15;fill:none;stroke-linecap:round;stroke-linejoin:round;transform:translateY(4px);}
+.pront-copy-btn:hover{background:var(--gold-glow);border-color:var(--gold);color:var(--text-1);box-shadow:inset 0 0 0 1px rgba(211,175,55,.28),0 0 0 3px rgba(211,175,55,.08);}
+.pront-copy-btn:hover::before{border-color:rgba(211,175,55,.68);transform:translateY(-1px);}
+.pront-copy-btn.copied{background:var(--gold);border-color:var(--gold);color:var(--bg);box-shadow:0 0 0 3px var(--gold-glow);}
+.pront-copy-btn.copied::before{border-color:rgba(11,10,7,.36);}
+.pront-copy-btn.copied::after{background:rgba(11,10,7,.32);}
+.anam-block{position:relative;}
+.anam-block > .pront-copy-btn{position:absolute;right:-70px;top:50%;transform:translateY(-50%);}
+.anam-block > .pront-copy-btn:hover{transform:translateY(-50%) translateY(-1px);}
+.sys-row .pront-copy-btn,.ef-row .pront-copy-btn{align-self:center;margin:6px 0 6px 8px;}
+@media (max-width:900px){
+  .anamnese-grid{max-width:none;}
+  .anam-block > .pront-copy-btn{right:10px;top:10px;transform:none;background:var(--surface);}
+  .anam-block > .pront-copy-btn:hover{transform:translateY(-1px);}
+  .anam-textarea{padding-right:58px;}
+}
 /* Exame Físico rows */
 .ef-rows{padding:12px 18px 6px;display:flex;flex-direction:column;gap:0;}
 .ef-section-title{
@@ -1366,6 +1397,57 @@ function backToSelect(){
   document.querySelectorAll('.pront-view').forEach(v=>v.classList.remove('active'));
   document.getElementById('pv-select').classList.add('active');
 }
+function prontCopyIcon(){
+  return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7V5.8C8 4.8 8.8 4 9.8 4h8.4C19.2 4 20 4.8 20 5.8v8.4c0 1-.8 1.8-1.8 1.8H17"/><rect x="4" y="8" width="12" height="12" rx="1.8"/></svg>';
+}
+function prontCopyTitle(block){
+  const raw=(block.querySelector('.anam-block-title')?.textContent||'Tópico').trim();
+  return raw==='História da Moléstia Atual'?'HMA':raw;
+}
+function fieldTextValue(field){return (field?.value||'').trim().replace(/\s+\n/g,'\n').replace(/\n\s+/g,'\n');}
+function buildProntCopyText(block){
+  const title=prontCopyTitle(block);
+  const rows=[...block.querySelectorAll('.sys-row,.ef-row')];
+  if(rows.length){
+    const lines=rows.map(row=>{
+      const label=(row.querySelector('.sys-lbl,.ef-lbl')?.textContent||'').trim().replace(/:$/,'');
+      const field=row.querySelector('textarea,input');
+      return `- ${label}: ${fieldTextValue(field)}`;
+    }).filter(Boolean);
+    return `${title}:\n${lines.join('\n')}`;
+  }
+  const field=block.querySelector('textarea,input');
+  return `${title}:\n${fieldTextValue(field)}`;
+}
+function copyProntBlockText(btn){
+  const id=btn.dataset.copyBlock;
+  const block=id?document.getElementById(id):btn.closest('.anam-block');
+  if(!block)return;
+  const text=buildProntCopyText(block);
+  const done=()=>{
+    btn.classList.add('copied');
+    btn.setAttribute('aria-label','Texto copiado');
+    window.setTimeout(()=>{btn.classList.remove('copied');btn.setAttribute('aria-label','Copiar texto');},900);
+  };
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopyText(text,done));}
+  else{fallbackCopyText(text,done);}
+}
+function fallbackCopyText(text,done){
+  const tmp=document.createElement('textarea');
+  tmp.value=text;tmp.setAttribute('readonly','');tmp.style.position='fixed';tmp.style.left='-9999px';
+  document.body.appendChild(tmp);tmp.select();document.execCommand('copy');tmp.remove();done();
+}
+function initProntCopyButtons(){
+  document.querySelectorAll('#sec-prontuario .anam-block').forEach((block,i)=>{
+    if(!block.id)block.id='pront-copy-block-'+i;
+    if(block.querySelector(':scope > .pront-copy-btn'))return;
+    const btn=document.createElement('button');
+    btn.type='button';btn.className='pront-copy-btn';btn.dataset.copyBlock=block.id;
+    btn.setAttribute('aria-label','Copiar tópico');btn.title='Copiar tópico';btn.innerHTML=prontCopyIcon();
+    btn.addEventListener('click',()=>copyProntBlockText(btn));
+    block.appendChild(btn);
+  });
+}
 
 /* ── PUERICULTURA ── */
 const PUER_CATS=['Motor Grosso','Motor Fino','Linguagem','Social'];
@@ -1942,7 +2024,7 @@ function init(){
   document.getElementById('theme-lbl').textContent=th.toUpperCase();
   buildWells();buildNIHSS();
   document.getElementById('ev-date').value=new Date().toISOString().split('T')[0];
-  renderCal();initRing();renderNotesList();refreshDashboard();puerUpdate();
+  renderCal();initRing();renderNotesList();refreshDashboard();puerUpdate();initProntCopyButtons();
 }
 document.addEventListener('DOMContentLoaded',init);
 </script>
