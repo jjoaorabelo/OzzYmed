@@ -36,10 +36,10 @@ body.focus-mode .focus-exit{display:block;}
 
 /* ── SIDEBAR ── */
 .sidebar{width:var(--sidebar-w);height:100vh;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;left:0;top:0;z-index:100;}
-.logo{padding:28px 20px 22px;border-bottom:1px solid var(--border);text-align:center;}
+.logo{min-height:118px;padding:22px 20px;border-bottom:1px solid var(--border);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .logo-ozzy{font-family:'Cinzel',serif;font-weight:900;font-size:2.6rem;line-height:1;color:var(--gold);letter-spacing:.04em;text-shadow:3px 3px 0 var(--red),5px 5px 0 rgba(176,48,32,.35);-webkit-text-stroke:1px rgba(176,48,32,.3);}
 .logo-med{font-family:'Cinzel',serif;font-weight:600;font-size:.78rem;letter-spacing:.55em;padding-left:.55em;color:var(--champagne);margin-top:2px;text-transform:uppercase;}
-.logo-sub{font-size:.52rem;letter-spacing:.22em;color:var(--text-3);text-transform:uppercase;margin-top:8px;}
+.logo-sub{font-size:.52rem;letter-spacing:.28em;color:var(--text-3);text-transform:uppercase;margin-top:8px;text-align:center;padding-left:.28em;}
 .nav-wrap{padding:20px 12px;flex:1;overflow-y:auto;}
 .nav-group{margin-bottom:20px;}
 .nav-section-label{font-size:.5rem;letter-spacing:.28em;color:var(--text-3);text-transform:uppercase;padding:0 8px;margin-bottom:6px;}
@@ -366,8 +366,15 @@ body.focus-mode .focus-exit{display:block;}
 .anam-block > .pront-copy-btn{position:absolute;right:-70px;top:50%;transform:translateY(-50%);}
 .anam-block > .pront-copy-btn:hover{transform:translateY(-50%) translateY(-1px);}
 .sys-row .pront-copy-btn,.ef-row .pront-copy-btn{align-self:center;margin:6px 0 6px 8px;}
+.pront-copy-all-slot{max-width:calc(100% - 64px);display:flex;justify-content:center;align-items:center;}
+.pront-copy-all-top{margin:-4px 0 18px;}
+.pront-copy-all-bottom{margin:20px 0 2px;}
+.pront-copy-all-control{display:inline-flex;flex-direction:column;align-items:center;gap:7px;color:var(--gold);}
+.pront-copy-all-control .pront-copy-btn{position:relative;right:auto;top:auto;transform:none;}
+.pront-copy-all-control .pront-copy-btn:hover{transform:translateY(-1px);}
+.pront-copy-all-label{font-family:'Raleway',sans-serif;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);line-height:1;white-space:nowrap;}
 @media (max-width:900px){
-  .anamnese-grid{max-width:none;}
+  .anamnese-grid,.pront-copy-all-slot{max-width:none;}
   .anam-block > .pront-copy-btn{right:10px;top:10px;transform:none;background:var(--surface);}
   .anam-block > .pront-copy-btn:hover{transform:translateY(-1px);}
   .anam-textarea{padding-right:58px;}
@@ -558,6 +565,30 @@ body.focus-mode .focus-exit{display:block;}
 .c-outro{color:#8B6C9A;border-color:#8B6C9A;}
 
 [data-theme="light"] .logo-med{color:var(--gold);}
+[data-theme="light"] .pront-type-badge,
+[data-theme="light"] .pront-copy-all-label,
+[data-theme="light"] .anam-quick-btn,
+[data-theme="light"] .sys-neg-btn,
+[data-theme="light"] .btn-gold,
+[data-theme="light"] .nav-item.active,
+[data-theme="light"] .pront-copy-btn,
+[data-theme="light"] .puer-faixa-badge,
+[data-theme="light"] .puer-check-all{color:#8E6B10;}
+[data-theme="light"] .pront-type-badge,
+[data-theme="light"] .anam-quick-btn,
+[data-theme="light"] .sys-neg-btn,
+[data-theme="light"] .btn-gold,
+[data-theme="light"] .pront-copy-btn,
+[data-theme="light"] .puer-faixa-badge,
+[data-theme="light"] .puer-check-all{border-color:#B88F1D;}
+[data-theme="light"] .anam-block-num{color:#8E6B10;}
+[data-theme="light"] .pront-copy-btn::after{background:#B88F1D;}
+[data-theme="light"] .h-line{background:#B88F1D;}
+[data-theme="light"] .pront-type-badge,
+[data-theme="light"] .pront-copy-all-label,
+[data-theme="light"] .anam-quick-btn,
+[data-theme="light"] .sys-neg-btn,
+[data-theme="light"] .btn-gold{font-weight:600;text-shadow:0 1px 0 rgba(247,230,202,.45);}
 
 /* ── MEU ANKI ── */
 .anki-download-layout{display:grid;grid-template-columns:minmax(420px,560px) minmax(320px,1fr);gap:34px;align-items:start;max-width:1180px;}
@@ -596,7 +627,7 @@ body.focus-mode .focus-exit{display:block;}
   <div class="logo">
     <div class="logo-ozzy">OzzY</div>
     <div class="logo-med">med</div>
-    <div class="logo-sub">Medicina · 6.º Semestre</div>
+    
   </div>
   <div class="nav-wrap">
     <div class="nav-group">
@@ -1419,30 +1450,56 @@ function buildProntCopyText(block){
   const field=block.querySelector('textarea,input');
   return `${title}:\n${fieldTextValue(field)}`;
 }
+function copyProntText(btn,text){
+  const done=()=>{
+    btn.classList.add('copied');
+    btn.setAttribute('aria-label','Texto copiado');
+    window.setTimeout(()=>{btn.classList.remove('copied');btn.setAttribute('aria-label',btn.dataset.defaultLabel||'Copiar texto');},900);
+  };
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopyText(text,done));}
+  else{fallbackCopyText(text,done);}
+}
 function copyProntBlockText(btn){
   const id=btn.dataset.copyBlock;
   const block=id?document.getElementById(id):btn.closest('.anam-block');
   if(!block)return;
-  const text=buildProntCopyText(block);
-  const done=()=>{
-    btn.classList.add('copied');
-    btn.setAttribute('aria-label','Texto copiado');
-    window.setTimeout(()=>{btn.classList.remove('copied');btn.setAttribute('aria-label','Copiar texto');},900);
-  };
-  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopyText(text,done));}
-  else{fallbackCopyText(text,done);}
+  copyProntText(btn,buildProntCopyText(block));
+}
+function buildProntCopyAllText(view){
+  return [...view.querySelectorAll('.anam-block')].map(buildProntCopyText).join('\n\n');
+}
+function copyProntAllText(btn){
+  const view=btn.closest('.pront-view');
+  if(!view)return;
+  copyProntText(btn,buildProntCopyAllText(view));
 }
 function fallbackCopyText(text,done){
   const tmp=document.createElement('textarea');
   tmp.value=text;tmp.setAttribute('readonly','');tmp.style.position='fixed';tmp.style.left='-9999px';
   document.body.appendChild(tmp);tmp.select();document.execCommand('copy');tmp.remove();done();
 }
+function makeProntCopyAllControl(position){
+  const slot=document.createElement('div');
+  slot.className=`pront-copy-all-slot pront-copy-all-${position}`;
+  slot.innerHTML='<div class="pront-copy-all-control"><button type="button" class="pront-copy-btn pront-copy-all-btn" aria-label="Copiar tudo" title="Copiar tudo" data-default-label="Copiar tudo">'+prontCopyIcon()+'</button><div class="pront-copy-all-label">Copiar tudo</div></div>';
+  slot.querySelector('button').addEventListener('click',e=>copyProntAllText(e.currentTarget));
+  return slot;
+}
+function initProntCopyAllButtons(){
+  document.querySelectorAll('#sec-prontuario .pront-view').forEach(view=>{
+    const grid=view.querySelector('.anamnese-grid');
+    if(!grid||view.querySelector(':scope > .pront-copy-all-top'))return;
+    grid.insertAdjacentElement('beforebegin',makeProntCopyAllControl('top'));
+    grid.insertAdjacentElement('afterend',makeProntCopyAllControl('bottom'));
+  });
+}
 function initProntCopyButtons(){
+  initProntCopyAllButtons();
   document.querySelectorAll('#sec-prontuario .anam-block').forEach((block,i)=>{
     if(!block.id)block.id='pront-copy-block-'+i;
     if(block.querySelector(':scope > .pront-copy-btn'))return;
     const btn=document.createElement('button');
-    btn.type='button';btn.className='pront-copy-btn';btn.dataset.copyBlock=block.id;
+    btn.type='button';btn.className='pront-copy-btn';btn.dataset.copyBlock=block.id;btn.dataset.defaultLabel='Copiar tópico';
     btn.setAttribute('aria-label','Copiar tópico');btn.title='Copiar tópico';btn.innerHTML=prontCopyIcon();
     btn.addEventListener('click',()=>copyProntBlockText(btn));
     block.appendChild(btn);
