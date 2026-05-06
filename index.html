@@ -334,6 +334,12 @@ body.focus-mode .focus-exit{display:block;}
   font-size:.97rem;line-height:1.7;padding:10px 6px;
   resize:none;min-height:40px;overflow:hidden;
 }
+.sys-inline-group{display:flex;align-items:center;flex-wrap:wrap;gap:4px 6px;padding:8px 6px;flex:1;}
+.sys-inline-unit{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--text-2);white-space:nowrap;}
+.sys-inline-sep{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--gold-dim);margin:0 4px;}
+.sys-inline-inp{background:transparent;border:none;border-bottom:1px solid var(--border);outline:none;color:var(--text-1);font-family:'Cormorant Garamond',serif;font-size:.97rem;padding:2px 4px;text-align:center;min-width:36px;width:52px;}
+.sys-inline-inp:focus{border-bottom-color:var(--gold);}
+.sys-inline-inp::placeholder{color:var(--text-3,#b0a898);}
 .sys-neg-btn{
   align-self:center;background:transparent;border:1px solid var(--gold-dim);
   color:var(--gold);font-family:'Raleway',sans-serif;font-size:.52rem;
@@ -828,7 +834,8 @@ body.focus-mode .focus-exit{display:block;}
               <div class="ef-section-title">Exame Segmentar</div>
               <div class="ef-row"><span class="ef-lbl">Pele e mucosas:</span><input type="text" class="ef-inp" placeholder="coradas, hidratadas, anictéricas, acianóticas..."></div>
               <div class="ef-row"><span class="ef-lbl">Cabeça e pescoço:</span><input type="text" class="ef-inp" placeholder="normocefálico, sem linfadenopatias..."></div>
-              <div class="ef-row"><span class="ef-lbl">Tórax / Cardiopulmonar:</span><input type="text" class="ef-inp" placeholder="expansibilidade, MV, bulhas, sopros..."></div>
+              <div class="ef-row"><span class="ef-lbl">Cardiovascular:</span><input type="text" class="ef-inp" placeholder="bulhas rítmicas, sopros, pulsos..."></div>
+              <div class="ef-row"><span class="ef-lbl">Respiratório:</span><input type="text" class="ef-inp" placeholder="expansibilidade, MV, ruídos adventícios..."></div>
               <div class="ef-row"><span class="ef-lbl">Abdome:</span><input type="text" class="ef-inp" placeholder="plano, RHA+, sem dor à palpação..."></div>
               <div class="ef-row"><span class="ef-lbl">Membros:</span><input type="text" class="ef-inp" placeholder="sem edema, pulsos presentes e simétricos..."></div>
               <div class="ef-row" style="border-bottom:none;"><span class="ef-lbl">Neurológico sumário:</span><input type="text" class="ef-inp" placeholder="consciente, orientado, sem déficits focais..."></div>
@@ -882,8 +889,32 @@ body.focus-mode .focus-exit{display:block;}
             <div class="sys-rows">
               <div class="sys-row"><span class="sys-lbl">Tipo de parto:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
               <div class="sys-row"><span class="sys-lbl">Idade gestacional ao nascer:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="___ semanas"></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Peso ao nascer:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="___g · Comprimento: ___cm · PC: ___cm"></textarea></div>
-              <div class="sys-row"><span class="sys-lbl">Apgar:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="1º min ___ · 5º min ___"></textarea></div>
+              <div class="sys-row">
+                <span class="sys-lbl">Dados antropométricos:</span>
+                <div class="sys-inline-group">
+                  <span class="sys-inline-unit">Peso</span>
+                  <input type="text" class="sys-inline-inp" placeholder="___" style="width:58px">
+                  <span class="sys-inline-unit">g</span>
+                  <span class="sys-inline-sep">/</span>
+                  <span class="sys-inline-unit">Compr.</span>
+                  <input type="text" class="sys-inline-inp" placeholder="___" style="width:48px">
+                  <span class="sys-inline-unit">cm</span>
+                  <span class="sys-inline-sep">/</span>
+                  <span class="sys-inline-unit">PC</span>
+                  <input type="text" class="sys-inline-inp" placeholder="___" style="width:48px">
+                  <span class="sys-inline-unit">cm</span>
+                </div>
+              </div>
+              <div class="sys-row">
+                <span class="sys-lbl">Apgar:</span>
+                <div class="sys-inline-group">
+                  <span class="sys-inline-unit">1º min</span>
+                  <input type="text" class="sys-inline-inp" placeholder="___" style="width:42px">
+                  <span class="sys-inline-sep">/</span>
+                  <span class="sys-inline-unit">5º min</span>
+                  <input type="text" class="sys-inline-inp" placeholder="___" style="width:42px">
+                </div>
+              </div>
               <div class="sys-row"><span class="sys-lbl">Necessidade de reanimação:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
               <div class="sys-row"><span class="sys-lbl">Internação em UTI neonatal:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="..."></textarea></div>
               <div class="sys-row" style="border-bottom:none;"><span class="sys-lbl">Intercorrências neonatais:</span><textarea class="sys-inp" rows="1" oninput="autoGrow(this)" placeholder="icterícia, infecções, malformações..."></textarea></div>
@@ -980,7 +1011,8 @@ body.focus-mode .focus-exit{display:block;}
               <div class="ef-row"><span class="ef-lbl">Cabeça (fontanelas, suturas):</span><input type="text" class="ef-inp" placeholder="normocefálica, FA fechada/aberta/abaulada..."></div>
               <div class="ef-row"><span class="ef-lbl">Olhos / ORL:</span><input type="text" class="ef-inp" placeholder="conjuntivas, otoscopia, orofaringe..."></div>
               <div class="ef-row"><span class="ef-lbl">Pescoço e linfonodos:</span><input type="text" class="ef-inp" placeholder="sem linfadenopatias palpáveis..."></div>
-              <div class="ef-row"><span class="ef-lbl">Tórax / Cardiopulmonar:</span><input type="text" class="ef-inp" placeholder="MV+, sem ruídos adventícios, B1B2 rítmicas..."></div>
+              <div class="ef-row"><span class="ef-lbl">Cardiovascular:</span><input type="text" class="ef-inp" placeholder="B1B2 rítmicas, sopros, pulsos..."></div>
+              <div class="ef-row"><span class="ef-lbl">Respiratório:</span><input type="text" class="ef-inp" placeholder="MV+, sem ruídos adventícios, SpO₂..."></div>
               <div class="ef-row"><span class="ef-lbl">Abdome:</span><input type="text" class="ef-inp" placeholder="plano, RHA+, sem visceromegalias..."></div>
               <div class="ef-row"><span class="ef-lbl">Genitália:</span><input type="text" class="ef-inp" placeholder="aspecto, Tanner, desenvolvimento..."></div>
               <div class="ef-row"><span class="ef-lbl">Membros e articulações:</span><input type="text" class="ef-inp" placeholder="sem edema, pulsos, perfusão..."></div>
