@@ -1474,6 +1474,17 @@ function buildProntCopyText(block){
   if(rows.length){
     const lines=rows.map(row=>{
       const label=(row.querySelector('.sys-lbl,.ef-lbl')?.textContent||'').trim().replace(/:$/,'');
+      const inlineGroup=row.querySelector('.sys-inline-group');
+      if(inlineGroup){
+        const parts=[...inlineGroup.childNodes].map(node=>{
+          if(node.nodeType===Node.ELEMENT_NODE){
+            if(node.matches('input')){const v=node.value.trim();return v||'___';}
+            if(node.matches('.sys-inline-unit,.sys-inline-sep')){return node.textContent.trim();}
+          }
+          return '';
+        }).filter(s=>s!=='');
+        return `- ${label}: ${parts.join(' ')}`;
+      }
       const field=row.querySelector('textarea,input');
       return `- ${label}: ${fieldTextValue(field)}`;
     }).filter(Boolean);
