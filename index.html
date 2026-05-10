@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OzzYmed</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='30' fill='%2315120d'/%3E%3Crect x='10' y='10' width='108' height='108' rx='24' fill='none' stroke='%23272416' stroke-width='2'/%3E%3Ctext x='68' y='81' text-anchor='middle' font-family='Cinzel, Georgia, serif' font-size='56' font-weight='900' textLength='112' lengthAdjust='spacingAndGlyphs' fill='%23B03020'%3EOzzY%3C/text%3E%3Ctext x='62' y='74' text-anchor='middle' font-family='Cinzel, Georgia, serif' font-size='56' font-weight='900' textLength='112' lengthAdjust='spacingAndGlyphs' fill='%23D3AF37'%3EOzzY%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
@@ -47,6 +48,7 @@ body.focus-mode .focus-exit{display:block;}
 .nav-item:hover{color:var(--champagne);background:var(--surface-2);}
 .nav-item.active{color:var(--gold);background:var(--surface-2);border-color:var(--border);}
 .nav-icon{width:18px;text-align:center;font-size:.85rem;opacity:.8;}
+.nav-icon svg{width:15px;height:15px;display:block;margin:0 auto;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
 .nav-badge{margin-left:auto;font-size:.58rem;color:var(--text-3);background:var(--border);padding:2px 7px;border-radius:10px;}
 .sidebar-footer{padding:14px 18px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;}
 .theme-toggle{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:.55rem;letter-spacing:.22em;color:var(--text-3);text-transform:uppercase;transition:color .2s;}
@@ -69,12 +71,13 @@ body.focus-mode .focus-exit{display:block;}
 @keyframes secOut{from{opacity:1;transform:translateX(0);}to{opacity:0;transform:translateX(-12px);}}
 
 /* ── STAT CARDS STAGGER (#10) ── */
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:28px;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:28px;}
 .stat-card{background:var(--surface);padding:22px 26px;}
 .stat-lbl{font-size:.52rem;letter-spacing:.24em;color:var(--text-3);text-transform:uppercase;margin-bottom:10px;}
 .stat-val{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:600;color:var(--gold);line-height:1;}
 .stat-val .u{font-size:1.1rem;color:var(--text-2);}
 .stat-note{font-size:.68rem;color:var(--text-2);margin-top:5px;font-style:italic;}
+.stat-val.compact{font-size:1.65rem;line-height:1.15;word-break:break-word;}
 @keyframes cardIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 
 /* ── SHARED ── */
@@ -572,6 +575,124 @@ body.focus-mode .focus-exit{display:block;}
   .puer-block-hint{width:100%;margin-left:0;text-align:left;}
 }
 
+/* ── PESQUISA ── */
+.research-shell{display:grid;grid-template-columns:minmax(260px,320px) 1fr;gap:28px;align-items:start;}
+.research-panel{background:var(--surface);border:1px solid var(--border);}
+.research-panel-hdr{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.research-panel-title{font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-3);}
+.research-panel-body{padding:18px;}
+.research-project-list{display:flex;flex-direction:column;}
+.research-project-item{padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .16s,border-left-color .16s;border-left:2px solid transparent;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start;}
+.research-project-item:hover,.research-project-item.active{background:var(--surface-2);border-left-color:var(--gold);}
+.research-project-delete{background:transparent;border:1px solid var(--border);color:var(--text-3);font-size:.58rem;width:26px;height:26px;cursor:pointer;transition:all .15s;}
+.research-project-delete:hover{border-color:var(--red);color:var(--red);}
+.research-project-title{font-family:'Cormorant Garamond',serif;font-size:1.02rem;color:var(--text-1);line-height:1.25;}
+.research-project-meta{font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin-top:5px;}
+.research-stage-pill{display:inline-flex;align-items:center;border:1px solid var(--gold-dim);color:var(--gold);font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;padding:3px 8px;margin-top:8px;}
+.research-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:22px;}
+.research-summary-card{background:var(--surface);padding:16px 18px;}
+.research-summary-value{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold);line-height:1;}
+.research-summary-label{font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);margin-top:8px;}
+.research-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:22px;overflow-x:auto;}
+.research-tab{padding:9px 16px;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .16s;}
+.research-tab:hover{color:var(--text-1);}
+.research-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.research-view{display:none;}
+.research-view.active{display:block;animation:secIn .22s ease both;}
+.research-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;}
+.research-check-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:12px;}
+.research-stage-card{border:1px solid var(--border);background:var(--surface);padding:14px;}
+.research-stage-head{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:10px;}
+.research-stage-name{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);}
+.research-stage-pct{font-family:'Cinzel',serif;font-size:.72rem;color:var(--text-2);}
+.research-check-row{display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);}
+.research-check-row:last-child{border-bottom:none;}
+.research-check-row input{accent-color:var(--gold);margin-top:2px;flex-shrink:0;}
+.research-check-row label{font-size:.72rem;line-height:1.45;color:var(--text-2);cursor:pointer;}
+.research-table-wrap{border:1px solid var(--border);overflow:auto;background:var(--surface);margin-top:16px;}
+.research-table{width:100%;border-collapse:collapse;min-width:860px;}
+.research-table th{background:var(--surface-2);color:var(--gold);font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap;}
+.research-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text-2);font-size:.72rem;vertical-align:top;}
+.research-table td:last-child,.research-table th:last-child{text-align:right;width:170px;}
+.research-mini-btn{background:transparent;border:1px solid var(--border);color:var(--text-3);font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;padding:5px 8px;cursor:pointer;transition:all .15s;}
+.research-mini-btn:hover{border-color:var(--gold);color:var(--gold);}
+.research-mini-btn + .research-mini-btn{margin-left:14px;}
+.research-danger:hover{border-color:var(--red);color:var(--red);}
+.research-row-actions{display:flex;justify-content:flex-end;align-items:center;gap:16px;}
+.research-log-string{max-width:420px;white-space:pre-wrap;line-height:1.45;}
+.research-outcome-list{display:flex;flex-direction:column;gap:8px;margin:12px 0 16px;}
+.research-outcome-draft{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start;border:1px solid var(--border);background:var(--surface);padding:10px 12px;}
+.research-outcome-title{font-family:'Cormorant Garamond',serif;font-size:.94rem;color:var(--text-1);}
+.research-outcome-meta{font-size:.6rem;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;margin-top:4px;}
+.research-outcome-lines{display:flex;flex-direction:column;gap:8px;min-width:260px;}
+.research-outcome-lines .research-mini-btn{width:100%;margin-left:0;}
+.research-search-box{min-height:190px !important;font-family:'Cormorant Garamond',serif;font-size:1rem;line-height:1.75;border:1px solid var(--border);background:var(--surface);padding:16px 18px;}
+.research-search-box:focus{border-color:var(--gold);}
+.research-linked-field{border:1px solid var(--border);background:var(--surface-2);color:var(--text-2);padding:13px 14px;min-height:45px;font-family:'Cormorant Garamond',serif;font-size:1rem;display:flex;align-items:center;}
+.research-linked-field.low{border-color:#27AE60;color:#1F8A4C;}
+.research-linked-field.some{border-color:#D3AF37;color:#8E6B10;}
+.research-linked-field.high{border-color:#C0392B;color:#C0392B;}
+.research-auto-save{font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);align-self:center;}
+.research-auto-save.saving{color:var(--text-3);}
+.research-auto-save.saved{color:var(--gold-dim);}
+.research-pico-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.research-pico-grid .form-group:first-child,.research-pico-grid .wide{grid-column:1/-1;}
+.research-compact-textarea{min-height:88px !important;line-height:1.55;}
+.research-prisma-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:start;}
+.research-prisma-inputs{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+.research-prisma-inputs .wide{grid-column:auto;}
+.research-prisma-flow{border:1px solid var(--border);background:var(--surface);padding:16px;overflow:hidden;}
+.research-prisma-flow svg{width:100%;height:auto;display:block;}
+.prisma-box{fill:var(--surface-2);stroke:var(--gold-dim);stroke-width:1.2;}
+.prisma-box-muted{fill:var(--surface);stroke:var(--border);stroke-width:1.2;}
+.prisma-line{stroke:var(--gold-dim);stroke-width:1.3;fill:none;}
+.prisma-label{font-family:'Raleway',sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;fill:var(--gold);}
+.prisma-value{font-family:'Cormorant Garamond',serif;font-size:24px;fill:var(--text-1);}
+.prisma-small{font-family:'Raleway',sans-serif;font-size:12px;fill:var(--text-2);}
+.research-risk-bar{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end;margin-bottom:16px;}
+.research-risk-overall{border:1px solid var(--border);background:var(--surface);padding:11px 14px;min-width:155px;text-align:center;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-2);}
+.research-risk-overall.low{border-color:#27AE60;color:#1F8A4C;}
+.research-risk-overall.some{border-color:#D3AF37;color:#8E6B10;}
+.research-risk-overall.high{border-color:#C0392B;color:#C0392B;}
+.research-traffic{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;}
+.research-traffic button{min-width:88px;}
+.research-traffic button.active.low{border-color:#27AE60;color:#1F8A4C;background:rgba(39,174,96,.08);}
+.research-traffic button.active.some{border-color:#D3AF37;color:#8E6B10;background:rgba(211,175,55,.12);}
+.research-traffic button.active.high{border-color:#C0392B;color:#C0392B;background:rgba(192,57,43,.08);}
+.research-heatmap{margin-top:18px;}
+.risk-cell{min-width:92px;text-align:center;font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--border);padding:7px 8px;}
+.risk-cell.low{background:rgba(39,174,96,.12);color:#1F8A4C;border-color:#27AE60;}
+.risk-cell.some{background:rgba(211,175,55,.16);color:#8E6B10;border-color:#D3AF37;}
+.risk-cell.high{background:rgba(192,57,43,.11);color:#C0392B;border-color:#C0392B;}
+.risk-cell.empty{color:var(--text-3);background:var(--surface);}
+.risk-legend{border:1px solid var(--border);background:var(--surface);padding:12px 14px;margin-top:12px;}
+.risk-legend-title{font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.risk-legend-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px 14px;}
+.risk-legend-item{font-size:.68rem;color:var(--text-2);line-height:1.45;}
+.risk-legend-item strong{font-family:'Cinzel',serif;color:var(--text-1);font-size:.62rem;letter-spacing:.08em;margin-right:6px;}
+.research-citation-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.research-citation-grid .wide{grid-column:1/-1;}
+.research-citation-output{border:1px solid var(--gold-dim);background:var(--surface-2);padding:16px 18px;min-height:78px;font-family:'Cormorant Garamond',serif;font-size:1rem;line-height:1.65;color:var(--text-1);margin-top:16px;}
+.research-citation-list{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+.research-citation-item{border:1px solid var(--border);background:var(--surface);padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start;}
+.research-citation-text{font-size:.78rem;line-height:1.55;color:var(--text-2);}
+@media(max-width:1050px){
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .research-shell{grid-template-columns:1fr;}
+  .research-summary-grid{grid-template-columns:repeat(2,1fr);}
+  .research-check-grid{grid-template-columns:1fr;}
+  .research-risk-bar{grid-template-columns:1fr;}
+  .research-prisma-inputs{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:760px){
+  .stats-grid{grid-template-columns:1fr;}
+  .research-summary-grid{grid-template-columns:1fr;}
+  .research-actions{flex-direction:column;}
+  .research-actions .btn{width:100%;}
+  .research-pico-grid,.research-prisma-inputs,.research-citation-grid{grid-template-columns:1fr;}
+  .research-pico-grid .form-group:first-child,.research-pico-grid .wide,.research-prisma-inputs .wide,.research-citation-grid .wide{grid-column:auto;}
+}
+
 /* ── TYPE COLORS ── */
 .c-prova{color:#C0392B;border-color:#C0392B;}
 .c-liga{color:#27AE60;border-color:#27AE60;}
@@ -656,7 +777,8 @@ body.focus-mode .focus-exit{display:block;}
     <div class="nav-group">
       <div class="nav-section-label">Estudo</div>
       <div class="nav-item" onclick="nav('notas')"><span class="nav-icon">≡</span>Notas</div>
-      <div class="nav-item" onclick="nav('pomodoro')"><span class="nav-icon">◎</span>Pomodoro</div>
+      <div class="nav-item" onclick="nav('pesquisa')"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 3h4"/><path d="M12 3v5.5l-5.8 8.7A2.5 2.5 0 0 0 8.3 21h7.4a2.5 2.5 0 0 0 2.1-3.8L12 8.5"/><path d="M8.7 14h6.6"/></svg></span>Pesquisa</div>
+      <div class="nav-item" onclick="nav('pomodoro')"><span class="nav-icon">◎</span>Timer</div>
       <div class="nav-item" onclick="nav('anki')"><span class="nav-icon">↓</span>Meu Anki</div>
     </div>
   </div>
@@ -679,15 +801,16 @@ body.focus-mode .focus-exit{display:block;}
     <div class="section active" id="sec-painel">
       <div class="page-header">
         <div class="header-deco"><div class="h-line"></div><div class="h-diamond">◆</div><div class="h-line"></div></div>
-        <h1 class="page-title">Resumo Semanal</h1>
-        <p class="page-sub" id="week-subtitle">Semana — 2026</p>
+        <h1 class="page-title">Painel de Pesquisa</h1>
+        <p class="page-sub" id="week-subtitle">Estudo ativo, checklist PRISMA e rastreabilidade</p>
       </div>
       <div class="stats-grid">
-        <div class="stat-card" id="sc0"><div class="stat-lbl">Horas de Estudo</div><div class="stat-val" id="d-hours">0<span class="u">h</span></div><div class="stat-note">Acumulado Pomodoro</div></div>
-        <div class="stat-card" id="sc1"><div class="stat-lbl">Próxima Prova</div><div class="stat-val" id="d-days">—</div><div class="stat-note" id="d-exam">Nenhum evento</div></div>
-        <div class="stat-card" id="sc2"><div class="stat-lbl">Sessões Pomodoro</div><div class="stat-val" id="d-sessions">0</div><div class="stat-note">Total acumulado</div></div>
+        <div class="stat-card" id="sc0"><div class="stat-lbl">Estudo ativo</div><div class="stat-val compact" id="d-project">—</div><div class="stat-note" id="d-project-status">Nenhum estudo</div></div>
+        <div class="stat-card" id="sc1"><div class="stat-lbl">Checklist PRISMA</div><div class="stat-val" id="d-prisma">0<span class="u">%</span></div><div class="stat-note">Conclusão do estudo</div></div>
+        <div class="stat-card" id="sc2"><div class="stat-lbl">Estudos extraídos</div><div class="stat-val" id="d-studies">0</div><div class="stat-note">No estudo ativo</div></div>
+        <div class="stat-card" id="sc3"><div class="stat-lbl">Última busca</div><div class="stat-val compact" id="d-last-search">—</div><div class="stat-note" id="d-last-search-note">Nenhuma busca registrada</div></div>
       </div>
-      <div class="divider"><div class="div-line"></div><div class="div-diamond">◆</div><div class="div-label">Agenda da Semana</div><div class="div-diamond">◆</div><div class="div-line"></div></div>
+      <div class="divider"><div class="div-line"></div><div class="div-diamond">◆</div><div class="div-label">Agenda e Pesquisa</div><div class="div-diamond">◆</div><div class="div-line"></div></div>
       <div class="events-hdr"><div class="events-title">Próximos Eventos</div><div class="events-count" id="d-ev-count">0 eventos</div></div>
       <div id="d-events-list"></div>
     </div>
@@ -1358,6 +1481,196 @@ body.focus-mode .focus-exit{display:block;}
       </div>
     </div>
 
+    <!-- PESQUISA -->
+    <div class="section" id="sec-pesquisa">
+      <div class="page-header" style="margin-bottom:20px;">
+        <div class="header-deco"><div class="h-line"></div><div class="h-diamond">◆</div><div class="h-line"></div></div>
+        <h1 class="page-title">Pesquisa</h1>
+        <p class="page-sub">Estudos, extração de dados e rastreabilidade PRISMA</p>
+      </div>
+
+      <div class="research-summary-grid">
+        <div class="research-summary-card"><div class="research-summary-value" id="rp-total">0</div><div class="research-summary-label">Estudos</div></div>
+        <div class="research-summary-card"><div class="research-summary-value" id="rp-active">0</div><div class="research-summary-label">Em andamento</div></div>
+        <div class="research-summary-card"><div class="research-summary-value" id="rp-data">0</div><div class="research-summary-label">Estudos extraídos</div></div>
+        <div class="research-summary-card"><div class="research-summary-value" id="rp-searches">0</div><div class="research-summary-label">Buscas registradas</div></div>
+      </div>
+
+      <div class="research-shell">
+        <aside class="research-panel">
+          <div class="research-panel-hdr">
+            <div class="research-panel-title">Estudos</div>
+            <button class="note-add-btn" onclick="researchNewProject()" title="Novo estudo">+</button>
+          </div>
+          <div class="research-project-list" id="research-project-list"></div>
+        </aside>
+
+        <div>
+          <div class="research-tabs">
+            <div class="research-tab active" data-research-tab="projects">Gestor de Estudos</div>
+            <div class="research-tab" data-research-tab="data">Extrator de Dados</div>
+            <div class="research-tab" data-research-tab="searches">Log de Buscas</div>
+            <div class="research-tab" data-research-tab="prisma">Fluxograma PRISMA</div>
+            <div class="research-tab" data-research-tab="risk">Risco de Viés</div>
+            <div class="research-tab" data-research-tab="citations">Citações</div>
+          </div>
+
+          <div class="research-view active" id="research-view-projects">
+            <div class="research-panel">
+              <div class="research-panel-hdr"><div class="research-panel-title">Identificação do estudo</div></div>
+              <div class="research-panel-body">
+                <div class="form-group"><label class="form-label">Título do estudo</label><input class="form-input" id="research-title" placeholder="Modified Stoppa versus ilioinguinal..."></div>
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label">Status</label><select class="form-select" id="research-status"><option value="protocolo">Protocolo</option><option value="coleta">Coleta</option><option value="analise">Análise</option><option value="escrita">Escrita</option><option value="submetido">Submetido</option></select></div>
+                  <div class="form-group"><label class="form-label">Periódico-alvo</label><input class="form-input" id="research-journal" placeholder="Journal of Orthopaedic Trauma"></div>
+                </div>
+                <div class="research-actions">
+                  <button class="btn btn-gold" onclick="researchSaveProject()">Salvar estudo</button>
+                  <button class="btn" onclick="researchDeleteProject()">Excluir estudo</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="research-panel" style="margin-top:16px;">
+              <div class="research-panel-hdr"><div class="research-panel-title">PICO / PICOT</div></div>
+              <div class="research-panel-body">
+                <div class="research-pico-grid">
+                  <div class="form-group"><label class="form-label">Modelo</label><select class="form-select" id="research-pico-model"><option>PICO</option><option>PICOT</option><option>PICOTT</option><option>PECO</option><option>Outro</option></select></div>
+                  <div class="form-group"><label class="form-label">População</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-population" placeholder="Pacientes com fratura acetabular..."></textarea></div>
+                  <div class="form-group"><label class="form-label">Intervenção / Exposição</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-intervention" placeholder="Modified Stoppa..."></textarea></div>
+                  <div class="form-group"><label class="form-label">Comparação</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-comparison" placeholder="Abordagem ilioinguinal..."></textarea></div>
+                  <div class="form-group"><label class="form-label">Desfecho(s)</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-outcomes" placeholder="Complicações, qualidade da redução, tempo cirúrgico..."></textarea></div>
+                  <div class="form-group"><label class="form-label">Desenho de estudo</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-study" placeholder="ECRs, coortes, estudos comparativos..."></textarea></div>
+                  <div class="form-group wide"><label class="form-label">Tempo / contexto adicional</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-context" placeholder="Seguimento mínimo, cenário, recortes metodológicos..."></textarea></div>
+                </div>
+                <div class="research-actions"><button class="btn btn-gold" onclick="researchSavePico(true)">Salvar agora</button><span class="research-auto-save" id="research-pico-save-status">Auto-save ativo</span></div>
+              </div>
+            </div>
+
+            <div class="divider"><div class="div-line"></div><div class="div-diamond">◆</div><div class="div-label">Checklist PRISMA</div><div class="div-diamond">◆</div><div class="div-line"></div></div>
+            <div class="research-check-grid" id="research-checklist"></div>
+          </div>
+
+          <div class="research-view" id="research-view-data">
+            <div class="research-panel">
+              <div class="research-panel-hdr"><div class="research-panel-title">Estudo e desfechos</div></div>
+              <div class="research-panel-body">
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label">Autor</label><input class="form-input" id="research-study-author" placeholder="Silva"></div>
+                  <div class="form-group"><label class="form-label">Ano</label><input class="form-input" id="research-study-year" type="number" placeholder="2024"></div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label">n</label><input class="form-input" id="research-study-n" type="number" min="0" placeholder="120"></div>
+                  <div class="form-group"><label class="form-label">Risco de viés</label><div class="research-linked-field" id="research-study-bias-display">Avalie na aba Risco de Viés</div></div>
+                </div>
+                <div class="divider"><div class="div-line"></div><div class="div-label">Desfecho do estudo</div><div class="div-line"></div></div>
+                <div class="form-group"><label class="form-label">Desfecho</label><input class="form-input" id="research-outcome-name" placeholder="Complicações"></div>
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label" id="research-outcome-value-label">Diferença média</label><input class="form-input" id="research-outcome-value" type="number" step="0.01" placeholder="12,4"></div>
+                  <div class="form-group"><label class="form-label">Tipo de medida</label><select class="form-select" id="research-outcome-measure-type" onchange="researchUpdateOutcomeLabels()"><option value="MD">Mean difference (MD)</option><option value="SMD">Standardized mean difference (SMD)</option><option value="OR">Odds ratio (OR)</option><option value="RR">Risk ratio (RR)</option><option value="HR">Hazard ratio (HR)</option><option value="Outro">Outra medida</option></select></div>
+                </div>
+                <div class="form-group"><label class="form-label" id="research-outcome-measure-label">Erro padrão / DP</label><input class="form-input" id="research-outcome-measure" type="number" step="0.01" placeholder="-18"></div>
+                <div class="form-group"><label class="form-label">IC 95%</label><input class="form-input" id="research-outcome-ci" placeholder="0,52-1,16"></div>
+                <div class="research-actions"><button class="btn" id="research-save-outcome-btn" onclick="researchAddOutcomeDraft()">Adicionar desfecho ao estudo</button><button class="btn" id="research-cancel-outcome-edit-btn" onclick="researchCancelOutcomeEdit()" style="display:none;">Cancelar desfecho</button></div>
+                <div class="research-outcome-list" id="research-outcome-draft-list"></div>
+                <div class="research-actions">
+                  <button class="btn btn-gold" id="research-save-study-btn" onclick="researchAddDataRow()">Salvar estudo</button>
+                  <button class="btn" id="research-cancel-edit-btn" onclick="researchCancelStudyEdit()" style="display:none;">Cancelar edição</button>
+                  <button class="btn" onclick="researchExportCSV()">Exportar CSV</button>
+                </div>
+              </div>
+            </div>
+            <div class="research-table-wrap"><table class="research-table"><thead id="research-data-head"></thead><tbody id="research-data-body"></tbody></table></div>
+          </div>
+
+          <div class="research-view" id="research-view-searches">
+            <div class="research-panel">
+              <div class="research-panel-hdr"><div class="research-panel-title">Estratégia de busca</div></div>
+              <div class="research-panel-body">
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label">Base</label><select class="form-select" id="research-search-db"><option>PubMed</option><option>Embase</option><option>Cochrane</option><option>Scopus</option><option>Web of Science</option><option>LILACS</option><option>Outra</option></select></div>
+                  <div class="form-group"><label class="form-label">Data</label><input class="form-input" id="research-search-date" type="date"></div>
+                </div>
+                <div class="form-group"><label class="form-label">String completa</label><textarea class="anam-textarea research-search-box" id="research-search-string" placeholder="Cole aqui a estratégia completa exatamente como foi rodada na base..."></textarea></div>
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label">Número de resultados</label><input class="form-input" id="research-search-results" type="number" min="0" placeholder="0"></div>
+                  <div class="form-group"><label class="form-label">Observação</label><input class="form-input" id="research-search-note" placeholder="Filtros, limites, atualização..."></div>
+                </div>
+                <div class="research-actions"><button class="btn btn-gold" onclick="researchAddSearchLog()">Registrar busca</button></div>
+              </div>
+            </div>
+            <div class="research-table-wrap"><table class="research-table"><thead><tr><th>Base</th><th>Data</th><th>String</th><th>Resultados</th><th>Observação</th><th></th></tr></thead><tbody id="research-search-body"></tbody></table></div>
+          </div>
+
+          <div class="research-view" id="research-view-prisma">
+            <div class="research-prisma-grid">
+              <div class="research-panel">
+                <div class="research-panel-hdr"><div class="research-panel-title">Números do PRISMA 2020</div></div>
+                <div class="research-panel-body">
+                  <div class="research-actions" style="margin-bottom:14px;"><button class="btn" onclick="researchImportSearchCounts()">Importar contagem das buscas</button><button class="btn btn-gold" onclick="researchDownloadPrismaPNG()">Baixar PNG do fluxograma</button></div>
+                  <div class="research-prisma-inputs">
+                    <div class="form-group"><label class="form-label">PubMed</label><input class="form-input" id="prisma-pubmed" type="number" min="0" oninput="researchSavePrisma()"></div>
+                    <div class="form-group"><label class="form-label">Embase</label><input class="form-input" id="prisma-embase" type="number" min="0" oninput="researchSavePrisma()"></div>
+                    <div class="form-group"><label class="form-label">Cochrane</label><input class="form-input" id="prisma-cochrane" type="number" min="0" oninput="researchSavePrisma()"></div>
+                    <div class="form-group"><label class="form-label">Scopus</label><input class="form-input" id="prisma-scopus" type="number" min="0" oninput="researchSavePrisma()"></div>
+                    <div class="form-group wide"><label class="form-label">Outras fontes</label><input class="form-input" id="prisma-other" type="number" min="0" oninput="researchSavePrisma()"></div>
+                    <div class="form-group"><label class="form-label">Duplicatas removidas</label><input class="form-input" id="prisma-duplicates" type="number" min="0" oninput="researchSavePrisma()"></div>
+                    <div class="form-group"><label class="form-label">Triados</label><input class="form-input" id="prisma-screened" type="number" min="0" oninput="researchSavePrisma()"></div>
+                    <div class="form-group"><label class="form-label">Excluídos na triagem</label><input class="form-input" id="prisma-excluded" type="number" min="0" oninput="researchSavePrisma()"></div>
+                    <div class="form-group"><label class="form-label">Texto completo avaliado</label><input class="form-input" id="prisma-fulltext" type="number" min="0" oninput="researchSavePrisma()"></div>
+                    <div class="form-group"><label class="form-label">Excluídos após texto completo</label><input class="form-input" id="prisma-fullExcluded" type="number" min="0" oninput="researchSavePrisma()"></div>
+                    <div class="form-group wide"><label class="form-label">Incluídos na revisão</label><input class="form-input" id="prisma-included" type="number" min="0" oninput="researchSavePrisma()"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="research-prisma-flow" id="research-prisma-flow"></div>
+            </div>
+          </div>
+
+          <div class="research-view" id="research-view-risk">
+            <div class="research-panel">
+              <div class="research-panel-hdr"><div class="research-panel-title">Avaliação por estudo</div></div>
+              <div class="research-panel-body">
+                <div class="research-risk-bar">
+                  <div class="form-group"><label class="form-label">Estudo</label><select class="form-select" id="research-risk-study" onchange="renderResearchRisk(researchProject())"></select></div>
+                  <div class="form-group"><label class="form-label">Ferramenta</label><select class="form-select" id="research-risk-tool" onchange="researchSetRiskTool(this.value)"><option value="rob2">RoB 2 — ECR</option><option value="robins">ROBINS-I — não randomizado</option></select></div>
+                  <div class="research-risk-overall" id="research-risk-overall">Julgamento geral: —</div>
+                </div>
+                <div class="research-table-wrap"><table class="research-table"><thead><tr><th>Domínio</th><th>Julgamento</th></tr></thead><tbody id="research-risk-body"></tbody></table></div>
+                <div class="research-heatmap" id="research-risk-heatmap"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="research-view" id="research-view-citations">
+            <div class="research-panel">
+              <div class="research-panel-hdr"><div class="research-panel-title">Gerador de referência</div></div>
+              <div class="research-panel-body">
+                <div class="research-citation-grid">
+                  <div class="form-group"><label class="form-label">Estilo</label><select class="form-select" id="citation-style" onchange="researchGenerateCitation()"><option value="vancouver">Vancouver</option><option value="abnt">ABNT</option></select></div>
+                  <div class="form-group"><label class="form-label">Ano</label><input class="form-input" id="citation-year" oninput="researchGenerateCitation()" placeholder="2024"></div>
+                  <div class="form-group wide"><label class="form-label">Autor(es)</label><input class="form-input" id="citation-authors" oninput="researchGenerateCitation()" placeholder="Silva J, Rabelo J, Santos M"></div>
+                  <div class="form-group wide"><label class="form-label">Título</label><input class="form-input" id="citation-title" oninput="researchGenerateCitation()" placeholder="Título do artigo"></div>
+                  <div class="form-group"><label class="form-label">Periódico</label><input class="form-input" id="citation-journal" oninput="researchGenerateCitation()" placeholder="Journal of Orthopaedic Trauma"></div>
+                  <div class="form-group"><label class="form-label">Volume</label><input class="form-input" id="citation-volume" oninput="researchGenerateCitation()" placeholder="38"></div>
+                  <div class="form-group"><label class="form-label">Número</label><input class="form-input" id="citation-issue" oninput="researchGenerateCitation()" placeholder="2"></div>
+                  <div class="form-group"><label class="form-label">Páginas</label><input class="form-input" id="citation-pages" oninput="researchGenerateCitation()" placeholder="120-128"></div>
+                  <div class="form-group wide"><label class="form-label">DOI</label><input class="form-input" id="citation-doi" oninput="researchGenerateCitation()" placeholder="10.1000/example"></div>
+                </div>
+                <div class="research-citation-output" id="citation-output">Preencha os campos para gerar a referência.</div>
+                <div class="research-actions">
+                  <button class="btn btn-gold" onclick="researchSaveCitation()">Salvar citação</button>
+                  <button class="btn" onclick="researchCopyCitation()">Copiar</button>
+                  <button class="btn" onclick="researchClearCitationForm()">Limpar</button>
+                </div>
+              </div>
+            </div>
+            <div class="research-citation-list" id="research-citation-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- MEU ANKI -->
     <div class="section" id="sec-anki">
       <div class="page-header">
@@ -1423,7 +1736,7 @@ body.focus-mode .focus-exit{display:block;}
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
 /* ── NAV (#9 transitions) ── */
-const TITLES={painel:'Painel de Estudos',calculadoras:'Calculadoras',calendario:'Calendário',notas:'Notas',pomodoro:'Timer de Estudos',prontuario:'Prontuário',puericultura:'Puericultura',anki:'Meu Anki'};
+const TITLES={painel:'Painel de Estudos',calculadoras:'Calculadoras',calendario:'Calendário',notas:'Notas',pesquisa:'Pesquisa',pomodoro:'Timer',prontuario:'Prontuário',puericultura:'Puericultura',anki:'Meu Anki'};
 let cur='painel';
 function nav(id){
   if(id===cur)return;
@@ -1436,6 +1749,7 @@ function nav(id){
   document.getElementById('topbar-title').textContent=TITLES[id]||id;
   if(id==='painel')refreshDashboard();
   if(id==='calendario')renderCal();
+  if(id==='pesquisa')renderResearch();
   if(id==='pomodoro')checkNotifBanner();
 }
 
@@ -2048,18 +2362,20 @@ function updateBadge(){const tod=new Date().toISOString().split('T')[0];document
 /* ── DASHBOARD (#10 stagger + #11 empty) ── */
 function refreshDashboard(){
   const now=new Date(),wk=Math.ceil(((now-new Date(now.getFullYear(),0,1))/864e5+new Date(now.getFullYear(),0,1).getDay()+1)/7);
-  document.getElementById('week-subtitle').textContent=`Semana ${wk} — ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+  document.getElementById('week-subtitle').textContent=`Estudo ativo · Semana ${wk} — ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
   const tod=now.toISOString().split('T')[0],up=events.filter(e=>e.date>=tod);
   document.getElementById('d-ev-count').textContent=up.length+' evento'+(up.length!==1?'s':'');
   updateBadge();
-  const nx=up.find(e=>e.type==='prova');
-  if(nx){const df=Math.max(0,Math.ceil((new Date(nx.date)-now)/864e5));document.getElementById('d-days').innerHTML=df+'<span class="u">d</span>';document.getElementById('d-exam').textContent=nx.title+' — '+fmtDate(nx.date);}
-  else{document.getElementById('d-days').textContent='—';document.getElementById('d-exam').textContent='Nenhuma prova agendada';}
-  const st=+localStorage.getItem('ozzy-sess-total')||0,fm=+localStorage.getItem('ozzy-focus-min')||0;
-  document.getElementById('d-sessions').textContent=st;
-  document.getElementById('d-hours').innerHTML=Math.floor(fm/60)+'<span class="u">h</span>'+(fm%60?`<span class="u"> ${fm%60}m</span>`:'');
+  const p=typeof researchProject==='function'?researchProject():null;
+  const lastSearch=p?(p.searchLogs||[]).slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')))[0]:null;
+  document.getElementById('d-project').textContent=p?(p.title||'Estudo sem título'):'—';
+  document.getElementById('d-project-status').textContent=p?(RESEARCH_STATUS[p.status]||p.status||'Sem status'):'Nenhum estudo';
+  document.getElementById('d-prisma').innerHTML=(p?researchCompletion(p):0)+'<span class="u">%</span>';
+  document.getElementById('d-studies').textContent=p?(p.dataRows||[]).length:0;
+  document.getElementById('d-last-search').textContent=lastSearch?lastSearch.db:'—';
+  document.getElementById('d-last-search-note').textContent=lastSearch?`${lastSearch.results||0} resultados · ${lastSearch.date?fmtDate(lastSearch.date):'sem data'}`:'Nenhuma busca registrada';
   // stagger (#10)
-  [0,1,2].forEach(i=>{const c=document.getElementById('sc'+i);c.style.animation='none';c.offsetHeight;c.style.animation=`cardIn .38s ease ${.06+i*.08}s both`;});
+  [0,1,2,3].forEach(i=>{const c=document.getElementById('sc'+i);if(!c)return;c.style.animation='none';c.offsetHeight;c.style.animation=`cardIn .38s ease ${.06+i*.08}s both`;});
   const list=document.getElementById('d-events-list');
   const TYPE_LABEL={prova:'PROVA',liga:'LIGA',pesquisa:'PESQUISA',estagio:'ESTÁGIO',outro:'OUTRO'};
   list.innerHTML=up.length?up.slice(0,8).map((e,i)=>`<div class="event-item" style="animation-delay:${i*.04}s"><div class="event-dot" style="background:${tc(e.type)};"></div><div class="event-info"><div class="event-name">${e.title}</div><div class="event-date">${fmtDate(e.date)}${e.time?' · '+e.time:''}</div></div><div class="event-tag c-${e.type}">${TYPE_LABEL[e.type]||e.type.toUpperCase()}</div></div>`).join(''):emptyState('Agenda vazia','Acesse o Calendário para adicionar eventos');
@@ -2125,6 +2441,560 @@ function saveNotes(){localStorage.setItem('ozzy-notes',JSON.stringify(notes));}
 function renderPreview(){const md=document.getElementById('note-ta').value;try{document.getElementById('note-pv').innerHTML=marked.parse(md);}catch(e){document.getElementById('note-pv').textContent=md;}}
 function exportNote(){if(!activeNoteId)return;const n=notes.find(x=>x.id===activeNoteId);if(!n)return;const b=new Blob([n.content||''],{type:'text/markdown'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(n.title||'nota').replace(/[^a-zA-Z0-9À-ÿ _-]/g,'')+'.md';a.click();URL.revokeObjectURL(a.href);}
 function setView(v){document.getElementById('notes-split').className='notes-split-area'+(v!=='split'?' '+v+'-only':'');['split','editor','preview'].forEach(x=>document.getElementById('vb-'+x).classList.toggle('active',x===v));}
+
+/* ── PESQUISA ── */
+const RESEARCH_STATUS={protocolo:'Protocolo',coleta:'Coleta',analise:'Análise',escrita:'Escrita',submetido:'Submetido'};
+const RESEARCH_DATA_COLUMNS=['Autor','Ano','n','Desfechos','Tipo de medida','IC 95%','Risco de viés'];
+const RESEARCH_PRISMA=[
+  {id:'protocolo',name:'Protocolo',items:['Pergunta PICO definida','Critérios de inclusão e exclusão','Estratégia de busca revisada','Protocolo finalizado']},
+  {id:'coleta',name:'Coleta',items:['Buscas registradas por base','Deduplicação documentada','Triagem por título e resumo','Leitura em texto completo e motivos de exclusão']},
+  {id:'analise',name:'Análise',items:['Extração de dados conferida','Risco de viés avaliado','Modelo estatístico definido','Heterogeneidade e sensibilidade planejadas']},
+  {id:'escrita',name:'Escrita',items:['Fluxograma PRISMA atualizado','Tabela de características pronta','Resultados narrativos escritos','Discussão e limitações revisadas']},
+  {id:'submetido',name:'Submetido',items:['Checklist PRISMA final','Cover letter pronta','Arquivos suplementares revisados','Submissão registrada']}
+];
+const RESEARCH_PRISMA_FIELDS=['pubmed','embase','cochrane','scopus','other','duplicates','screened','excluded','fulltext','fullExcluded','included'];
+const RESEARCH_RISK_TOOLS={
+  rob2:{name:'RoB 2 — ECR',domains:['Processo de randomização','Desvios das intervenções pretendidas','Dados de desfecho ausentes','Mensuração do desfecho','Seleção do resultado reportado']},
+  robins:{name:'ROBINS-I — não randomizado',domains:['Confundimento','Seleção dos participantes','Classificação das intervenções','Desvios das intervenções pretendidas','Dados ausentes','Mensuração dos desfechos','Seleção do resultado reportado']}
+};
+let researchProjects=JSON.parse(localStorage.getItem('ozzy-research-projects')||'[]');
+let activeResearchProjectId=+localStorage.getItem('ozzy-research-active')||null;
+let researchOutcomeDraft=[];
+let researchEditingStudyIdx=null;
+let researchEditingOutcomeIdx=null;
+let researchPicoSaveTimeout=null;
+
+function researchEsc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function researchProject(){return researchProjects.find(p=>p.id===activeResearchProjectId)||researchProjects[0]||null;}
+function researchSave(){localStorage.setItem('ozzy-research-projects',JSON.stringify(researchProjects));if(activeResearchProjectId)localStorage.setItem('ozzy-research-active',activeResearchProjectId);if(document.getElementById('d-project'))refreshDashboard();}
+function researchBlankChecklist(){const o={};RESEARCH_PRISMA.forEach(s=>s.items.forEach((_,i)=>o[`${s.id}-${i}`]=false));return o;}
+function researchBlankPico(){return {model:'PICO',population:'',intervention:'',comparison:'',outcomes:'',study:'',context:''};}
+function researchBlankPrisma(){return RESEARCH_PRISMA_FIELDS.reduce((a,k)=>({...a,[k]:''}),{});}
+function researchNewProject(){
+  const p={id:Date.now(),title:'Novo estudo de pesquisa',status:'protocolo',journal:'',pico:researchBlankPico(),checklist:researchBlankChecklist(),prisma:researchBlankPrisma(),dataRows:[],searchLogs:[],citations:[]};
+  researchProjects.unshift(p);activeResearchProjectId=p.id;researchSave();renderResearch();
+}
+function researchSelectProject(id){activeResearchProjectId=id;researchSave();renderResearch();}
+function researchCompletion(project,stageId){
+  if(!project)return 0;
+  const stages=stageId?RESEARCH_PRISMA.filter(s=>s.id===stageId):RESEARCH_PRISMA;
+  const keys=stages.flatMap(s=>s.items.map((_,i)=>`${s.id}-${i}`));
+  if(!keys.length)return 0;
+  return Math.round(keys.filter(k=>project.checklist&&project.checklist[k]).length/keys.length*100);
+}
+function renderResearch(){
+  if(!activeResearchProjectId&&researchProjects[0])activeResearchProjectId=researchProjects[0].id;
+  const p=researchProject();
+  const active=researchProjects.filter(x=>x.status!=='submetido').length;
+  const dataCount=researchProjects.reduce((a,x)=>a+(x.dataRows||[]).length,0);
+  const searchCount=researchProjects.reduce((a,x)=>a+(x.searchLogs||[]).length,0);
+  document.getElementById('rp-total').textContent=researchProjects.length;
+  document.getElementById('rp-active').textContent=active;
+  document.getElementById('rp-data').textContent=dataCount;
+  document.getElementById('rp-searches').textContent=searchCount;
+  renderResearchProjectList(p);
+  renderResearchProjectForm(p);
+  renderResearchPico(p);
+  renderResearchChecklist(p);
+  renderResearchData(p);
+  renderResearchSearches(p);
+  renderResearchPrisma(p);
+  renderResearchRisk(p);
+  renderResearchCitations(p);
+}
+function renderResearchProjectList(activeProject){
+  const list=document.getElementById('research-project-list');
+  list.innerHTML=researchProjects.length?researchProjects.map(p=>`<div class="research-project-item ${activeProject&&p.id===activeProject.id?'active':''}" onclick="researchSelectProject(${p.id})"><div><div class="research-project-title">${researchEsc(p.title||'Estudo sem título')}</div><div class="research-project-meta">${researchEsc(p.journal||'Sem periódico-alvo')}</div><div class="research-stage-pill">${RESEARCH_STATUS[p.status]||p.status} · ${researchCompletion(p)}%</div></div><button class="research-project-delete" title="Excluir estudo" onclick="event.stopPropagation();researchDeleteProject(${p.id})">×</button></div>`).join(''):emptyState('Nenhum estudo ainda','Clique em + para criar');
+}
+function renderResearchProjectForm(p){
+  document.getElementById('research-title').value=p?p.title||'':'';
+  document.getElementById('research-status').value=p?p.status||'protocolo':'protocolo';
+  document.getElementById('research-journal').value=p?p.journal||'':'';
+}
+function researchSaveProject(){
+  let p=researchProject();
+  if(!p){researchNewProject();p=researchProject();}
+  p.title=document.getElementById('research-title').value.trim()||'Estudo sem título';
+  p.status=document.getElementById('research-status').value;
+  p.journal=document.getElementById('research-journal').value.trim();
+  researchSave();renderResearch();
+}
+function researchDeleteProject(id){
+  const p=id?researchProjects.find(x=>x.id===id):researchProject();if(!p)return;
+  if(!confirm('Excluir este estudo de pesquisa?'))return;
+  researchProjects=researchProjects.filter(x=>x.id!==p.id);
+  activeResearchProjectId=researchProjects[0]?.id||null;
+  researchSave();renderResearch();
+}
+function researchPico(project){
+  if(!project)return researchBlankPico();
+  project.pico={...researchBlankPico(),...(project.pico||{})};
+  return project.pico;
+}
+function renderResearchPico(p){
+  const pico=researchPico(p);
+  const set=(id,val)=>{const el=document.getElementById(id);if(el)el.value=val||'';};
+  set('research-pico-model',pico.model||'PICO');
+  set('research-pico-population',pico.population);
+  set('research-pico-intervention',pico.intervention);
+  set('research-pico-comparison',pico.comparison);
+  set('research-pico-outcomes',pico.outcomes);
+  set('research-pico-study',pico.study);
+  set('research-pico-context',pico.context);
+  const status=document.getElementById('research-pico-save-status');
+  if(status){status.className='research-auto-save saved';status.textContent='Salvo';}
+}
+function researchPicoForm(){
+  return {
+    model:document.getElementById('research-pico-model').value,
+    population:document.getElementById('research-pico-population').value.trim(),
+    intervention:document.getElementById('research-pico-intervention').value.trim(),
+    comparison:document.getElementById('research-pico-comparison').value.trim(),
+    outcomes:document.getElementById('research-pico-outcomes').value.trim(),
+    study:document.getElementById('research-pico-study').value.trim(),
+    context:document.getElementById('research-pico-context').value.trim()
+  };
+}
+function researchSavePico(manual=false){
+  const p=researchProject();if(!p)return;
+  p.pico=researchPicoForm();
+  researchSave();
+  const status=document.getElementById('research-pico-save-status');
+  if(status){status.className='research-auto-save saved';status.textContent=manual?'Salvo agora':'Salvo automaticamente';}
+}
+function researchPicoInput(){
+  const status=document.getElementById('research-pico-save-status');
+  if(status){status.className='research-auto-save saving';status.textContent='Salvando...';}
+  clearTimeout(researchPicoSaveTimeout);
+  researchPicoSaveTimeout=setTimeout(()=>researchSavePico(false),700);
+}
+function renderResearchChecklist(p){
+  const wrap=document.getElementById('research-checklist');
+  if(!p){wrap.innerHTML=emptyState('Nenhum estudo selecionado','Crie ou selecione um estudo');return;}
+  p.checklist=p.checklist||researchBlankChecklist();
+  wrap.innerHTML=RESEARCH_PRISMA.map(stage=>`<div class="research-stage-card"><div class="research-stage-head"><div class="research-stage-name">${stage.name}</div><div class="research-stage-pct">${researchCompletion(p,stage.id)}%</div></div>${stage.items.map((item,i)=>{const key=`${stage.id}-${i}`;return`<div class="research-check-row"><input type="checkbox" id="rp-${key}" ${p.checklist[key]?'checked':''} onchange="researchToggleCheck('${key}',this.checked)"><label for="rp-${key}">${researchEsc(item)}</label></div>`;}).join('')}</div>`).join('');
+}
+function researchToggleCheck(key,checked){const p=researchProject();if(!p)return;p.checklist=p.checklist||researchBlankChecklist();p.checklist[key]=checked;researchSave();renderResearch();}
+function researchFormatOutcomeMeasure(value,measure){return value&&measure?`${value} ± ${measure}`:(value||measure||'');}
+function researchOutcomeLabelConfig(type){
+  return {
+    MD:{value:'Diferença média',measure:'Erro padrão / DP',placeholder:'Ex.: -1,8'},
+    SMD:{value:'Diferença média padronizada',measure:'Erro padrão',placeholder:'Ex.: -0,45'},
+    OR:{value:'Odds ratio',measure:'Erro padrão do log(OR)',placeholder:'Ex.: 0,72'},
+    RR:{value:'Risk ratio',measure:'Erro padrão do log(RR)',placeholder:'Ex.: 0,84'},
+    HR:{value:'Hazard ratio',measure:'Erro padrão do log(HR)',placeholder:'Ex.: 1,20'},
+    Outro:{value:'Valor da medida',measure:'Medida de incerteza / variância',placeholder:'Ex.: 12,4'}
+  }[type]||{value:'Valor da medida',measure:'Medida de incerteza / variância',placeholder:'Ex.: 12,4'};
+}
+function researchUpdateOutcomeLabels(){
+  const type=document.getElementById('research-outcome-measure-type')?.value||'MD';
+  const cfg=researchOutcomeLabelConfig(type);
+  const valueLabel=document.getElementById('research-outcome-value-label'),measureLabel=document.getElementById('research-outcome-measure-label'),valueInput=document.getElementById('research-outcome-value');
+  if(valueLabel)valueLabel.textContent=cfg.value;
+  if(measureLabel)measureLabel.textContent=cfg.measure;
+  if(valueInput)valueInput.placeholder=cfg.placeholder;
+}
+function researchRiskClass(label){
+  if(label==='Baixo')return 'low';
+  if(label==='Alguma preocupação')return 'some';
+  if(label==='Alto')return 'high';
+  return '';
+}
+function researchSetBiasDisplay(label){
+  const el=document.getElementById('research-study-bias-display');if(!el)return;
+  const cls=researchRiskClass(label);
+  el.className='research-linked-field '+cls;
+  el.textContent=label||'Avalie na aba Risco de Viés';
+}
+function researchSetStudyEditMode(idx){
+  researchEditingStudyIdx=idx;
+  const saveBtn=document.getElementById('research-save-study-btn'),cancelBtn=document.getElementById('research-cancel-edit-btn');
+  if(saveBtn)saveBtn.textContent=idx===null?'Salvar estudo':'Salvar alterações';
+  if(cancelBtn)cancelBtn.style.display=idx===null?'none':'inline-block';
+}
+function researchSetOutcomeEditMode(idx){
+  researchEditingOutcomeIdx=idx;
+  const saveBtn=document.getElementById('research-save-outcome-btn'),cancelBtn=document.getElementById('research-cancel-outcome-edit-btn');
+  if(saveBtn)saveBtn.textContent=idx===null?'Adicionar desfecho ao estudo':'Salvar desfecho';
+  if(cancelBtn)cancelBtn.style.display=idx===null?'none':'inline-block';
+}
+function researchNormalizeStudy(row){
+  if(!row)return null;
+  if(Array.isArray(row.outcomes))return row;
+  const outcomeName=row['Desfecho']||row.desfecho||'Desfecho';
+  const effect=row['OR/MD']||row.effect||'';
+  const ci=row['IC 95%']||row.ci||'';
+  return {author:row['Autor']||row.author||'',year:row['Ano']||row.year||'',n:row.n||row['n']||'',bias:row['Risco de viés']||row.bias||'',outcomes:[{name:outcomeName,value:row.value||'',measure:row.measure||row.sd||'',measureType:row.measureType||'MD',ci,effect}]};
+}
+function renderResearchData(p){
+  const rows=p?(p.dataRows||[]).map(researchNormalizeStudy).filter(Boolean):[];
+  if(p){p.dataRows=rows;researchSyncRiskLabels(p);}
+  renderResearchOutcomeDraft();
+  researchSetStudyEditMode(researchEditingStudyIdx);
+  document.getElementById('research-data-head').innerHTML=`<tr>${RESEARCH_DATA_COLUMNS.map(c=>`<th>${researchEsc(c)}</th>`).join('')}<th></th></tr>`;
+  document.getElementById('research-data-body').innerHTML=rows.length?rows.map((r,i)=>{
+    const normalizedOutcomes=(r.outcomes||[]).map(researchNormalizeOutcome);
+    const outcomes=normalizedOutcomes.map(o=>`${researchEsc(o.name||'Desfecho')}: ${researchEsc(researchFormatOutcomeMeasure(o.value,o.measure)||'—')}`).join('<br>');
+    const measures=normalizedOutcomes.map(o=>researchEsc(o.measureType||'MD')).join('<br>');
+    const cis=normalizedOutcomes.map(o=>researchEsc(o.ci||'—')).join('<br>');
+    return`<tr><td>${researchEsc(r.author||'')}</td><td>${researchEsc(r.year||'')}</td><td>${researchEsc(r.n||'')}</td><td>${outcomes}</td><td>${measures}</td><td>${cis}</td><td>${researchEsc(r.bias||'')}</td><td><div class="research-row-actions"><button class="research-mini-btn" onclick="researchEditDataRow(${i})">Editar</button><button class="research-mini-btn research-danger" onclick="researchDeleteDataRow(${i})">Excluir</button></div></td></tr>`;
+  }).join(''):`<tr><td colspan="${RESEARCH_DATA_COLUMNS.length+1}">${emptyState('Nenhum estudo extraído','Adicione o primeiro estudo incluído')}</td></tr>`;
+}
+function researchNormalizeOutcome(o){
+  return {...o,measure:o.measure??o.sd??'',measureType:o.measureType||(/SMD/i.test(o.effect||'')?'SMD':/OR/i.test(o.effect||'')?'OR':/RR/i.test(o.effect||'')?'RR':/HR/i.test(o.effect||'')?'HR':'MD')};
+}
+function researchSyncRiskLabels(p){
+  if(!p)return;
+  (p.dataRows||[]).forEach(row=>{
+    if(row.risk&&row.risk.domains){
+      const result=researchRiskOverall(row.risk.domains);
+      row.bias=result.label==='—'?'':result.label;
+    }
+  });
+}
+function renderResearchOutcomeDraft(){
+  const box=document.getElementById('research-outcome-draft-list');
+  if(!box)return;
+  researchSetOutcomeEditMode(researchEditingOutcomeIdx);
+  box.innerHTML=researchOutcomeDraft.length?researchOutcomeDraft.map((raw,i)=>{const o=researchNormalizeOutcome(raw);return`<div class="research-outcome-draft"><div><div class="research-outcome-title">${researchEsc(o.name||'Desfecho')}</div><div class="research-outcome-meta">${researchEsc(researchFormatOutcomeMeasure(o.value,o.measure)||'Sem valor/medida')} · ${researchEsc(o.measureType||'MD')} · ${researchEsc(o.ci||'Sem IC 95%')}</div></div><div class="research-outcome-lines"><button class="research-mini-btn" onclick="researchEditOutcomeDraft(${i})">Editar</button><button class="research-mini-btn research-danger" onclick="researchDeleteOutcomeDraft(${i})">Excluir</button></div></div>`;}).join(''):emptyState('Nenhum desfecho adicionado','Adicione um ou mais desfechos antes de salvar o estudo');
+}
+function researchOutcomeForm(){
+  return {name:document.getElementById('research-outcome-name').value.trim(),value:document.getElementById('research-outcome-value').value.trim(),measureType:document.getElementById('research-outcome-measure-type').value,measure:document.getElementById('research-outcome-measure').value.trim(),ci:document.getElementById('research-outcome-ci').value.trim()};
+}
+function researchOutcomeHasData(outcome){return !!(outcome.name||outcome.value||outcome.measure||outcome.ci);}
+function researchClearOutcomeForm(){
+  ['research-outcome-name','research-outcome-value','research-outcome-measure','research-outcome-ci'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('research-outcome-measure-type').value='MD';
+  researchUpdateOutcomeLabels();
+  researchSetOutcomeEditMode(null);
+}
+function researchAddOutcomeDraft(){
+  const outcome=researchOutcomeForm();
+  if(!researchOutcomeHasData(outcome))return;
+  if(researchEditingOutcomeIdx!==null&&researchOutcomeDraft[researchEditingOutcomeIdx])researchOutcomeDraft[researchEditingOutcomeIdx]=outcome;
+  else researchOutcomeDraft.push(outcome);
+  researchClearOutcomeForm();
+  renderResearchOutcomeDraft();
+}
+function researchEditOutcomeDraft(idx){
+  const outcome=researchNormalizeOutcome(researchOutcomeDraft[idx]);if(!outcome)return;
+  document.getElementById('research-outcome-name').value=outcome.name||'';
+  document.getElementById('research-outcome-value').value=outcome.value||'';
+  document.getElementById('research-outcome-measure-type').value=outcome.measureType||'MD';
+  document.getElementById('research-outcome-measure').value=outcome.measure||'';
+  document.getElementById('research-outcome-ci').value=outcome.ci||'';
+  researchUpdateOutcomeLabels();
+  researchSetOutcomeEditMode(idx);
+}
+function researchCancelOutcomeEdit(){researchClearOutcomeForm();renderResearchOutcomeDraft();}
+function researchDeleteOutcomeDraft(idx){
+  researchOutcomeDraft.splice(idx,1);
+  if(researchEditingOutcomeIdx===idx)researchClearOutcomeForm();
+  else if(researchEditingOutcomeIdx!==null&&researchEditingOutcomeIdx>idx)researchEditingOutcomeIdx--;
+  renderResearchOutcomeDraft();
+}
+function researchClearStudyForm(){
+  ['research-study-author','research-study-year','research-study-n'].forEach(id=>document.getElementById(id).value='');
+  researchSetBiasDisplay('');
+  researchClearOutcomeForm();
+  researchOutcomeDraft=[];
+  researchSetStudyEditMode(null);
+  renderResearchOutcomeDraft();
+}
+function researchEditDataRow(idx){
+  const p=researchProject();if(!p)return;
+  p.dataRows=(p.dataRows||[]).map(researchNormalizeStudy).filter(Boolean);
+  const row=p.dataRows[idx];if(!row)return;
+  document.getElementById('research-study-author').value=row.author||'';
+  document.getElementById('research-study-year').value=row.year||'';
+  document.getElementById('research-study-n').value=row.n||'';
+  researchSetBiasDisplay(row.bias||'');
+  researchOutcomeDraft=(row.outcomes||[]).map(o=>researchNormalizeOutcome(o));
+  researchSetStudyEditMode(idx);
+  renderResearchOutcomeDraft();
+}
+function researchCancelStudyEdit(){researchClearStudyForm();}
+function researchAddDataRow(){
+  const p=researchProject();if(!p)return;
+  const pendingOutcome=researchOutcomeForm();
+  if(researchOutcomeHasData(pendingOutcome))researchAddOutcomeDraft();
+  p.dataRows=(p.dataRows||[]).map(researchNormalizeStudy).filter(Boolean);
+  const previous=researchEditingStudyIdx!==null?p.dataRows[researchEditingStudyIdx]:null;
+  const row={author:document.getElementById('research-study-author').value.trim(),year:document.getElementById('research-study-year').value.trim(),n:document.getElementById('research-study-n').value.trim(),bias:previous?.bias||'',risk:previous?.risk,outcomes:[...researchOutcomeDraft]};
+  if(!row.author&&!row.year&&!row.n&&!row.bias&&!row.outcomes.length)return;
+  if(researchEditingStudyIdx!==null&&p.dataRows[researchEditingStudyIdx])p.dataRows[researchEditingStudyIdx]=row;
+  else p.dataRows.push(row);
+  researchSave();researchClearStudyForm();renderResearch();
+}
+function researchDeleteDataRow(idx){const p=researchProject();if(!p)return;p.dataRows.splice(idx,1);if(researchEditingStudyIdx===idx)researchClearStudyForm();else if(researchEditingStudyIdx!==null&&researchEditingStudyIdx>idx)researchEditingStudyIdx--;researchSave();renderResearch();}
+function researchCsvCell(v){const s=String(v??'');return /[",\n;]/.test(s)?`"${s.replace(/"/g,'""')}"`:s;}
+function researchExportCSV(){
+  const p=researchProject();if(!p)return;
+  const cols=['Autor','Ano','n','Desfecho','Valor ± incerteza','Valor da medida','Tipo de medida','Erro/variância','IC 95%','Risco de viés'];
+  const rows=(p.dataRows||[]).map(researchNormalizeStudy).filter(Boolean).flatMap(r=>(r.outcomes||[]).map(researchNormalizeOutcome).map(o=>[r.author,r.year,r.n,o.name,researchFormatOutcomeMeasure(o.value,o.measure),o.value,o.measureType,o.measure,o.ci,r.bias]));
+  const lines=[cols.map(researchCsvCell).join(',')].concat(rows.map(r=>r.map(researchCsvCell).join(',')));
+  const b=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(p.title||'extracao-dados').replace(/[^a-zA-Z0-9À-ÿ _-]/g,'').replace(/\s+/g,'_')+'.csv';a.click();URL.revokeObjectURL(a.href);
+}
+function researchAddSearchLog(){
+  const p=researchProject();if(!p)return;
+  const entry={id:Date.now(),db:document.getElementById('research-search-db').value,date:document.getElementById('research-search-date').value,string:document.getElementById('research-search-string').value.trim(),results:document.getElementById('research-search-results').value,note:document.getElementById('research-search-note').value.trim()};
+  if(!entry.string)return;
+  p.searchLogs=p.searchLogs||[];p.searchLogs.unshift(entry);researchSave();
+  document.getElementById('research-search-string').value='';document.getElementById('research-search-results').value='';document.getElementById('research-search-note').value='';
+  renderResearch();
+}
+function renderResearchSearches(p){
+  document.getElementById('research-search-date').value=document.getElementById('research-search-date').value||new Date().toISOString().split('T')[0];
+  const rows=p?(p.searchLogs||[]):[];
+  document.getElementById('research-search-body').innerHTML=rows.length?rows.map((l,i)=>`<tr><td>${researchEsc(l.db)}</td><td>${l.date?researchEsc(fmtDate(l.date)):'—'}</td><td class="research-log-string">${researchEsc(l.string)}</td><td>${researchEsc(l.results||'0')}</td><td>${researchEsc(l.note||'')}</td><td><button class="research-mini-btn research-danger" onclick="researchDeleteSearchLog(${i})">Excluir</button></td></tr>`).join(''):`<tr><td colspan="6">${emptyState('Nenhuma busca registrada','Registre a estratégia completa por base')}</td></tr>`;
+}
+function researchDeleteSearchLog(idx){const p=researchProject();if(!p)return;p.searchLogs.splice(idx,1);researchSave();renderResearch();}
+function researchPrisma(project){
+  if(!project)return researchBlankPrisma();
+  project.prisma={...researchBlankPrisma(),...(project.prisma||{})};
+  return project.prisma;
+}
+function researchNum(v){const n=parseInt(v,10);return Number.isFinite(n)&&n>0?n:0;}
+function renderResearchPrisma(p){
+  const prisma=researchPrisma(p);
+  RESEARCH_PRISMA_FIELDS.forEach(k=>{const el=document.getElementById('prisma-'+k);if(el)el.value=prisma[k]||'';});
+  researchUpdatePrismaDiagram(prisma);
+}
+function researchPrismaValues(prisma){
+  const dbTotal=['pubmed','embase','cochrane','scopus'].reduce((a,k)=>a+researchNum(prisma[k]),0);
+  const other=researchNum(prisma.other);
+  const total=dbTotal+other;
+  const dedup=Math.max(total-researchNum(prisma.duplicates),0);
+  const screened=researchNum(prisma.screened)||dedup;
+  const fulltext=researchNum(prisma.fulltext)||Math.max(screened-researchNum(prisma.excluded),0);
+  const included=researchNum(prisma.included)||Math.max(fulltext-researchNum(prisma.fullExcluded),0);
+  const excluded=researchNum(prisma.excluded),fullExcluded=researchNum(prisma.fullExcluded),duplicates=researchNum(prisma.duplicates);
+  return {dbTotal,other,total,dedup,screened,fulltext,included,excluded,fullExcluded,duplicates};
+}
+function researchPrismaSvg(prisma,inline=false){
+  const v=researchPrismaValues(prisma);
+  const colors=getComputedStyle(document.documentElement);
+  const palette={
+    surface:colors.getPropertyValue('--surface').trim()||'#F7E6CA',
+    surface2:colors.getPropertyValue('--surface-2').trim()||'#EFE0BF',
+    border:colors.getPropertyValue('--border').trim()||'#CDBB8C',
+    gold:colors.getPropertyValue('--gold').trim()||'#D3AF37',
+    goldDim:colors.getPropertyValue('--gold-dim').trim()||'#A8842A',
+    text1:colors.getPropertyValue('--text-1').trim()||'#1E1B16',
+    text2:colors.getPropertyValue('--text-2').trim()||'#5F5748'
+  };
+  const defs=inline?`<style>
+    .prisma-box{fill:${palette.surface2};stroke:${palette.goldDim};stroke-width:1.2;}
+    .prisma-box-muted{fill:${palette.surface};stroke:${palette.border};stroke-width:1.2;}
+    .prisma-line{stroke:${palette.goldDim};stroke-width:1.3;fill:none;}
+    .prisma-label{font-family:Raleway,Arial,sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;fill:${palette.gold};}
+    .prisma-value{font-family:"Cormorant Garamond",Georgia,serif;font-size:24px;fill:${palette.text1};}
+    .prisma-small{font-family:Raleway,Arial,sans-serif;font-size:12px;fill:${palette.text2};}
+  </style><rect x="0" y="0" width="920" height="690" fill="${palette.surface}"></rect>`:'';
+  const box=(x,y,w,h,label,value,muted=false)=>`<rect class="${muted?'prisma-box-muted':'prisma-box'}" x="${x}" y="${y}" width="${w}" height="${h}"></rect><text class="prisma-label" x="${x+w/2}" y="${y+24}" text-anchor="middle">${label}</text><text class="prisma-value" x="${x+w/2}" y="${y+58}" text-anchor="middle">${value}</text>`;
+  const side=(x,y,label,value)=>`<rect class="prisma-box-muted" x="${x}" y="${y}" width="230" height="76"></rect><text class="prisma-label" x="${x+115}" y="${y+25}" text-anchor="middle">${label}</text><text class="prisma-value" x="${x+115}" y="${y+58}" text-anchor="middle">${value}</text>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 690" role="img" aria-label="Fluxograma PRISMA 2020">
+    ${defs}
+    ${box(60,30,250,88,'Bases de dados',v.dbTotal)}
+    ${box(610,30,250,88,'Outras fontes',v.other)}
+    <text class="prisma-small" x="185" y="136" text-anchor="middle">PubMed ${researchNum(prisma.pubmed)} · Embase ${researchNum(prisma.embase)} · Cochrane ${researchNum(prisma.cochrane)} · Scopus ${researchNum(prisma.scopus)}</text>
+    ${box(335,170,250,88,'Registros identificados',v.total)}
+    ${side(630,170,'Duplicatas removidas',v.duplicates)}
+    ${box(335,310,250,88,'Registros triados',v.screened)}
+    ${side(630,310,'Excluídos na triagem',v.excluded)}
+    ${box(335,450,250,88,'Texto completo avaliado',v.fulltext)}
+    ${side(630,450,'Excluídos texto completo',v.fullExcluded)}
+    ${box(335,590,250,70,'Estudos incluídos',v.included)}
+    <path class="prisma-line" d="M185 118 V144 H460 V170 M735 118 V144 H460 M585 214 H630 M460 258 V310 M585 354 H630 M460 398 V450 M585 494 H630 M460 538 V590"></path>
+  </svg>`;
+}
+function researchUpdatePrismaDiagram(prisma){
+  const flow=document.getElementById('research-prisma-flow');if(!flow)return;
+  flow.innerHTML=researchPrismaSvg(prisma,false);
+}
+function researchSavePrisma(){
+  const p=researchProject();if(!p)return;
+  p.prisma=researchBlankPrisma();
+  RESEARCH_PRISMA_FIELDS.forEach(k=>{const el=document.getElementById('prisma-'+k);if(el)p.prisma[k]=el.value;});
+  researchUpdatePrismaDiagram(p.prisma);
+  researchSave();
+}
+function researchImportSearchCounts(){
+  const p=researchProject();if(!p)return;
+  const sums={pubmed:0,embase:0,cochrane:0,scopus:0,other:0};
+  (p.searchLogs||[]).forEach(log=>{
+    const db=String(log.db||'').toLowerCase();
+    const value=researchNum(log.results);
+    if(db.includes('pubmed'))sums.pubmed+=value;
+    else if(db.includes('embase'))sums.embase+=value;
+    else if(db.includes('cochrane'))sums.cochrane+=value;
+    else if(db.includes('scopus'))sums.scopus+=value;
+    else sums.other+=value;
+  });
+  p.prisma={...researchPrisma(p),...sums};
+  researchSave();renderResearchPrisma(p);
+}
+async function researchDownloadPrismaPNG(){
+  const p=researchProject();if(!p)return;
+  const svg=researchPrismaSvg(researchPrisma(p),true);
+  const svgBlob=new Blob([svg],{type:'image/svg+xml;charset=utf-8'});
+  const svgUrl=URL.createObjectURL(svgBlob);
+  const img=new Image();
+  try{
+    await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=svgUrl;});
+    const scale=2,canvas=document.createElement('canvas');
+    canvas.width=920*scale;canvas.height=690*scale;
+    const ctx=canvas.getContext('2d');
+    ctx.drawImage(img,0,0,canvas.width,canvas.height);
+    canvas.toBlob(blob=>{
+      URL.revokeObjectURL(svgUrl);
+      if(!blob)return;
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download=(p.title||'fluxograma-prisma').replace(/[^a-zA-Z0-9À-ÿ _-]/g,'').replace(/\s+/g,'_')+'_PRISMA.png';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    },'image/png');
+  }catch(e){
+    URL.revokeObjectURL(svgUrl);
+  }
+}
+function researchStudyLabel(row,idx){
+  const normalized=researchNormalizeStudy(row)||{};
+  return `${idx+1}. ${normalized.author||'Autor não informado'}${normalized.year?' ('+normalized.year+')':''}`;
+}
+function researchRiskOverall(domains){
+  const vals=Object.values(domains||{});
+  if(vals.includes('alto'))return {label:'Alto',cls:'high'};
+  if(vals.includes('preocupacao'))return {label:'Alguma preocupação',cls:'some'};
+  if(vals.length&&vals.every(v=>v==='baixo'))return {label:'Baixo',cls:'low'};
+  return {label:'—',cls:''};
+}
+function renderResearchRisk(p){
+  const select=document.getElementById('research-risk-study'),body=document.getElementById('research-risk-body'),toolEl=document.getElementById('research-risk-tool'),overall=document.getElementById('research-risk-overall');
+  if(!select||!body||!toolEl||!overall)return;
+  if(!p){select.innerHTML='';body.innerHTML=`<tr><td colspan="2">${emptyState('Nenhum estudo selecionado','Selecione um estudo com dados extraídos')}</td></tr>`;overall.textContent='Julgamento geral: —';renderResearchRiskHeatmap(null);return;}
+  p.dataRows=(p.dataRows||[]).map(researchNormalizeStudy).filter(Boolean);
+  const previous=select.value;
+  select.innerHTML=p.dataRows.length?p.dataRows.map((r,i)=>`<option value="${i}">${researchEsc(researchStudyLabel(r,i))}</option>`).join(''):'<option value="">Nenhum estudo extraído</option>';
+  if(previous&&p.dataRows[previous])select.value=previous;
+  const idx=select.value===''?null:+select.value;
+  const row=idx===null?null:p.dataRows[idx];
+  if(!row){body.innerHTML=`<tr><td colspan="2">${emptyState('Nenhum estudo disponível','Cadastre estudos no Extrator de Dados')}</td></tr>`;overall.textContent='Julgamento geral: —';overall.className='research-risk-overall';renderResearchRiskHeatmap(p);return;}
+  row.risk=row.risk||{tool:'rob2',domains:{}};
+  toolEl.value=row.risk.tool||'rob2';
+  const cfg=RESEARCH_RISK_TOOLS[row.risk.tool]||RESEARCH_RISK_TOOLS.rob2;
+  body.innerHTML=cfg.domains.map((domain,i)=>{const val=row.risk.domains[i]||'';return`<tr><td>${researchEsc(domain)}</td><td><div class="research-traffic"><button class="research-mini-btn low ${val==='baixo'?'active':''}" onclick="researchSetRiskDomain(${idx},${i},'baixo')">Baixo</button><button class="research-mini-btn some ${val==='preocupacao'?'active':''}" onclick="researchSetRiskDomain(${idx},${i},'preocupacao')">Preocupação</button><button class="research-mini-btn high ${val==='alto'?'active':''}" onclick="researchSetRiskDomain(${idx},${i},'alto')">Alto</button></div></td></tr>`;}).join('');
+  const result=researchRiskOverall(row.risk.domains);
+  row.bias=result.label==='—'?'':result.label;
+  overall.textContent='Julgamento geral: '+result.label;
+  overall.className='research-risk-overall '+result.cls;
+  renderResearchRiskHeatmap(p);
+  researchSave();
+}
+function researchRiskShort(value){
+  return value==='baixo'?'Baixo':value==='preocupacao'?'Preoc.':value==='alto'?'Alto':'—';
+}
+function researchRiskDomainClass(value){return value==='baixo'?'low':value==='preocupacao'?'some':value==='alto'?'high':'empty';}
+function renderResearchRiskHeatmap(p){
+  const wrap=document.getElementById('research-risk-heatmap');if(!wrap)return;
+  if(!p||!(p.dataRows||[]).length){wrap.innerHTML='';return;}
+  const tool=document.getElementById('research-risk-tool')?.value||'rob2';
+  const cfg=RESEARCH_RISK_TOOLS[tool]||RESEARCH_RISK_TOOLS.rob2;
+  const rows=(p.dataRows||[]).map(researchNormalizeStudy).filter(Boolean);
+  wrap.innerHTML=`<div class="divider"><div class="div-line"></div><div class="div-label">Heatmap</div><div class="div-line"></div></div><div class="research-table-wrap"><table class="research-table"><thead><tr><th>Estudo</th>${cfg.domains.map((d,i)=>`<th title="${researchEsc(d)}">D${i+1}</th>`).join('')}<th>Geral</th></tr></thead><tbody>${rows.map((row,i)=>{const risk=row.risk||{tool:'rob2',domains:{}};const domains=risk.tool===tool?(risk.domains||{}):{};const result=researchRiskOverall(domains);return`<tr><td>${researchEsc(researchStudyLabel(row,i))}</td>${cfg.domains.map((_,di)=>{const v=domains[di]||'';return`<td><div class="risk-cell ${researchRiskDomainClass(v)}">${researchRiskShort(v)}</div></td>`;}).join('')}<td><div class="risk-cell ${result.cls||'empty'}">${researchEsc(result.label)}</div></td></tr>`;}).join('')}</tbody></table></div><div class="risk-legend"><div class="risk-legend-title">Legenda dos domínios</div><div class="risk-legend-grid">${cfg.domains.map((d,i)=>`<div class="risk-legend-item"><strong>D${i+1}</strong>${researchEsc(d)}</div>`).join('')}</div></div>`;
+}
+function researchSetRiskTool(tool){
+  const p=researchProject();if(!p)return;
+  const idx=+document.getElementById('research-risk-study').value;
+  const row=(p.dataRows||[])[idx];if(!row)return;
+  row.risk={tool,domains:{}};
+  row.bias='';
+  researchSave();renderResearch();
+}
+function researchSetRiskDomain(rowIdx,domainIdx,value){
+  const p=researchProject();if(!p)return;
+  p.dataRows=(p.dataRows||[]).map(researchNormalizeStudy).filter(Boolean);
+  const row=p.dataRows[rowIdx];if(!row)return;
+  row.risk=row.risk||{tool:'rob2',domains:{}};
+  row.risk.domains=row.risk.domains||{};
+  row.risk.domains[domainIdx]=value;
+  const result=researchRiskOverall(row.risk.domains);
+  row.bias=result.label==='—'?'':result.label;
+  researchSave();renderResearch();
+}
+function researchCitationForm(){
+  const get=id=>document.getElementById(id).value.trim();
+  return {style:get('citation-style'),authors:get('citation-authors'),title:get('citation-title'),journal:get('citation-journal'),year:get('citation-year'),volume:get('citation-volume'),issue:get('citation-issue'),pages:get('citation-pages'),doi:get('citation-doi')};
+}
+function researchFormatCitation(c){
+  const authors=c.authors||'Autor(es)';
+  const title=c.title||'Título';
+  const journal=c.journal||'Periódico';
+  if(c.style==='abnt'){
+    const volume=c.volume?` v. ${c.volume},`:'';
+    const issue=c.issue?` n. ${c.issue},`:'';
+    const pages=c.pages?` p. ${c.pages},`:'';
+    const doi=c.doi?` DOI: ${c.doi}.`:'';
+    return `${authors.toUpperCase()}. ${title}. ${journal},${volume}${issue}${pages} ${c.year||'ano'}.${doi}`.replace(/\s+/g,' ').replace(',.', '.').trim();
+  }
+  const issue=c.issue?`(${c.issue})`:'';
+  const volume=c.volume?`;${c.volume}${issue}`:'';
+  const pages=c.pages?`:${c.pages}`:'';
+  const doi=c.doi?` doi: ${c.doi}.`:'';
+  return `${authors}. ${title}. ${journal}. ${c.year||'ano'}${volume}${pages}.${doi}`.replace(/\s+/g,' ').trim();
+}
+function researchGenerateCitation(){
+  const out=document.getElementById('citation-output');if(!out)return '';
+  const citation=researchFormatCitation(researchCitationForm());
+  out.textContent=citation;
+  return citation;
+}
+function renderResearchCitations(p){
+  const list=document.getElementById('research-citation-list');if(!list)return;
+  researchGenerateCitation();
+  const rows=p?(p.citations||[]):[];
+  list.innerHTML=rows.length?rows.map((c,i)=>`<div class="research-citation-item"><div><div class="research-citation-text">${researchEsc(c.text)}</div><div class="research-outcome-meta">${researchEsc(c.style==='abnt'?'ABNT':'Vancouver')}</div></div><div class="research-outcome-lines"><button class="research-mini-btn" onclick="researchLoadCitation(${i})">Carregar</button><button class="research-mini-btn research-danger" onclick="researchDeleteCitation(${i})">Excluir</button></div></div>`).join(''):emptyState('Nenhuma citação salva','Gere uma referência e salve no estudo');
+}
+function researchSaveCitation(){
+  const p=researchProject();if(!p)return;
+  const data=researchCitationForm();
+  const text=researchFormatCitation(data);
+  if(!data.authors&&!data.title&&!data.journal&&!data.year&&!data.doi)return;
+  p.citations=p.citations||[];
+  p.citations.unshift({id:Date.now(),style:data.style,text,data});
+  researchSave();renderResearchCitations(p);
+}
+function researchCopyCitation(){
+  const text=researchGenerateCitation();
+  if(navigator.clipboard&&text)navigator.clipboard.writeText(text).catch(()=>{});
+}
+function researchClearCitationForm(){
+  ['citation-authors','citation-title','citation-journal','citation-year','citation-volume','citation-issue','citation-pages','citation-doi'].forEach(id=>document.getElementById(id).value='');
+  researchGenerateCitation();
+}
+function researchLoadCitation(idx){
+  const p=researchProject();if(!p)return;
+  const citation=(p.citations||[])[idx];if(!citation||!citation.data)return;
+  const data={style:'vancouver',authors:'',title:'',journal:'',year:'',volume:'',issue:'',pages:'',doi:'',...citation.data};
+  Object.entries(data).forEach(([key,value])=>{const el=document.getElementById('citation-'+key);if(el)el.value=value||'';});
+  researchGenerateCitation();
+}
+function researchDeleteCitation(idx){const p=researchProject();if(!p)return;p.citations.splice(idx,1);researchSave();renderResearchCitations(p);}
+function initResearch(){
+  document.querySelectorAll('.research-tab').forEach(tab=>tab.addEventListener('click',()=>{
+    document.querySelectorAll('.research-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.research-view').forEach(v=>v.classList.remove('active'));
+    tab.classList.add('active');document.getElementById('research-view-'+tab.dataset.researchTab).classList.add('active');
+  }));
+  ['research-pico-model','research-pico-population','research-pico-intervention','research-pico-comparison','research-pico-outcomes','research-pico-study','research-pico-context'].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    el.addEventListener(el.tagName==='SELECT'?'change':'input',researchPicoInput);
+  });
+  researchUpdateOutcomeLabels();
+  renderResearch();
+}
 
 /* ── HEART SCORE ── */
 function calcHEART(){
@@ -2224,7 +3094,7 @@ function init(){
   document.getElementById('theme-lbl').textContent=th.toUpperCase();
   buildWells();buildNIHSS();
   document.getElementById('ev-date').value=new Date().toISOString().split('T')[0];
-  renderCal();initRing();renderNotesList();refreshDashboard();puerUpdate();initProntCopyButtons();
+  renderCal();initRing();renderNotesList();initResearch();refreshDashboard();puerUpdate();initProntCopyButtons();
 }
 document.addEventListener('DOMContentLoaded',init);
 </script>
