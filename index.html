@@ -1522,7 +1522,6 @@ body.focus-mode .focus-exit{display:block;}
                 <div class="form-group"><label class="form-label">Título do estudo</label><input class="form-input" id="research-title" placeholder="Modified Stoppa versus ilioinguinal..."></div>
                 <div class="form-row">
                   <div class="form-group"><label class="form-label">Status</label><select class="form-select" id="research-status"><option value="protocolo">Protocolo</option><option value="coleta">Coleta</option><option value="analise">Análise</option><option value="escrita">Escrita</option><option value="submetido">Submetido</option></select></div>
-                  <div class="form-group"><label class="form-label">Periódico-alvo</label><input class="form-input" id="research-journal" placeholder="Journal of Orthopaedic Trauma"></div>
                 </div>
                 <div class="research-actions">
                   <button class="btn btn-gold" onclick="researchSaveProject()">Salvar estudo</button>
@@ -2504,19 +2503,17 @@ function renderResearch(){
 }
 function renderResearchProjectList(activeProject){
   const list=document.getElementById('research-project-list');
-  list.innerHTML=researchProjects.length?researchProjects.map(p=>`<div class="research-project-item ${activeProject&&p.id===activeProject.id?'active':''}" onclick="researchSelectProject(${p.id})"><div><div class="research-project-title">${researchEsc(p.title||'Estudo sem título')}</div><div class="research-project-meta">${researchEsc(p.journal||'Sem periódico-alvo')}</div><div class="research-stage-pill">${RESEARCH_STATUS[p.status]||p.status} · ${researchCompletion(p)}%</div></div><button class="research-project-delete" title="Excluir estudo" onclick="event.stopPropagation();researchDeleteProject(${p.id})">×</button></div>`).join(''):emptyState('Nenhum estudo ainda','Clique em + para criar');
+  list.innerHTML=researchProjects.length?researchProjects.map(p=>`<div class="research-project-item ${activeProject&&p.id===activeProject.id?'active':''}" onclick="researchSelectProject(${p.id})"><div><div class="research-project-title">${researchEsc(p.title||'Estudo sem título')}</div><div class="research-project-meta">Estudo de pesquisa</div><div class="research-stage-pill">${RESEARCH_STATUS[p.status]||p.status} · ${researchCompletion(p)}%</div></div><button class="research-project-delete" title="Excluir estudo" onclick="event.stopPropagation();researchDeleteProject(${p.id})">×</button></div>`).join(''):emptyState('Nenhum estudo ainda','Clique em + para criar');
 }
 function renderResearchProjectForm(p){
   document.getElementById('research-title').value=p?p.title||'':'';
   document.getElementById('research-status').value=p?p.status||'protocolo':'protocolo';
-  document.getElementById('research-journal').value=p?p.journal||'':'';
 }
 function researchSaveProject(){
   let p=researchProject();
   if(!p){researchNewProject();p=researchProject();}
   p.title=document.getElementById('research-title').value.trim()||'Estudo sem título';
   p.status=document.getElementById('research-status').value;
-  p.journal=document.getElementById('research-journal').value.trim();
   researchSave();renderResearch();
 }
 function researchDeleteProject(id){
