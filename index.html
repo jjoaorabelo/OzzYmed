@@ -637,7 +637,8 @@ body.focus-mode .focus-exit{display:block;}
 .research-auto-save.saved{color:var(--gold-dim);}
 .research-pico-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
 .research-pico-grid .form-group:first-child,.research-pico-grid .wide{grid-column:1/-1;}
-.research-compact-textarea{min-height:88px !important;line-height:1.55;}
+.research-compact-textarea{min-height:88px !important;line-height:1.55;border:1px solid var(--border) !important;background:var(--surface) !important;padding:14px 16px !important;}
+.research-compact-textarea:focus{border-color:var(--gold) !important;}
 .research-prisma-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:start;}
 .research-prisma-inputs{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
 .research-prisma-inputs .wide{grid-column:auto;}
@@ -1535,12 +1536,12 @@ body.focus-mode .focus-exit{display:block;}
               <div class="research-panel-body">
                 <div class="research-pico-grid">
                   <div class="form-group"><label class="form-label">Modelo</label><select class="form-select" id="research-pico-model"><option>PICO</option><option>PICOT</option><option>PICOTT</option><option>PECO</option><option>Outro</option></select></div>
-                  <div class="form-group"><label class="form-label">População</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-population" placeholder="Pacientes com fratura acetabular..."></textarea></div>
-                  <div class="form-group"><label class="form-label">Intervenção / Exposição</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-intervention" placeholder="Modified Stoppa..."></textarea></div>
-                  <div class="form-group"><label class="form-label">Comparação</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-comparison" placeholder="Abordagem ilioinguinal..."></textarea></div>
-                  <div class="form-group"><label class="form-label">Desfecho(s)</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-outcomes" placeholder="Complicações, qualidade da redução, tempo cirúrgico..."></textarea></div>
-                  <div class="form-group"><label class="form-label">Desenho de estudo</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-study" placeholder="ECRs, coortes, estudos comparativos..."></textarea></div>
-                  <div class="form-group wide"><label class="form-label">Tempo / contexto adicional</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-context" placeholder="Seguimento mínimo, cenário, recortes metodológicos..."></textarea></div>
+                  <div class="form-group" id="research-pico-population-group"><label class="form-label" id="research-pico-population-label">População</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-population" placeholder="Pacientes com fratura acetabular..."></textarea></div>
+                  <div class="form-group" id="research-pico-intervention-group"><label class="form-label" id="research-pico-intervention-label">Intervenção / Exposição</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-intervention" placeholder="Modified Stoppa..."></textarea></div>
+                  <div class="form-group" id="research-pico-comparison-group"><label class="form-label" id="research-pico-comparison-label">Comparação</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-comparison" placeholder="Abordagem ilioinguinal..."></textarea></div>
+                  <div class="form-group" id="research-pico-outcomes-group"><label class="form-label" id="research-pico-outcomes-label">Desfecho(s)</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-outcomes" placeholder="Complicações, qualidade da redução, tempo cirúrgico..."></textarea></div>
+                  <div class="form-group" id="research-pico-study-group"><label class="form-label" id="research-pico-study-label">Desenho de estudo</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-study" placeholder="ECRs, coortes, estudos comparativos..."></textarea></div>
+                  <div class="form-group wide" id="research-pico-context-group"><label class="form-label" id="research-pico-context-label">Tempo / contexto adicional</label><textarea class="anam-textarea research-compact-textarea" id="research-pico-context" placeholder="Seguimento mínimo, cenário, recortes metodológicos..."></textarea></div>
                 </div>
                 <div class="research-actions"><button class="btn btn-gold" onclick="researchSavePico(true)">Salvar agora</button><span class="research-auto-save" id="research-pico-save-status">Auto-save ativo</span></div>
               </div>
@@ -1565,10 +1566,10 @@ body.focus-mode .focus-exit{display:block;}
                 <div class="divider"><div class="div-line"></div><div class="div-label">Desfecho do estudo</div><div class="div-line"></div></div>
                 <div class="form-group"><label class="form-label">Desfecho</label><input class="form-input" id="research-outcome-name" placeholder="Complicações"></div>
                 <div class="form-row">
-                  <div class="form-group"><label class="form-label" id="research-outcome-value-label">Diferença média</label><input class="form-input" id="research-outcome-value" type="number" step="0.01" placeholder="12,4"></div>
+                  <div class="form-group"><label class="form-label" id="research-outcome-value-label">Valor</label><input class="form-input" id="research-outcome-value" type="number" step="0.01" placeholder="12,4"></div>
                   <div class="form-group"><label class="form-label">Tipo de medida</label><select class="form-select" id="research-outcome-measure-type" onchange="researchUpdateOutcomeLabels()"><option value="MD">Mean difference (MD)</option><option value="SMD">Standardized mean difference (SMD)</option><option value="OR">Odds ratio (OR)</option><option value="RR">Risk ratio (RR)</option><option value="HR">Hazard ratio (HR)</option><option value="Outro">Outra medida</option></select></div>
                 </div>
-                <div class="form-group"><label class="form-label" id="research-outcome-measure-label">Erro padrão / DP</label><input class="form-input" id="research-outcome-measure" type="number" step="0.01" placeholder="-18"></div>
+                <div class="form-group"><label class="form-label" id="research-outcome-measure-label">Erro Padrão (SE)</label><input class="form-input" id="research-outcome-measure" type="number" step="0.01" min="0" placeholder="0,18"></div>
                 <div class="form-group"><label class="form-label">IC 95%</label><input class="form-input" id="research-outcome-ci" placeholder="0,52-1,16"></div>
                 <div class="research-actions"><button class="btn" id="research-save-outcome-btn" onclick="researchAddOutcomeDraft()">Adicionar desfecho ao estudo</button><button class="btn" id="research-cancel-outcome-edit-btn" onclick="researchCancelOutcomeEdit()" style="display:none;">Cancelar desfecho</button></div>
                 <div class="research-outcome-list" id="research-outcome-draft-list"></div>
@@ -2446,7 +2447,7 @@ const RESEARCH_STATUS={protocolo:'Protocolo',coleta:'Coleta',analise:'Análise',
 const RESEARCH_DATA_COLUMNS=['Autor','Ano','n','Desfechos','Tipo de medida','IC 95%','Risco de viés'];
 const RESEARCH_PRISMA=[
   {id:'protocolo',name:'Protocolo',items:['Pergunta PICO definida','Critérios de inclusão e exclusão','Estratégia de busca revisada','Protocolo finalizado']},
-  {id:'coleta',name:'Coleta',items:['Buscas registradas por base','Deduplicação documentada','Triagem por título e resumo','Leitura em texto completo e motivos de exclusão']},
+  {id:'coleta',name:'Coleta',items:['Buscas registradas por base','Desduplicação documentada','Triagem por título e resumo','Leitura em texto completo e motivos de exclusão']},
   {id:'analise',name:'Análise',items:['Extração de dados conferida','Risco de viés avaliado','Modelo estatístico definido','Heterogeneidade e sensibilidade planejadas']},
   {id:'escrita',name:'Escrita',items:['Fluxograma PRISMA atualizado','Tabela de características pronta','Resultados narrativos escritos','Discussão e limitações revisadas']},
   {id:'submetido',name:'Submetido',items:['Checklist PRISMA final','Cover letter pronta','Arquivos suplementares revisados','Submissão registrada']}
@@ -2538,8 +2539,56 @@ function renderResearchPico(p){
   set('research-pico-outcomes',pico.outcomes);
   set('research-pico-study',pico.study);
   set('research-pico-context',pico.context);
+  researchUpdatePicoFields();
   const status=document.getElementById('research-pico-save-status');
   if(status){status.className='research-auto-save saved';status.textContent='Salvo';}
+}
+function researchUpdatePicoFields(){
+  const model=document.getElementById('research-pico-model')?.value||'PICO';
+  const config={
+    PICO:{
+      intervention:'Intervenção',
+      comparison:'Comparação',
+      study:null,
+      context:null,
+      placeholders:{intervention:'Modified Stoppa...',comparison:'Abordagem ilioinguinal...',outcomes:'Complicações, qualidade da redução...'}
+    },
+    PICOT:{
+      intervention:'Intervenção',
+      comparison:'Comparação',
+      study:null,
+      context:'Tempo',
+      placeholders:{intervention:'Modified Stoppa...',comparison:'Abordagem ilioinguinal...',context:'Seguimento mínimo, tempo de follow-up...',outcomes:'Complicações, qualidade da redução...'}
+    },
+    PICOTT:{
+      intervention:'Intervenção',
+      comparison:'Comparação',
+      study:'Tipo / desenho de estudo',
+      context:'Tempo / contexto',
+      placeholders:{intervention:'Modified Stoppa...',comparison:'Abordagem ilioinguinal...',study:'ECRs, coortes, estudos comparativos...',context:'Seguimento mínimo, cenário, recortes metodológicos...',outcomes:'Complicações, qualidade da redução...'}
+    },
+    PECO:{
+      intervention:'Exposição',
+      comparison:'Comparação / controle',
+      study:null,
+      context:null,
+      placeholders:{intervention:'Exposição de interesse...',comparison:'Grupo não exposto / controle...',outcomes:'Desfechos de interesse...'}
+    },
+    Outro:{
+      intervention:'Intervenção / exposição',
+      comparison:'Comparação',
+      study:'Desenho de estudo',
+      context:'Tempo / contexto adicional',
+      placeholders:{intervention:'Intervenção, exposição ou fator...',comparison:'Comparador ou controle...',study:'Tipo de estudo...',context:'Tempo, cenário, recortes metodológicos...'}
+    }
+  }[model]||{};
+  const show=(field,visible)=>{const el=document.getElementById(`research-pico-${field}-group`);if(el)el.style.display=visible?'block':'none';};
+  const label=(field,text)=>{const el=document.getElementById(`research-pico-${field}-label`);if(el&&text)el.textContent=text;};
+  const placeholder=(field,text)=>{const el=document.getElementById(`research-pico-${field}`);if(el&&text)el.placeholder=text;};
+  label('population','População');label('intervention',config.intervention);label('comparison',config.comparison);label('outcomes','Desfecho(s)');label('study',config.study||'Desenho de estudo');label('context',config.context||'Tempo / contexto adicional');
+  show('study',!!config.study);
+  show('context',!!config.context);
+  Object.entries(config.placeholders||{}).forEach(([field,text])=>placeholder(field,text));
 }
 function researchPicoForm(){
   return {
@@ -2560,6 +2609,7 @@ function researchSavePico(manual=false){
   if(status){status.className='research-auto-save saved';status.textContent=manual?'Salvo agora':'Salvo automaticamente';}
 }
 function researchPicoInput(){
+  researchUpdatePicoFields();
   const status=document.getElementById('research-pico-save-status');
   if(status){status.className='research-auto-save saving';status.textContent='Salvando...';}
   clearTimeout(researchPicoSaveTimeout);
@@ -2575,21 +2625,22 @@ function researchToggleCheck(key,checked){const p=researchProject();if(!p)return
 function researchFormatOutcomeMeasure(value,measure){return value&&measure?`${value} ± ${measure}`:(value||measure||'');}
 function researchOutcomeLabelConfig(type){
   return {
-    MD:{value:'Diferença média',measure:'Erro padrão / DP',placeholder:'Ex.: -1,8'},
-    SMD:{value:'Diferença média padronizada',measure:'Erro padrão',placeholder:'Ex.: -0,45'},
-    OR:{value:'Odds ratio',measure:'Erro padrão do log(OR)',placeholder:'Ex.: 0,72'},
-    RR:{value:'Risk ratio',measure:'Erro padrão do log(RR)',placeholder:'Ex.: 0,84'},
-    HR:{value:'Hazard ratio',measure:'Erro padrão do log(HR)',placeholder:'Ex.: 1,20'},
-    Outro:{value:'Valor da medida',measure:'Medida de incerteza / variância',placeholder:'Ex.: 12,4'}
-  }[type]||{value:'Valor da medida',measure:'Medida de incerteza / variância',placeholder:'Ex.: 12,4'};
+    MD:{value:'Valor (MD)',measure:'Erro Padrão (SE)',placeholder:'Ex.: -1,8',measurePlaceholder:'Ex.: 0,18'},
+    SMD:{value:'Valor (SMD)',measure:'Erro Padrão (SE)',placeholder:'Ex.: -0,45',measurePlaceholder:'Ex.: 0,12'},
+    OR:{value:'Valor (OR)',measure:'Erro Padrão do log(OR)',placeholder:'Ex.: 0,72',measurePlaceholder:'Ex.: 0,21'},
+    RR:{value:'Valor (RR)',measure:'Erro Padrão do log(RR)',placeholder:'Ex.: 0,84',measurePlaceholder:'Ex.: 0,19'},
+    HR:{value:'Valor (HR)',measure:'Erro Padrão do log(HR)',placeholder:'Ex.: 1,20',measurePlaceholder:'Ex.: 0,24'},
+    Outro:{value:'Valor',measure:'Erro Padrão (SE)',placeholder:'Ex.: 12,4',measurePlaceholder:'Ex.: 0,18'}
+  }[type]||{value:'Valor',measure:'Erro Padrão (SE)',placeholder:'Ex.: 12,4',measurePlaceholder:'Ex.: 0,18'};
 }
 function researchUpdateOutcomeLabels(){
   const type=document.getElementById('research-outcome-measure-type')?.value||'MD';
   const cfg=researchOutcomeLabelConfig(type);
-  const valueLabel=document.getElementById('research-outcome-value-label'),measureLabel=document.getElementById('research-outcome-measure-label'),valueInput=document.getElementById('research-outcome-value');
+  const valueLabel=document.getElementById('research-outcome-value-label'),measureLabel=document.getElementById('research-outcome-measure-label'),valueInput=document.getElementById('research-outcome-value'),measureInput=document.getElementById('research-outcome-measure');
   if(valueLabel)valueLabel.textContent=cfg.value;
   if(measureLabel)measureLabel.textContent=cfg.measure;
   if(valueInput)valueInput.placeholder=cfg.placeholder;
+  if(measureInput)measureInput.placeholder=cfg.measurePlaceholder;
 }
 function researchRiskClass(label){
   if(label==='Baixo')return 'low';
