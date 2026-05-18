@@ -988,6 +988,7 @@ body.focus-mode .focus-exit{display:block;}
               <div class="ef-row"><span class="ef-lbl">Cardiovascular:</span><input type="text" class="ef-inp" placeholder="bulhas rítmicas, sopros, pulsos..."></div>
               <div class="ef-row"><span class="ef-lbl">Respiratório:</span><input type="text" class="ef-inp" placeholder="expansibilidade, MV, ruídos adventícios..."></div>
               <div class="ef-row"><span class="ef-lbl">Abdome:</span><input type="text" class="ef-inp" placeholder="plano, RHA+, sem dor à palpação..."></div>
+              <div class="ef-row"><span class="ef-lbl">Geniturinário:</span><input type="text" class="ef-inp" placeholder="genitália externa, corrimento, Tanner, hérnia, hidrocele..."></div>
               <div class="ef-row"><span class="ef-lbl">Membros:</span><input type="text" class="ef-inp" placeholder="sem edema, pulsos presentes e simétricos..."></div>
               <div class="ef-row" style="border-bottom:none;"><span class="ef-lbl">Neurológico sumário:</span><input type="text" class="ef-inp" placeholder="consciente, orientado, sem déficits focais..."></div>
             </div>
@@ -1175,7 +1176,7 @@ body.focus-mode .focus-exit{display:block;}
               <div class="ef-row"><span class="ef-lbl">Cardiovascular:</span><input type="text" class="ef-inp" placeholder="B1B2 rítmicas, sopros, pulsos..."></div>
               <div class="ef-row"><span class="ef-lbl">Respiratório:</span><input type="text" class="ef-inp" placeholder="MV+, sem ruídos adventícios, SpO₂..."></div>
               <div class="ef-row"><span class="ef-lbl">Abdome:</span><input type="text" class="ef-inp" placeholder="plano, RHA+, sem visceromegalias..."></div>
-              <div class="ef-row"><span class="ef-lbl">Genitália:</span><input type="text" class="ef-inp" placeholder="aspecto, Tanner, desenvolvimento..."></div>
+              <div class="ef-row"><span class="ef-lbl">Geniturinário:</span><input type="text" class="ef-inp" placeholder="genitália externa, Tanner, hérnia, hidrocele, corrimento..."></div>
               <div class="ef-row"><span class="ef-lbl">Membros e articulações:</span><input type="text" class="ef-inp" placeholder="sem edema, pulsos, perfusão..."></div>
               <div class="ef-row" style="border-bottom:none;"><span class="ef-lbl">Neurológico:</span><input type="text" class="ef-inp" placeholder="tônus, reflexos, comportamento, marcha..."></div>
             </div>
@@ -1827,6 +1828,10 @@ const EF_STATE_PRESETS=[
   ['REG','Regular estado geral'],
   ['MEG','Mau estado geral']
 ];
+const EF_GENITOURINARY_PRESETS=[
+  ['♀','Genitália externa sem alterações, sem presença de corrimento ou sinais inflamatórios. Desenvolvimento puberal avaliado pelo estadiamento de Tanner, apresentando MX PX (mamas e pelos pubianos), compatível/incompatível com a faixa etária.'],
+  ['♂','Genitália externa sem alterações, com testículos tópicos em bolsa escrotal bilateralmente, sem hérnia ou hidrocele. Desenvolvimento puberal avaliado pelo estadiamento de Tanner, apresentando GX PX (genitais e pelos pubianos), compatível/incompatível com a faixa etária.']
+];
 const EF_NORMAL_PRESETS={
   'Pele e mucosas':'Normocoradas, anictéricas, acianóticas e hidratadas',
   'Cabeça e pescoço':'Normocefálico, sem linfadenopatias, sem lesões',
@@ -1836,7 +1841,6 @@ const EF_NORMAL_PRESETS={
   'Cardiovascular':'Bulhas rítmicas normofonéticas em 2 tempos, sem sopros',
   'Respiratório':'Expansibilidade torácica preservada, murmúrio vesicular presente e bem distribuído',
   'Abdome':'Abdome plano, ruidos hidroaéreos fisiológicos, sem dor à palpação',
-  'Genitália':'Sem alterações',
   'Membros':'Membros sem edemas, pulsos presentes e rítmicos',
   'Membros e articulações':'Membros sem edemas, pulsos presentes e rítmicos',
   'Neurológico sumário':'Paciente consciente, lucido e orientado no tempo e espaço, reflexos, força e sensibilidade preservados.',
@@ -1859,6 +1863,14 @@ function initEfPresetButtons(){
       const group=document.createElement('div');
       group.className='ef-preset-group';
       EF_STATE_PRESETS.forEach(([shortLabel,text])=>group.appendChild(makeEfPresetButton(shortLabel,text)));
+      row.appendChild(group);
+      row.dataset.efPresetsReady='1';
+      return;
+    }
+    if(label==='Geniturinário'){
+      const group=document.createElement('div');
+      group.className='ef-preset-group';
+      EF_GENITOURINARY_PRESETS.forEach(([shortLabel,text])=>group.appendChild(makeEfPresetButton(shortLabel,text)));
       row.appendChild(group);
       row.dataset.efPresetsReady='1';
       return;
