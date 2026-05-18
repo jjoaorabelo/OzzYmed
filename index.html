@@ -416,8 +416,23 @@ body.focus-mode .focus-exit{display:block;}
   box-shadow:none;
 }
 .ef-inp::placeholder{color:var(--text-3);font-style:italic;}
+.ef-preset-btn{flex-shrink:0;}
+.ef-preset-group{display:flex;align-items:center;gap:6px;margin-left:12px;align-self:center;flex-shrink:0;}
+.ef-preset-group .sys-neg-btn{margin:6px 0;}
 /* Kill browser-inserted underline on text inputs */
 .ef-inp:-webkit-autofill{-webkit-box-shadow:0 0 0 100px var(--surface) inset;}
+
+@media (max-width:760px){
+  .ef-row{align-items:flex-start;flex-wrap:wrap;padding-bottom:4px;}
+  .ef-inp{min-width:180px;}
+  .ef-row > .ef-preset-btn{margin-left:0;}
+  .ef-preset-group{width:100%;margin-left:200px;flex-wrap:wrap;}
+}
+@media (max-width:560px){
+  .ef-lbl{min-width:100%;padding-bottom:0;}
+  .ef-inp{min-width:0;}
+  .ef-preset-group{margin-left:0;}
+}
 
 /* ── PUERICULTURA ── */
 .puer-age-bar{
@@ -1792,10 +1807,67 @@ function emptyState(text,hint){
 /* ── PRONTUÁRIO ── */
 function autoGrow(el){el.style.height='auto';el.style.height=(el.scrollHeight)+'px';}
 function setTextareaText(el,text){if(!el)return;el.value=text;autoGrow(el);}
+function setFieldText(el,text){
+  if(!el)return;
+  el.value=text;
+  if(el.tagName==='TEXTAREA')autoGrow(el);
+}
 function denySysChange(btn){
   const row=btn.closest('.sys-row');
   const target=row?row.querySelector('textarea'):null;
   setTextareaText(target,btn.dataset.deny||'Nega alterações');
+}
+function fillEfPreset(btn){
+  const row=btn.closest('.ef-row');
+  const target=row?row.querySelector('input,textarea'):null;
+  setFieldText(target,btn.dataset.efText||'');
+}
+const EF_STATE_PRESETS=[
+  ['BEG','Bom estado geral'],
+  ['REG','Regular estado geral'],
+  ['MEG','Mau estado geral']
+];
+const EF_NORMAL_PRESETS={
+  'Pele e mucosas':'Normocoradas, anictéricas, acianóticas e hidratadas',
+  'Cabeça e pescoço':'Normocefálico, sem linfadenopatias, sem lesões',
+  'Cabeça (fontanelas, suturas)':'Normocefálico, sem lesões',
+  'Olhos / ORL':'Sem alterações',
+  'Pescoço e linfonodos':'Sem linfadenopatias',
+  'Cardiovascular':'Bulhas rítmicas normofonéticas em 2 tempos, sem sopros',
+  'Respiratório':'Expansibilidade torácica preservada, murmúrio vesicular presente e bem distribuído',
+  'Abdome':'Abdome plano, ruidos hidroaéreos fisiológicos, sem dor à palpação',
+  'Genitália':'Sem alterações',
+  'Membros':'Membros sem edemas, pulsos presentes e rítmicos',
+  'Membros e articulações':'Membros sem edemas, pulsos presentes e rítmicos',
+  'Neurológico sumário':'Paciente consciente, lucido e orientado no tempo e espaço, reflexos, força e sensibilidade preservados.',
+  'Neurológico':'Paciente consciente, lucido e orientado no tempo e espaço, reflexos, força e sensibilidade preservados.'
+};
+function makeEfPresetButton(label,text){
+  const btn=document.createElement('button');
+  btn.type='button';
+  btn.className='sys-neg-btn ef-preset-btn';
+  btn.dataset.efText=text;
+  btn.textContent=label;
+  btn.addEventListener('click',()=>fillEfPreset(btn));
+  return btn;
+}
+function initEfPresetButtons(){
+  document.querySelectorAll('#sec-prontuario .ef-row').forEach(row=>{
+    if(row.dataset.efPresetsReady==='1')return;
+    const label=(row.querySelector('.ef-lbl')?.textContent||'').trim().replace(/:$/,'');
+    if(label==='Estado geral'){
+      const group=document.createElement('div');
+      group.className='ef-preset-group';
+      EF_STATE_PRESETS.forEach(([shortLabel,text])=>group.appendChild(makeEfPresetButton(shortLabel,text)));
+      row.appendChild(group);
+      row.dataset.efPresetsReady='1';
+      return;
+    }
+    const normalText=EF_NORMAL_PRESETS[label];
+    if(!normalText)return;
+    row.appendChild(makeEfPresetButton('Sem alterações',normalText));
+    row.dataset.efPresetsReady='1';
+  });
 }
 function fillPediatricNoComplaint(){
   setTextareaText(document.getElementById('pd-qp'),'Paciente comparece sem queixas no momento, acompanhado de [Preencher]. Nega febre, tosse, vômitos, diarreia, dor ou outras intercorrências recentes. Mantém aceitação alimentar (Boa/Normal/Ruim), diurese (preservada/reduzida) e comportamento (ativo/irritado/prostrado). Frequenta (creche/escola), em período [Preencher], com frequência (regular/irregular), sem relatos de intercorrências no ambiente escolar.');
@@ -3150,7 +3222,7 @@ function init(){
   document.getElementById('theme-lbl').textContent=th.toUpperCase();
   buildWells();buildNIHSS();
   document.getElementById('ev-date').value=new Date().toISOString().split('T')[0];
-  renderCal();initRing();renderNotesList();initResearch();refreshDashboard();puerUpdate();initProntCopyButtons();
+  renderCal();initRing();renderNotesList();initResearch();refreshDashboard();puerUpdate();initEfPresetButtons();initProntCopyButtons();
 }
 document.addEventListener('DOMContentLoaded',init);
 </script>
